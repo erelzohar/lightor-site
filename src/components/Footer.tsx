@@ -17,8 +17,8 @@ const Footer = () => {
       { en: 'Sign in', he: 'כניסה', href: 'https://dashboard.lightor.app' }
     ],
     legal: [
-      { en: 'Privacy Policy', he: 'מדיניות פרטיות', href: 'https://register.lightor.app/privacy.html' },
-      { en: 'Terms of Service', he: 'תנאי שימוש', href: 'https://register.lightor.app/terms.html' }
+      { en: 'Privacy Policy', he: 'מדיניות פרטיות', href: 'https://lightor.app/privacy.html' },
+      { en: 'Terms of Service', he: 'תנאי שימוש', href: 'https://lightor.app/terms.html' }
     ],
   };
 
