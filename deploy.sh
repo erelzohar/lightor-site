@@ -54,7 +54,9 @@ ssh -i "$KEY" "$HOST" bash -s <<EOSSH
   fi
   sudo mkdir -p "$TARGET"
   sudo rm -rf "$TARGET"/*
-  sudo cp -r "$STAGING"/* "$TARGET"/
+  # "$STAGING"/. not /* — a glob silently skips dot-entries such as
+  # .well-known, which is where domain-verification files live.
+  sudo cp -r "$STAGING"/. "$TARGET"/
   sudo chown -R www-data:www-data "$TARGET"
   rm -rf "$STAGING"
 EOSSH
