@@ -9,7 +9,9 @@ const Footer = () => {
   const footerLinks = {
     company: [
       { en: 'How it works', he: 'איך זה עובד', href: '#about' },
-      { en: 'Getting started', he: 'איך מתחילים', href: '#projects' }
+      { en: 'Getting started', he: 'איך מתחילים', href: '#projects' },
+      // Served at the edge (lightor-edge, LT-196): every tenant site, linked.
+      { en: 'Built with Lightor', he: 'עסקים שנבנו עם Lightor', href: 'https://lightor.app/sites' }
     ],
     services: [
       { en: 'Features', he: 'מה מקבלים', href: '#services' },
