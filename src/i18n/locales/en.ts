@@ -134,7 +134,7 @@ export default {
     },
     cta: 'Create my site',
     signIn: 'I already have an account',
-    note: 'Free to start. Upgrade only when your business grows.'
+    note: 'Free to start, with 60 days of Lightor+ for every new account. Upgrade only when your business grows.'
   },
   footer: {
     company: 'Lightor',
