@@ -12,7 +12,7 @@ export default {
       part2: 'open for',
       part3: 'bookings'
     },
-    subtitle: 'Lightor gives your business its own booking website and takes appointments for you — day and night.',
+    subtitle: 'Lightor gives your business its own website and takes appointments or inquiries for you — day and night.',
     subheader: 'Built for barbers, clinics, studios and salons',
     cta: 'Start free',
     viewWork: 'See how it works'
@@ -20,7 +20,7 @@ export default {
   about: {
     title: 'Appointments, without the phone calls',
     subtitle: 'Describe your business once. Lightor builds the site, publishes it, and starts taking bookings.',
-    description: 'Lightor is an appointment system for small service businesses. You answer a few questions, and it generates a booking website at your own address — your services, your hours, your look. Customers book themselves, you see every appointment in one calendar, and reminders go out on their own. No installation, no web designer, no phone tag.',
+    description: 'Lightor is an appointment system for small service businesses. You answer a few questions, and it generates a booking website at your own address — your services, your hours, your look. Customers book themselves, you see every appointment in one calendar, and reminders go out on their own. A business that works by quote gets an inquiry form instead of a calendar, and every inquiry lands in the dashboard. No installation, no web designer, no phone tag.',
     features: {
       content: {
         title: 'A site written for you',
@@ -52,8 +52,8 @@ export default {
     title: 'What you get',
     subtitle: 'Everything a small service business needs to be bookable, and nothing it does not',
     site: {
-      title: 'Your booking website',
-      description: 'Answer a few questions and your site is written, styled and published — services, prices, gallery and all.',
+      title: 'Your website',
+      description: 'Answer a few questions and your site is written, styled and published — services, prices, gallery and all, with online booking or with an inquiry form.',
       features: {
         aiBuilder: 'Built from a conversation',
         ownAddress: 'Your own address',
@@ -124,7 +124,7 @@ export default {
   },
   contact: {
     title: 'Start taking bookings',
-    subtitle: 'Create your booking site free. No card, no installation.',
+    subtitle: 'Create your site free. No card, no installation.',
     form: {
       name: 'Your Name',
       email: 'Email Address',
@@ -140,7 +140,7 @@ export default {
     company: 'Lightor',
     services: 'Product',
     legal: 'Legal',
-    tagline: 'Booking websites and appointment management for small service businesses.',
+    tagline: 'Websites, bookings and inquiries for small service businesses.',
     links: {
       start: 'Start free',
       signIn: 'Sign in',
