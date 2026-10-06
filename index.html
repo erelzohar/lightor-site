@@ -2,6 +2,17 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // LT-230: a customer's WhatsApp button. Its address is fixed at Meta — on
+      // lightor.app — with one variable at the end, which the server fills with
+      // the appointment's signed manage token. The API knows whose appointment
+      // it is and sends the customer on to the business's own manage page.
+      (function () {
+        var jwt = /(eyJ[\w-]+\.[\w-]+\.[\w-]+)\/?$/.exec(location.pathname) ||
+          /[?&][^=&]*=(eyJ[\w-]+\.[\w-]+\.[\w-]+)/.exec(location.search);
+        if (jwt) location.replace('https://api.lightor.app/api/appointments/open/' + jwt[1]);
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/lightor.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
