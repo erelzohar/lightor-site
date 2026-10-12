@@ -11,6 +11,12 @@ body {
   @apply overflow-x-hidden;
 }
 
+/* LT-263: a section reached by its link (#how, #lighty…) lands below the
+   fixed navbar, not under it. */
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
 /* Accessibility Enhancements */
 :focus {
   @apply outline-none ring-2 ring-purple-600 dark:ring-pink-600 ring-offset-2 dark:ring-offset-black;

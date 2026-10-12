@@ -38,6 +38,16 @@ function App() {
     document.documentElement.lang = i18n.language;
   }, [i18n.language]);
 
+  // LT-263: an address like lightor.app/#lighty (the /sites page links here)
+  // lands on its section. The browser looks for the section while the page
+  // is still loading, before React has drawn it, and then gives up.
+  React.useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!id) return;
+    const frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <BrowserRouter>
       <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
