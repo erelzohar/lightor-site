@@ -16,8 +16,8 @@ export default {
     badge: 'New: Lighty, your business assistant',
     title: 'Your business website,',
     titleHighlight: 'in 60 seconds',
-    subtitle: 'Tell Lighty what your business does, and he builds it a site of its own - one that takes bookings or inquiries from customers, day and night.',
-    audience: 'For salons, clinics, studios and therapists - and for businesses that work by quote',
+    subtitle: 'Tell Lighty what your business does, and he builds it a site of its own.',
+    audience: 'Works for every kind of business',
     cta: 'Build my site - free',
     secondary: 'See sites we built',
     trust: {
