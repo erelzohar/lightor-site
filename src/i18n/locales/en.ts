@@ -133,6 +133,18 @@ export default {
       }
     ]
   },
+  showcase: {
+    eyebrow: 'Sites built with Lightor',
+    title: 'Real businesses, real sites',
+    subtitle: "This is what sites Lighty built look like — on their customers' phones.",
+    kind: {
+      booking: 'Booking site',
+      leads: 'Leads site'
+    },
+    visit: 'Visit the site',
+    all: 'See all sites',
+    alt: "{{name}}'s site on a phone"
+  },
   contact: {
     title: 'Start free',
     subtitle: 'No credit card, nothing to install. Your site can be live today.',

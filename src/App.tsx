@@ -7,6 +7,7 @@ import SiteKinds from './components/SiteKinds';
 import LightySection from './components/LightySection';
 import Features from './components/Features';
 import HowItWorks from './components/HowItWorks';
+import Showcase from './components/Showcase';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import './i18n';
@@ -51,6 +52,7 @@ function App() {
             <LightySection />
             <Features />
             <HowItWorks />
+            <Showcase />
             <Contact />
           </main>
           <Footer />
