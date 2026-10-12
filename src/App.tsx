@@ -3,9 +3,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
-import Projects from './components/Projects';
+import SiteKinds from './components/SiteKinds';
+import LightySection from './components/LightySection';
+import Features from './components/Features';
+import HowItWorks from './components/HowItWorks';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import './i18n';
@@ -46,9 +47,10 @@ function App() {
           <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} toggleLanguage={toggleLanguage} />
           <main id="main-content" tabIndex={-1}>
             <Hero />
-            <About />
-            <Services />
-            <Projects />
+            <SiteKinds />
+            <LightySection />
+            <Features />
+            <HowItWorks />
             <Contact />
           </main>
           <Footer />

@@ -1,6 +1,6 @@
 {
   "short_name": "Lightor",
-  "name": "Lightor — אתר תורים וניהול תורים לעסקים קטנים",
+  "name": "Lightor — האתר של העסק שלך, עם Lighty",
   "icons": [
     {
       "src": "lightor192.png",
@@ -14,6 +14,9 @@
   "background_color": "#ffffff",
   "dir": "rtl",
   "lang": "he",
-  "categories": ["business", "productivity"],
-  "description": "לייטור בונה לעסק שלך אתר תורים משלו ומקבל תורים במקומך, מסביב לשעון — יומן אחד לכל התורים ותזכורות שיוצאות לבד."
+  "categories": [
+    "business",
+    "productivity"
+  ],
+  "description": "לייטור בונה לעסק שלך אתר משלו מתוך שיחה עם Lighty — אתר תורים או אתר לידים, עם תזכורות, התראות ולוח בקרה."
 }

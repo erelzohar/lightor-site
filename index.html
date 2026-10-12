@@ -2,28 +2,37 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/lightor.svg" />
+    <!-- LT-260: PNG first — Google takes no SVG favicon, and the SVG is 764 KB. -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/lightor192.png" />
+    <link rel="apple-touch-icon" href="/lightor192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 
-    <!-- Primary Meta Tags -->
-    <meta name="description" content="לייטור בונה לעסק שלך אתר תורים משלו ומקבל תורים במקומך, מסביב לשעון. מספרות, קליניקות, סטודיו וסלונים — אתר תורים, יומן אחד ותזכורות אוטומטיות — ולעסקים שעובדים בהצעות מחיר, אתר עם טופס פניות. Lightor gives small service businesses their own booking website and takes appointments around the clock — or, for businesses that work by quote, an inquiry form." />
-    <meta name="keywords" content="ניהול תורים, מערכת תורים, אתר תורים, קביעת תורים אונליין, יומן תורים, תזכורות SMS, מספרה, קליניקה, סטודיו, appointment booking, scheduling software, booking website" />
+    <!-- Primary Meta Tags (LT-260) -->
+    <meta name="description" content="לייטור בונה לעסק שלך אתר משלו מתוך שיחה עם Lighty, העוזר החכם — אתר תורים או אתר לידים בכתובת משלך, עם תזכורות, התראות ולוח בקרה. לסלונים, קליניקות, סטודיו ומטפלים, ולעסקים שעובדים בהצעות מחיר. Lightor builds your business its own website from a conversation with Lighty — for bookings or inquiries." />
+    <meta name="keywords" content="אתר לעסק, אתר תורים, ניהול תורים, מערכת תורים, קביעת תורים אונליין, אתר לידים, טופס פניות, בניית אתר עם AI, עוזר AI לעסק, Lighty, booking website, leads website, AI website builder" />
     <link rel="canonical" href="https://lightor.app/" />
 
-    <meta property="og:title" content="Lightor — אתר תורים וניהול תורים לעסקים קטנים" />
-    <meta property="og:description" content="מתארים את העסק פעם אחת, ולייטור בונה אתר תורים בכתובת משלך. הלקוחות קובעים בעצמם, התזכורות יוצאות לבד." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://lightor.app" />
+    <meta property="og:site_name" content="Lightor" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:url" content="https://lightor.app/" />
+    <meta property="og:title" content="Lightor — האתר של העסק שלך, תוך 60 שניות" />
+    <meta property="og:description" content="Lighty בונה לעסק שלך אתר משלו מתוך שיחה — שמקבל תורים או פניות מלקוחות, ביום ובלילה. מתחילים בחינם." />
+    <meta property="og:image" content="https://lightor.app/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Lighty, הדמות של לייטור, ליד הכותרת: האתר של העסק שלך, תוך 60 שניות" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Lightor — אתר תורים וניהול תורים לעסקים קטנים" />
-    <meta name="twitter:description" content="אתר תורים לעסק שלך, יומן אחד לכל התורים ותזכורות שיוצאות מעצמן." />
+    <meta name="twitter:title" content="Lightor — האתר של העסק שלך, תוך 60 שניות" />
+    <meta name="twitter:description" content="אתר תורים או אתר לידים לעסק שלך, נבנה בשיחה עם Lighty. מתחילים בחינם." />
+    <meta name="twitter:image" content="https://lightor.app/og-image.jpg" />
 
+    <link rel="preload" as="image" href="/lighty-wave.webp" fetchpriority="high" />
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="manifest" href="/manifest.json" />
-    <title>Lightor — אתר תורים וניהול תורים לעסקים קטנים</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <title>Lightor — האתר של העסק שלך, תוך 60 שניות</title>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -31,13 +40,23 @@
         "name": "Lightor",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
-        "description": "Lightor is an appointment booking system for small service businesses. It generates a booking website for the business, takes bookings from customers around the clock, and sends confirmations and reminders automatically. A business that works by quote gets an inquiry form instead of a calendar.",
         "url": "https://lightor.app",
+        "description": "Lightor builds a small service business its own website from a conversation with Lighty, its AI assistant: a booking site that takes appointments around the clock, or a leads site with an inquiry form. Confirmations, reminders and owner alerts go out by text, WhatsApp or email, and Lighty answers the owner's questions about bookings, customers and inquiries.",
+        "featureList": [
+          "Website built from a conversation with an AI assistant",
+          "Online booking with real availability, classes and groups",
+          "Leads site with an inquiry form and an inquiries inbox",
+          "Confirmations and reminders by text message or WhatsApp",
+          "Owner alerts by WhatsApp, text message or email",
+          "Click-to-edit site editor with AI",
+          "AI assistant that answers questions about the business",
+          "Hebrew, English, Arabic, French and Spanish"
+        ],
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "ILS",
-          "description": "Free plan available"
+          "description": "Free to start, with 60 days of Lightor+ for every new account"
         }
       }
     </script>
@@ -52,39 +71,37 @@
     -->
     <noscript>
       <main>
-        <h1>Lightor — booking websites and appointment management for small service businesses</h1>
+        <h1>Lightor — your business website in 60 seconds, built with Lighty</h1>
         <p>
-          Lightor gives a small service business its own booking website and takes
-          appointments for it, day and night. You describe your business once, and
-          Lightor writes and publishes a booking page at your own address, with your
-          services, prices and opening hours.
+          Lightor gives a small service business its own website. You tell Lighty, its AI
+          assistant, what your business does and where, and Lighty writes the copy, picks a
+          design and publishes the site at your own lightor.app address.
         </p>
-        <p>
-          Customers choose a service and a free slot themselves, so there are no phone
-          calls to answer and no double bookings. Every appointment arrives in a single
-          calendar you can open on a phone or a computer, and confirmations and reminders
-          are sent by text message or WhatsApp automatically, so fewer people fail to
-          turn up.
-        </p>
-        <h2>What Lightor does</h2>
+        <h2>Two kinds of sites</h2>
         <ul>
-          <li>Builds and publishes a booking website for your business.</li>
-          <li>Takes bookings from your customers around the clock.</li>
-          <li>Keeps every appointment in one calendar.</li>
-          <li>Sends booking confirmations and reminders automatically.</li>
-          <li>Follows your working hours, breaks, one-off changes and holidays.</li>
-          <li>Remembers your customers and their booking history.</li>
-          <li>For a business that works by quote: an inquiry form instead of a calendar, with every inquiry in the dashboard.</li>
+          <li>A booking site: customers choose a service and a free slot themselves, from your
+            real hours — classes and groups included — and get a confirmation and a reminder by
+            text message or WhatsApp.</li>
+          <li>A leads site, for businesses that work by quote: an inquiry form with your own
+            questions, every inquiry in one place with its status, and an instant alert.</li>
+        </ul>
+        <h2>Lighty, the AI assistant</h2>
+        <ul>
+          <li>Builds your site from a conversation.</li>
+          <li>Edit any part of your site with a click — by hand or with Lighty.</li>
+          <li>Answers questions about your business: bookings, customers and inquiries.
+            Your customers' contact details are never sent to the AI.</li>
         </ul>
         <p>
-          Lightor is used by barbers, clinics, studios and salons. It is free to start,
-          needs no installation, and is available in Hebrew, English, Arabic, Spanish and
-          French.
+          Lightor is for salons, clinics, studios, therapists and businesses that work by
+          quote. It is free to start, needs no installation, and is available in Hebrew,
+          English, Arabic, French and Spanish.
         </p>
         <p>
-          <a href="https://register.lightor.app">Create your booking site</a> &middot;
+          <a href="https://register.lightor.app">Build your site free</a> &middot;
           <a href="https://lightor.app/sites">Businesses built with Lightor</a> &middot;
           <a href="https://dashboard.lightor.app">Sign in</a> &middot;
+          <a href="https://lightor.app/support.html">Support</a> &middot;
           <a href="https://lightor.app/privacy.html">Privacy Policy</a> &middot;
           <a href="https://lightor.app/terms.html">Terms of Service</a>
         </p>
