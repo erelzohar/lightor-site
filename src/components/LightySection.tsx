@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { MessagesSquare, MousePointerClick, ShieldCheck, Wand2 } from 'lucide-react';
+import { MessagesSquare, MousePointerClick, Wand2 } from 'lucide-react';
 
 /**
  * LT-260: Lighty (LT-237 → LT-259) — he builds the site from a conversation
@@ -77,10 +77,6 @@ const LightySection = () => {
                 </div>
               </motion.article>
             ))}
-            <p className="flex items-center gap-2 px-1 pt-2 text-sm text-violet-100/80">
-              <ShieldCheck className="h-5 w-5 shrink-0 text-emerald-300" aria-hidden="true" />
-              {t('lighty.privacy')}
-            </p>
           </div>
         </div>
       </div>

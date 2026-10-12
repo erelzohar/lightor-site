@@ -13,11 +13,11 @@ export default {
     language: 'עברית'
   },
   hero: {
-    badge: 'New: Lighty, your business assistant',
-    title: 'Your business website,',
+    badge: 'New: Lighty, your smart assistant',
+    title: 'Your website,',
     titleHighlight: 'in 60 seconds',
-    subtitle: 'Tell Lighty what your business does, and he builds it a site of its own.',
-    audience: 'Works for every kind of business',
+    subtitle: 'Tell Lighty what you want, and he builds the site.',
+    audience: 'For a business, an event, a landing page - any idea',
     cta: 'Build my site - free',
     secondary: 'See sites we built',
     trust: {
@@ -28,11 +28,22 @@ export default {
     lightyAlt: 'Lighty, the Lightor character, waving hello'
   },
   kinds: {
-    eyebrow: 'Two kinds of sites',
-    title: 'A booking site or a leads site - whichever fits how you work',
+    eyebrow: 'What you can build',
+    title: 'Whatever you want to promote, on a site of its own',
+    uses: ['A business', 'A brochure site', 'A landing page', 'An event', 'A workshop or course', 'A personal project'],
+    site: {
+      title: 'In every site',
+      lead: 'Everything you need to present yourself',
+      points: [
+        'A page that tells who you are and what you offer',
+        'A gallery, reviews and FAQ',
+        'WhatsApp and phone in one tap',
+        'Your own address, found on Google'
+      ]
+    },
     booking: {
-      title: 'Booking site',
-      lead: 'For customers who book ahead',
+      title: 'Want to take bookings?',
+      lead: 'For meetings, treatments and classes',
       points: [
         'A calendar with real availability, from your own hours',
         'Classes and groups with a set number of places',
@@ -41,44 +52,43 @@ export default {
       ]
     },
     leads: {
-      title: 'Leads site',
-      lead: 'For businesses that work by quote',
+      title: 'Want to get inquiries?',
+      lead: 'For quotes, sign-ups and call-backs',
       points: [
-        'An inquiry form with your own questions',
+        'A form with your own questions',
         'Every inquiry in one place, each with a status',
         'An instant alert by WhatsApp, text or email',
-        'Your own main button, like "Get a quote"'
+        'Your own main button, like "Sign up" or "Get a quote"'
       ]
     },
-    both: 'Either way: your own address, a gallery, services and prices, and five languages.'
+    both: 'Lighty picks what fits from what you tell him, and you can switch at any time.'
   },
   lighty: {
     eyebrow: 'Meet Lighty',
     title: 'The assistant who builds, improves and answers',
-    subtitle: 'Lighty does the technical work, so you can get on with the business.',
+    subtitle: 'Lighty does the technical work, so you can focus on what matters.',
     build: {
       title: 'Builds your site from a conversation',
-      text: 'Say in plain words what your business does and where. Lighty writes the copy, picks a design and puts the site online.'
+      text: 'Say in plain words what the site is about. Lighty writes the copy, picks a design and puts the site online.'
     },
     edit: {
       title: 'Edit with a click',
       text: 'Click any part of your site and change it - by hand or with Lighty. Add sections, reorder them, and save with one click.'
     },
     ask: {
-      title: 'Answers questions about your business',
-      text: 'Lighty answers from your own business data - bookings, customers and inquiries.',
+      title: 'Answers questions from your own data',
+      text: 'Ask in plain words about your bookings, inquiries and customers - and Lighty answers.',
       examples: ['What do I have tomorrow?', 'Sum up my week', 'Any inquiries I have not answered?']
     },
-    privacy: "Your customers' contact details are never sent to the AI.",
     imageAlt: 'Lighty building a website'
   },
   features: {
     eyebrow: 'Features',
-    title: 'Everything a service business needs - and nothing it does not',
+    title: 'Everything your site needs - and nothing it does not',
     items: {
       address: {
         title: 'Your own address',
-        text: 'Your own lightor.app address to send to customers - on a site built to be found on Google.'
+        text: 'Your own lightor.app address to share with everyone - on a site built to be found on Google.'
       },
       reminders: {
         title: 'Reminders that work',
@@ -90,7 +100,7 @@ export default {
       },
       dashboard: {
         title: 'One dashboard',
-        text: 'Bookings, inquiries and customers in one place - on your phone or computer.'
+        text: 'Your site, inquiries, bookings and customers - in one place, on your phone or computer.'
       },
       customers: {
         title: 'Your customers',
@@ -120,26 +130,26 @@ export default {
     subtitle: 'Three steps, no technical knowledge at all',
     steps: [
       {
-        title: 'Tell Lighty about your business',
-        text: 'What you do, where, and how customers reach you. No forms.'
+        title: 'Tell Lighty what you want',
+        text: 'Your business, your event or your idea - in plain words, no forms.'
       },
       {
         title: 'Your site goes live',
-        text: 'At your own address, with your services, hours and look. Every change is a click away.'
+        text: 'At your own address, with your words, photos and look. Every change is a click away.'
       },
       {
-        title: 'Customers book or leave their details',
-        text: 'Bookings and inquiries arrive in your dashboard, and you get an alert.'
+        title: 'Share the link',
+        text: 'Send it to everyone and show up on Google. Every inquiry and booking reaches you with an alert.'
       }
     ]
   },
   showcase: {
     eyebrow: 'Sites built with Lightor',
-    title: 'Real businesses, real sites',
-    subtitle: "This is what sites Lighty built look like - on their customers' phones.",
+    title: 'Real sites, live right now',
+    subtitle: 'This is what sites Lighty built look like, as seen on a phone.',
     kind: {
-      booking: 'Booking site',
-      leads: 'Leads site'
+      booking: 'With online booking',
+      leads: 'With an inquiry form'
     },
     visit: 'Visit the site',
     all: 'See all sites',
@@ -150,11 +160,11 @@ export default {
     subtitle: 'No credit card, nothing to install. Your site can be live today.',
     cta: 'Build my site',
     signIn: 'I already have an account',
-    note: 'Free to start, with 60 days of Lightor+ for every new account. Upgrade only when your business grows.',
+    note: 'Free to start, with 60 days of Lightor+ for every new account. Upgrade only when you need more.',
     imageAlt: 'Lighty cheering'
   },
   footer: {
-    tagline: 'Websites, bookings and inquiries for small service businesses - with Lighty.',
+    tagline: 'A website for your business, your event or any idea - from a conversation with Lighty.',
     product: 'Product',
     account: 'Account',
     legal: 'Info',
