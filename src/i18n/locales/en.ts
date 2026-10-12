@@ -165,9 +165,11 @@ export default {
       sites: 'Sites built with Lightor',
       start: 'Start free',
       signIn: 'Sign in',
+      pricing: 'Pricing',
       support: 'Support',
       privacy: 'Privacy Policy',
-      terms: 'Terms of Service'
+      terms: 'Terms of Service',
+      refund: 'Refund Policy'
     },
     copyright: '© 2026 Lightor. All rights reserved.'
   }

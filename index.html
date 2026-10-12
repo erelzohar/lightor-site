@@ -52,12 +52,28 @@
           "AI assistant that answers questions about the business",
           "Hebrew, English, Arabic, French and Spanish"
         ],
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "ILS",
-          "description": "Free to start, with 60 days of Lightor+ for every new account"
-        }
+        "offers": [
+          {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "ILS",
+            "description": "Free to start, with 60 days of Lightor+ for every new account"
+          },
+          {
+            "@type": "Offer",
+            "name": "Lightor+",
+            "price": "119",
+            "priceCurrency": "ILS",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "119",
+              "priceCurrency": "ILS",
+              "referenceQuantity": { "@type": "QuantitativeValue", "value": "1", "unitCode": "MON" }
+            },
+            "url": "https://lightor.app/pricing.html",
+            "description": "Lightor+ subscription: ₪119 a month, or ₪1,190 a year"
+          }
+        ]
       }
     </script>
   </head>
@@ -101,9 +117,11 @@
           <a href="https://register.lightor.app">Build your site free</a> &middot;
           <a href="https://lightor.app/sites">Businesses built with Lightor</a> &middot;
           <a href="https://dashboard.lightor.app">Sign in</a> &middot;
+          <a href="https://lightor.app/pricing.html">Pricing</a> &middot;
           <a href="https://lightor.app/support.html">Support</a> &middot;
           <a href="https://lightor.app/privacy.html">Privacy Policy</a> &middot;
-          <a href="https://lightor.app/terms.html">Terms of Service</a>
+          <a href="https://lightor.app/terms.html">Terms of Service</a> &middot;
+          <a href="https://lightor.app/refund.html">Refund Policy</a>
         </p>
       </main>
     </noscript>

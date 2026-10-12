@@ -12,9 +12,11 @@ const LINKS = {
     { key: 'signIn', href: 'https://dashboard.lightor.app' },
   ],
   legal: [
+    { key: 'pricing', href: 'https://lightor.app/pricing.html' },
     { key: 'support', href: 'https://lightor.app/support.html' },
     { key: 'privacy', href: 'https://lightor.app/privacy.html' },
     { key: 'terms', href: 'https://lightor.app/terms.html' },
+    { key: 'refund', href: 'https://lightor.app/refund.html' },
   ],
 } as const;
 
