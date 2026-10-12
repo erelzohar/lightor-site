@@ -16,9 +16,9 @@ export default {
     badge: 'New: Lighty, your business assistant',
     title: 'Your business website,',
     titleHighlight: 'in 60 seconds',
-    subtitle: 'Tell Lighty what your business does, and he builds it a site of its own — one that takes bookings or inquiries from customers, day and night.',
-    audience: 'For salons, clinics, studios and therapists — and for businesses that work by quote',
-    cta: 'Build my site — free',
+    subtitle: 'Tell Lighty what your business does, and he builds it a site of its own - one that takes bookings or inquiries from customers, day and night.',
+    audience: 'For salons, clinics, studios and therapists - and for businesses that work by quote',
+    cta: 'Build my site - free',
     secondary: 'See sites we built',
     trust: {
       card: 'No credit card',
@@ -29,7 +29,7 @@ export default {
   },
   kinds: {
     eyebrow: 'Two kinds of sites',
-    title: 'A booking site or a leads site — whichever fits how you work',
+    title: 'A booking site or a leads site - whichever fits how you work',
     booking: {
       title: 'Booking site',
       lead: 'For customers who book ahead',
@@ -62,11 +62,11 @@ export default {
     },
     edit: {
       title: 'Edit with a click',
-      text: 'Click any part of your site and change it — by hand or with Lighty. Add sections, reorder them, and save with one click.'
+      text: 'Click any part of your site and change it - by hand or with Lighty. Add sections, reorder them, and save with one click.'
     },
     ask: {
       title: 'Answers questions about your business',
-      text: 'Lighty answers from your own business data — bookings, customers and inquiries.',
+      text: 'Lighty answers from your own business data - bookings, customers and inquiries.',
       examples: ['What do I have tomorrow?', 'Sum up my week', 'Any inquiries I have not answered?']
     },
     privacy: "Your customers' contact details are never sent to the AI.",
@@ -74,11 +74,11 @@ export default {
   },
   features: {
     eyebrow: 'Features',
-    title: 'Everything a service business needs — and nothing it does not',
+    title: 'Everything a service business needs - and nothing it does not',
     items: {
       address: {
         title: 'Your own address',
-        text: 'Your own lightor.app address to send to customers — on a site built to be found on Google.'
+        text: 'Your own lightor.app address to send to customers - on a site built to be found on Google.'
       },
       reminders: {
         title: 'Reminders that work',
@@ -86,11 +86,11 @@ export default {
       },
       alerts: {
         title: 'Hear about every booking and inquiry',
-        text: 'An alert by WhatsApp, text or email — you choose what for.'
+        text: 'An alert by WhatsApp, text or email - you choose what for.'
       },
       dashboard: {
         title: 'One dashboard',
-        text: 'Bookings, inquiries and customers in one place — on your phone or computer.'
+        text: 'Bookings, inquiries and customers in one place - on your phone or computer.'
       },
       customers: {
         title: 'Your customers',
@@ -102,7 +102,7 @@ export default {
       },
       content: {
         title: 'A complete site',
-        text: 'Services and prices, a gallery, FAQ and reviews — all on your site.'
+        text: 'Services and prices, a gallery, FAQ and reviews - all on your site.'
       },
       languages: {
         title: 'Five languages',
@@ -136,7 +136,7 @@ export default {
   showcase: {
     eyebrow: 'Sites built with Lightor',
     title: 'Real businesses, real sites',
-    subtitle: "This is what sites Lighty built look like — on their customers' phones.",
+    subtitle: "This is what sites Lighty built look like - on their customers' phones.",
     kind: {
       booking: 'Booking site',
       leads: 'Leads site'
@@ -154,7 +154,7 @@ export default {
     imageAlt: 'Lighty cheering'
   },
   footer: {
-    tagline: 'Websites, bookings and inquiries for small service businesses — with Lighty.',
+    tagline: 'Websites, bookings and inquiries for small service businesses - with Lighty.',
     product: 'Product',
     account: 'Account',
     legal: 'Info',

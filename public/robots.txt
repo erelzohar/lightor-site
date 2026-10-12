@@ -1,4 +1,4 @@
-# lightor.app — marketing site (LT-185). The tenant booking sites on *.lightor.app
+# lightor.app - marketing site (LT-185). The tenant booking sites on *.lightor.app
 # are listed by the sitemap index below, served at the edge (LT-194).
 User-agent: *
 Allow: /

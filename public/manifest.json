@@ -1,6 +1,6 @@
 {
   "short_name": "Lightor",
-  "name": "Lightor — האתר של העסק שלך, עם Lighty",
+  "name": "Lightor - האתר של העסק שלך, עם Lighty",
   "icons": [
     {
       "src": "lightor192.png",
@@ -18,5 +18,5 @@
     "business",
     "productivity"
   ],
-  "description": "לייטור בונה לעסק שלך אתר משלו מתוך שיחה עם Lighty — אתר תורים או אתר לידים, עם תזכורות, התראות ולוח בקרה."
+  "description": "לייטור בונה לעסק שלך אתר משלו מתוך שיחה עם Lighty - אתר תורים או אתר לידים, עם תזכורות, התראות ולוח בקרה."
 }

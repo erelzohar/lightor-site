@@ -46,7 +46,7 @@ const Showcase = () => {
               transition={{ duration: 0.5, delay: i * 0.08 }}
               className="w-[68%] shrink-0 snap-center sm:w-[42%] md:w-auto"
             >
-              <a href={`https://${sub}.lightor.app`} className="group block" aria-label={`${name} — ${t('showcase.visit')}`}>
+              <a href={`https://${sub}.lightor.app`} className="group block" aria-label={`${name} - ${t('showcase.visit')}`}>
                 <div className="mx-auto max-w-[260px] rounded-[2.4rem] bg-gray-900 p-2.5 shadow-2xl shadow-violet-900/20 transition-transform duration-300 group-hover:-translate-y-1 dark:bg-gray-800">
                   <img
                     src={`/showcase/${sub}.webp`}
