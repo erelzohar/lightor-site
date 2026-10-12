@@ -23,7 +23,7 @@ export default {
     trust: {
       card: 'No credit card',
       plus: '60 days of Lightor+ on us',
-      languages: 'In five languages'
+      languages: 'In 5 languages'
     },
     lightyAlt: 'Lighty, the Lightor character, waving hello'
   },

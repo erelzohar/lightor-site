@@ -23,7 +23,7 @@ export default {
     trust: {
       card: 'בלי כרטיס אשראי',
       plus: '60 יום של Lightor+ במתנה',
-      languages: 'בעברית ועוד ארבע שפות'
+      languages: 'ב-5 שפות'
     },
     lightyAlt: 'Lighty, הדמות של לייטור, מנופף לשלום'
   },
