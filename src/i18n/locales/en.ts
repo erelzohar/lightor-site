@@ -84,7 +84,7 @@ export default {
   },
   features: {
     eyebrow: 'Features',
-    title: 'Everything your site needs - and nothing it does not',
+    title: 'Everything your site needs',
     items: {
       address: {
         title: 'Your own address',
@@ -120,8 +120,17 @@ export default {
       },
       mobile: {
         title: 'From your phone',
-        text: 'Run everything one-handed, between customers. Nothing to install.'
+        text: 'Run everything one-handed, between customers.'
       }
+    },
+    seo: {
+      title: 'Organic search, built in',
+      text: 'Lightor promotes every site organically on Google and Bing - no paying for ads.',
+      points: [
+        'Search engines are updated on every change to your site',
+        'Your content, services and hours - in a language search engines understand',
+        'A link to your site from Lightor\'s "Sites we built" page'
+      ]
     }
   },
   how: {

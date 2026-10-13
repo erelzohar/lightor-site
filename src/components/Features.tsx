@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { BellRing, Clock, Globe, Images, Languages, LayoutDashboard, MessageCircle, Smartphone, Users } from 'lucide-react';
+import { BellRing, Check, Clock, Globe, Images, Languages, LayoutDashboard, MessageCircle, Smartphone, TrendingUp, Users } from 'lucide-react';
 
 const ITEMS = [
   { id: 'address', Icon: Globe },
@@ -14,9 +14,14 @@ const ITEMS = [
   { id: 'mobile', Icon: Smartphone },
 ] as const;
 
-/** LT-260: what an account gets, as a grid — the first card is the address, set apart. */
+/**
+ * LT-260: what an account gets, as a grid — the first card is the address, set apart.
+ * LT-306: the last row is the organic promotion every site gets (the edge's
+ * structured data and sitemaps, IndexNow on every save, a link from /sites).
+ */
 const Features = () => {
   const { t } = useTranslation();
+  const seoPoints = t('features.seo.points', { returnObjects: true }) as string[];
 
   return (
     <section id="features" className="bg-gray-50 py-20 sm:py-28 dark:bg-gray-950" aria-labelledby="features-title">
@@ -70,6 +75,32 @@ const Features = () => {
               </motion.article>
             );
           })}
+
+          <motion.article
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.4 }}
+            className="rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 to-pink-50 p-7 sm:col-span-2 lg:col-span-4 lg:p-9 dark:border-violet-900/60 dark:from-violet-950/40 dark:to-pink-950/20"
+          >
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
+              <div className="lg:w-5/12">
+                <span className="inline-flex rounded-2xl bg-white p-3 text-violet-700 shadow-sm dark:bg-violet-900/40 dark:text-violet-300" aria-hidden="true">
+                  <TrendingUp className="h-6 w-6" />
+                </span>
+                <h3 className="mt-4 text-2xl font-bold text-gray-950 dark:text-white">{t('features.seo.title')}</h3>
+                <p className="text-balance mt-2 text-gray-700 dark:text-gray-300">{t('features.seo.text')}</p>
+              </div>
+              <ul className="grid gap-3 lg:w-7/12">
+                {seoPoints.map((p) => (
+                  <li key={p} className="flex items-start gap-3 rounded-2xl bg-white/80 px-4 py-3 font-medium text-gray-800 dark:bg-black/40 dark:text-gray-200">
+                    <Check className="mt-0.5 h-5 w-5 shrink-0 text-violet-600 dark:text-violet-400" aria-hidden="true" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.article>
         </div>
       </div>
     </section>
