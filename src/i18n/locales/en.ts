@@ -88,7 +88,7 @@ export default {
     items: {
       address: {
         title: 'Your own address',
-        text: 'Your own lightor.app address to share with everyone - on a site built to be found on Google.'
+        text: 'Your own address to share with everyone - on a site built to be found on Google.'
       },
       reminders: {
         title: 'Reminders that work',
