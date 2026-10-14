@@ -6,15 +6,21 @@ import { HaloReel } from './ui/halo-reel';
 
 /**
  * LT-260: real sites built with Lightor, as their owners' customers see them
- * on a phone (screenshots in public/showcase, taken 2026-10-12). The terms
+ * on a phone (screenshots in public/showcase, 2026-10-12 and 2026-10-15). The terms
  * (section 5) let Lightor show a public site in its marketing; an owner who
  * asks to be left out is removed here by hand — the live list, which follows
  * "hide from search" on its own, is lightor.app/sites.
  */
 const SITES = [
   { sub: 'zoharsweets', name: 'Zohar Sweets', kind: 'leads' },
-  { sub: 'studio-hair-design', name: 'Studio Hair Design', kind: 'booking' },
-  { sub: 'cakes-netanya', name: 'עוגות עד הבית', kind: 'leads' },
+  // LT-331 demo sites: built by the real wizard, seeded with activity by
+  // lightor-back's seedDemoSites (screenshots 2026-10-15).
+  { sub: 'hakise-barbershop', name: 'הכיסא ברבר שופ', kind: 'booking' },
+  { sub: 'noga-nails', name: 'נוגה ניילס', kind: 'booking' },
+  { sub: 'studio-koach', name: 'סטודיו כוח', kind: 'booking' },
+  { sub: 'shulchan-aruch', name: 'שולחן ערוך', kind: 'leads' },
+  { sub: 'neshima-yoga', name: 'נשימה', kind: 'booking' },
+  { sub: 'dyo-tattoo', name: 'דיו', kind: 'booking' },
 ] as const;
 
 /** True while the viewport is at least `px` wide; follows resizes. */
@@ -90,7 +96,7 @@ const Showcase = () => {
         radiusYRatio={0.27}
         minScale={0.3}
         spread={1.1}
-        maxCards={6}
+        maxCards={7}
         holdDuration={1800}
         stepDuration={750}
         centerLabel={wide ? caption : undefined}
