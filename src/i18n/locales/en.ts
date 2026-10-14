@@ -120,7 +120,7 @@ export default {
       },
       mobile: {
         title: 'All on your phone',
-        text: 'See what\'s happening and update your site from anywhere, no computer needed.'
+        text: 'See what\'s happening and update your site from anywhere'
       }
     },
     seo: {
