@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { HaloReel } from './ui/halo-reel';
 
 /**
  * LT-260: real sites built with Lightor, as their owners' customers see them
@@ -15,9 +17,43 @@ const SITES = [
   { sub: 'cakes-netanya', name: 'עוגות עד הבית', kind: 'leads' },
 ] as const;
 
+/** True while the viewport is at least `px` wide; follows resizes. */
+const useWide = (px: number): boolean => {
+  const query = `(min-width: ${px}px)`;
+  const [wide, setWide] = useState(() => window.matchMedia(query).matches);
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const on = () => setWide(mq.matches);
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, [query]);
+  return wide;
+};
+
 const Showcase = () => {
   const { t, i18n } = useTranslation();
-  const Arrow = i18n.language === 'he' ? ArrowLeft : ArrowRight;
+  const isRTL = i18n.language === 'he';
+  const Arrow = isRTL ? ArrowLeft : ArrowRight;
+  const [active, setActive] = useState(0);
+  const wide = useWide(768);
+  const site = SITES[active];
+
+  const caption = (
+    <div className="mx-auto max-w-xs text-center" aria-live="polite">
+      <p className="text-2xl font-bold text-gray-950 sm:text-3xl dark:text-white">{site.name}</p>
+      <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        {t(`showcase.kind.${site.kind}`)} · <span dir="ltr">{site.sub}.lightor.app</span>
+      </p>
+      <a
+        href={`https://${site.sub}.lightor.app`}
+        onPointerDown={(e) => e.stopPropagation()}
+        className="pointer-events-auto mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-pink-600 px-5 py-2.5 font-semibold text-white shadow-md shadow-violet-600/20 transition hover:shadow-lg"
+      >
+        {t('showcase.visit')}
+        <Arrow className="h-4 w-4" aria-hidden="true" />
+      </a>
+    </div>
+  );
 
   return (
     <section id="showcase" className="bg-gray-50 py-20 sm:py-28 dark:bg-gray-950" aria-labelledby="showcase-title">
@@ -35,37 +71,36 @@ const Showcase = () => {
           </h2>
           <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">{t('showcase.subtitle')}</p>
         </motion.div>
+      </div>
 
-        <ul className="mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:pb-0">
-          {SITES.map(({ sub, name, kind }, i) => (
-            <motion.li
-              key={sub}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="w-[68%] shrink-0 snap-center sm:w-[42%] md:w-auto"
-            >
-              <a href={`https://${sub}.lightor.app`} className="group block" aria-label={`${name} - ${t('showcase.visit')}`}>
-                <div className="mx-auto max-w-[260px] rounded-[2.4rem] bg-gray-900 p-2.5 shadow-2xl shadow-violet-900/20 transition-transform duration-300 group-hover:-translate-y-1 dark:bg-gray-800">
-                  <img
-                    src={`/showcase/${sub}.webp`}
-                    alt={t('showcase.alt', { name })}
-                    width={520}
-                    height={1125}
-                    loading="lazy"
-                    className="block w-full rounded-[1.9rem]"
-                  />
-                </div>
-                <p className="mt-5 text-center text-lg font-bold text-gray-950 dark:text-white">{name}</p>
-                <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-                  {t(`showcase.kind.${kind}`)} · <span dir="ltr">{sub}.lightor.app</span>
-                </p>
-              </a>
-            </motion.li>
-          ))}
-        </ul>
+      {/* LT-330: the phones ride a turning ring (HaloReel); the site at the
+          front is named beside it on wide screens and under it on phones. */}
+      <HaloReel
+        items={SITES.map(({ sub, name }) => ({ src: `/showcase/${sub}.webp`, alt: t('showcase.alt', { name }) }))}
+        aria-label={t('showcase.title')}
+        onActiveChange={setActive}
+        cardWidth={150}
+        cardHeight={325}
+        mirror={isRTL}
+        // Wide: the ring rides one edge and the front site is named in the
+        // space beside it. Phone: the front card is centred (centre + rx =
+        // half the width) and the site is named under the ring.
+        centerXRatio={wide ? 0.02 : 0.5 - 0.62}
+        radiusXRatio={wide ? 0.4 : 0.62}
+        radiusYRatio={0.27}
+        minScale={0.3}
+        spread={1.1}
+        maxCards={6}
+        holdDuration={1800}
+        stepDuration={750}
+        centerLabel={wide ? caption : undefined}
+        cardClassName="rounded-[1.6rem] bg-gray-900 p-[5px] shadow-xl shadow-violet-900/25 dark:bg-gray-800"
+        imageClassName="rounded-[1.3rem]"
+        className="mt-10 h-[480px] md:h-[620px]"
+      />
+      {!wide && <div className="px-4">{caption}</div>}
 
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mt-10 text-center">
           <a
             href="https://lightor.app/sites"
