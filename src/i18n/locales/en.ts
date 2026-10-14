@@ -119,8 +119,8 @@ export default {
         text: 'Hebrew, English, Arabic, French and Spanish, right-to-left included.'
       },
       mobile: {
-        title: 'From your phone',
-        text: 'Run everything one-handed, between customers.'
+        title: 'All on your phone',
+        text: 'See what\'s happening and update your site from anywhere, no computer needed.'
       }
     },
     seo: {
