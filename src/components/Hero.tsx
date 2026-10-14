@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState, type ComponentProps, type ComponentType } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
@@ -7,7 +7,15 @@ const REGISTER_URL = 'https://register.lightor.app';
 const SITES_URL = 'https://lightor.app/sites';
 
 // three.js and the model load in their own chunk, after the page is up.
-const Lighty3D = lazy(() => import('./Lighty3D'));
+// A chunk that fails to load — a tab opened before a deploy asks for a hash
+// the server no longer has, or a flaky phone connection — draws nothing, and
+// the still Lighty stays: there is no error boundary on this page, so a
+// rejected import used to blank all of it (LT-315).
+type Lighty3DProps = ComponentProps<typeof import('./Lighty3D').default>;
+const NoLighty3D = () => null;
+const Lighty3D = lazy<ComponentType<Lighty3DProps>>(() =>
+  import('./Lighty3D').catch(() => ({ default: NoLighty3D }))
+);
 
 /**
  * LT-260: the still waves until the live Lighty is ready — or for good with
