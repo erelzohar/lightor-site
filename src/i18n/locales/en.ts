@@ -21,7 +21,7 @@ export default {
     cta: 'Build my site - free',
     secondary: 'See sites we built',
     trust: {
-      card: 'No credit card',
+      card: 'No credit card, no commitment',
       plus: '60 days of Lightor+ on us',
       languages: 'In 5 languages'
     },
@@ -166,7 +166,7 @@ export default {
   },
   contact: {
     title: 'Start free',
-    subtitle: 'No credit card, nothing to install. Your site can be live today.',
+    subtitle: 'No credit card, no commitment, nothing to install. Your site can be live today.',
     cta: 'Build my site',
     signIn: 'I already have an account',
     note: 'Free to start, with 60 days of Lightor+ for every new account. Upgrade only when you need more.',
