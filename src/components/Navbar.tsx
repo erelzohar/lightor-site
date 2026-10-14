@@ -57,12 +57,18 @@ const Navbar = ({ darkMode, toggleDarkMode, toggleLanguage }: NavbarProps) => {
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-6">
+      {/* The open menu is solid, never blurred, and only colour and shadow
+          animate. At the top of the page the bar used to fade a backdrop-blur
+          in over the live 3D Lighty right behind it, and phones froze while
+          the menu opened. */}
       <nav
         aria-label="Main navigation"
-        className={`mx-auto max-w-7xl rounded-2xl transition-all duration-300 ${
-          scrolled || open
-            ? 'bg-white/85 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-lg dark:bg-black/80'
-            : 'bg-transparent'
+        className={`mx-auto max-w-7xl rounded-2xl transition-[background-color,box-shadow] duration-300 ${
+          open
+            ? 'bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:bg-gray-950'
+            : scrolled
+              ? 'bg-white/85 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-lg dark:bg-black/80'
+              : 'bg-transparent'
         }`}
       >
         <div className="flex h-16 items-center justify-between gap-4 px-4 sm:px-5">
