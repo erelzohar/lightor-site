@@ -42,9 +42,12 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pt-36 lg:pb-24" aria-labelledby="hero-title">
+      {/* Glows are radial gradients, not blur filters: a 64px blur on a
+          ~540px circle made iPhone Safari stall ~0.9 s whenever the menu
+          opened over it (LT-328, measured in the simulator). */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-48 start-1/3 h-[34rem] w-[34rem] rounded-full bg-violet-400/25 blur-3xl dark:bg-violet-700/25" />
-        <div className="absolute top-24 -end-40 h-[30rem] w-[30rem] rounded-full bg-pink-300/25 blur-3xl dark:bg-pink-700/20" />
+        <div className="absolute -top-56 start-[30%] h-[38rem] w-[38rem] bg-[radial-gradient(closest-side,rgba(167,139,250,0.32),rgba(167,139,250,0.176)_55%,transparent)] dark:bg-[radial-gradient(closest-side,rgba(109,40,217,0.32),rgba(109,40,217,0.176)_55%,transparent)]" />
+        <div className="absolute top-16 -end-48 h-[34rem] w-[34rem] bg-[radial-gradient(closest-side,rgba(249,168,212,0.32),rgba(249,168,212,0.176)_55%,transparent)] dark:bg-[radial-gradient(closest-side,rgba(190,24,93,0.26),rgba(190,24,93,0.143)_55%,transparent)]" />
       </div>
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-6 px-4 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10 lg:px-8">
@@ -54,7 +57,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/70 px-4 py-1.5 text-sm font-semibold text-violet-700 backdrop-blur hover:bg-white dark:border-violet-800 dark:bg-white/5 dark:text-violet-300"
+            className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/80 px-4 py-1.5 text-sm font-semibold text-violet-700 hover:bg-white dark:border-violet-800 dark:bg-white/5 dark:text-violet-300"
           >
             <Sparkles className="h-4 w-4" aria-hidden="true" />
             {t('hero.badge')}
@@ -123,7 +126,7 @@ const Hero = () => {
         </div>
 
         <div className="relative order-1 mx-auto h-[230px] w-[230px] sm:h-[320px] sm:w-[320px] lg:order-2 lg:h-[520px] lg:w-[520px]">
-          <div aria-hidden="true" className="absolute inset-[12%] rounded-full bg-gradient-to-br from-violet-300/50 to-pink-300/40 blur-2xl dark:from-violet-600/40 dark:to-pink-600/30" />
+          <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(closest-side,rgba(196,181,253,0.4),rgba(249,168,212,0.14)_65%,transparent)] dark:bg-[radial-gradient(closest-side,rgba(124,58,237,0.32),rgba(219,39,119,0.12)_65%,transparent)]" />
           <img
             src="/lighty-wave.webp"
             alt={t('hero.lightyAlt')}

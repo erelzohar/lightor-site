@@ -21,8 +21,8 @@ const LightySection = () => {
   return (
     <section id="lighty" className="relative overflow-hidden bg-[#140b2e] py-20 text-white sm:py-28" aria-labelledby="lighty-title">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-32 start-[-10%] h-[28rem] w-[28rem] rounded-full bg-violet-600/30 blur-3xl" />
-        <div className="absolute bottom-[-8rem] end-[-6%] h-[26rem] w-[26rem] rounded-full bg-pink-600/20 blur-3xl" />
+        <div className="absolute -top-40 start-[-14%] h-[32rem] w-[32rem] bg-[radial-gradient(closest-side,rgba(124,58,237,0.38),rgba(124,58,237,0.209)_55%,transparent)]" />
+        <div className="absolute bottom-[-10rem] end-[-10%] h-[30rem] w-[30rem] bg-[radial-gradient(closest-side,rgba(219,39,119,0.26),rgba(219,39,119,0.143)_55%,transparent)]" />
       </div>
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -55,7 +55,7 @@ const LightySection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}
-                className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur sm:p-7"
+                className="rounded-3xl border border-white/10 bg-white/[0.08] p-6 sm:p-7"
               >
                 <div className="flex items-start gap-4">
                   <span className="inline-flex shrink-0 rounded-2xl bg-gradient-to-br from-violet-500 to-pink-500 p-3" aria-hidden="true">
