@@ -117,7 +117,7 @@ const Hero = () => {
           </motion.div>
 
           <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-gray-600 lg:justify-start dark:text-gray-400">
-            {(['card', 'plus', 'languages'] as const).map((k) => (
+            {(['card', 'plus', 'search', 'languages'] as const).map((k) => (
               <li key={k} className="inline-flex items-center gap-1.5">
                 <CheckCircle2 className="h-4 w-4 text-violet-600 dark:text-violet-400" aria-hidden="true" />
                 {t(`hero.trust.${k}`)}

@@ -23,7 +23,8 @@ export default {
     trust: {
       card: 'No credit card, no commitment',
       plus: '60 days of Lightor+ on us',
-      languages: 'In 5 languages'
+      languages: 'In 5 languages',
+      search: 'Found on Google and AI'
     },
     lightyAlt: 'Lighty, the Lightor character, waving hello'
   },
@@ -124,13 +125,16 @@ export default {
       }
     },
     seo: {
-      title: 'Organic search, built in',
-      text: 'Lightor promotes every site organically on Google and Bing - no paying for ads.',
+      eyebrow: 'SEO and AI search, built in',
+      title: 'Found on Google, and on ChatGPT',
+      text: 'Every Lightor site is built so search engines and AI tools understand who you are and what you offer, and can show and recommend you - no paying for ads.',
       points: [
         'Search engines are updated on every change to your site',
-        'Your content, services and hours - in a language search engines understand',
+        'Your details, services and hours - in a language search engines and AI understand',
+        'Open to the AI crawlers of ChatGPT, Perplexity and more',
         'A link to your site from Lightor\'s "Sites we built" page'
-      ]
+      ],
+      imageAlt: 'Lighty riding a green growth arrow'
     }
   },
   how: {

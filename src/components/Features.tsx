@@ -83,15 +83,17 @@ const Features = () => {
             transition={{ duration: 0.4 }}
             className="rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 to-pink-50 p-7 sm:col-span-2 lg:col-span-4 lg:p-9 dark:border-violet-900/60 dark:from-violet-950/40 dark:to-pink-950/20"
           >
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
-              <div className="lg:w-5/12">
-                <span className="inline-flex rounded-2xl bg-white p-3 text-violet-700 shadow-sm dark:bg-violet-900/40 dark:text-violet-300" aria-hidden="true">
-                  <TrendingUp className="h-6 w-6" />
-                </span>
-                <h3 className="mt-4 text-2xl font-bold text-gray-950 dark:text-white">{t('features.seo.title')}</h3>
-                <p className="text-balance mt-2 text-gray-700 dark:text-gray-300">{t('features.seo.text')}</p>
+            {/* LT-354: search and AI answers, with Lighty riding the growth arrow. */}
+            <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_14rem] lg:gap-10">
+              <div className="min-w-0">
+                <p className="inline-flex items-center gap-2 text-sm font-bold tracking-wide text-violet-700 dark:text-violet-300">
+                  <TrendingUp className="h-4 w-4" aria-hidden="true" />
+                  {t('features.seo.eyebrow')}
+                </p>
+                <h3 className="text-balance mt-3 text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">{t('features.seo.title')}</h3>
+                <p className="text-balance mt-3 text-gray-700 dark:text-gray-300">{t('features.seo.text')}</p>
               </div>
-              <ul className="grid gap-3 lg:w-7/12">
+              <ul className="grid min-w-0 gap-3">
                 {seoPoints.map((p) => (
                   <li key={p} className="flex items-start gap-3 rounded-2xl bg-white/80 px-4 py-3 font-medium text-gray-800 dark:bg-black/40 dark:text-gray-200">
                     <Check className="mt-0.5 h-5 w-5 shrink-0 text-violet-600 dark:text-violet-400" aria-hidden="true" />
@@ -99,6 +101,14 @@ const Features = () => {
                   </li>
                 ))}
               </ul>
+              <img
+                src="/lighty-growth.webp"
+                alt={t('features.seo.imageAlt')}
+                width={640}
+                height={640}
+                loading="lazy"
+                className="order-first mx-auto h-44 w-44 object-contain sm:h-52 sm:w-52 lg:order-none lg:h-56 lg:w-56"
+              />
             </div>
           </motion.article>
         </div>
