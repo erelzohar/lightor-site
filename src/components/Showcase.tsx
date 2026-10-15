@@ -16,9 +16,9 @@ const SITES = [
   { sub: 'zoharsweets', name: 'Zohar Sweets', kind: 'leads' },
   // LT-331 demo sites: built by the real wizard, seeded with activity by
   // lightor-back's seedDemoSites (screenshots 2026-10-15).
-  { sub: 'hakise-barbershop', name: 'הכיסא ברבר שופ', kind: 'booking' },
+  { sub: 'hakise-barbershop', name: 'דקל ברברשופ', kind: 'booking' },
   { sub: 'noga-nails', name: 'נוגה ניילס', kind: 'booking' },
-  { sub: 'studio-koach', name: 'סטודיו כוח', kind: 'booking' },
+  { sub: 'studio-koach', name: 'סטודיו Loose', kind: 'booking' },
   { sub: 'shulchan-aruch', name: 'שולחן ערוך', kind: 'leads' },
   { sub: 'neshima-yoga', name: 'נשימה', kind: 'booking' },
   { sub: 'dyo-tattoo', name: 'דיו', kind: 'booking' },
