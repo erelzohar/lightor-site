@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { isRtl } from '../i18n/languages';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -8,7 +9,7 @@ const DASHBOARD_URL = 'https://dashboard.lightor.app';
 /** LT-260: the closing call to action, with Lighty cheering. */
 const Contact = () => {
   const { t, i18n } = useTranslation();
-  const Arrow = i18n.language === 'he' ? ArrowLeft : ArrowRight;
+  const Arrow = isRtl(i18n.language) ? ArrowLeft : ArrowRight;
 
   return (
     <section id="start" className="bg-white px-4 py-16 sm:px-6 sm:py-24 lg:px-8 dark:bg-black" aria-labelledby="start-title">

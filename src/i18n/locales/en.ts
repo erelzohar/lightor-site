@@ -10,7 +10,7 @@ export default {
     home: 'Back to top',
     darkMode: 'Dark mode',
     lightMode: 'Light mode',
-    language: 'עברית'
+    language: 'Language'
   },
   hero: {
     badge: 'New: Lighty, your smart assistant',

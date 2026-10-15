@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState, type ComponentProps, type ComponentType } from 'react';
 import { useTranslation } from 'react-i18next';
+import { isRtl } from '../i18n/languages';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
 
@@ -35,7 +36,7 @@ const useLiveLighty = (): boolean => {
 
 const Hero = () => {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'he';
+  const isRTL = isRtl(i18n.language);
   const Arrow = isRTL ? ArrowLeft : ArrowRight;
   const mount3d = useLiveLighty();
   const [live, setLive] = useState(false);

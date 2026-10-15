@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Menu, Moon, Sun, X } from 'lucide-react';
+import { LanguageLinks, LanguageMenu } from './LanguageMenu';
 
 interface NavbarProps {
   darkMode: boolean;
   toggleDarkMode: () => void;
-  toggleLanguage: () => void;
 }
 
 const REGISTER_URL = 'https://register.lightor.app';
 const DASHBOARD_URL = 'https://dashboard.lightor.app';
 
-const Navbar = ({ darkMode, toggleDarkMode, toggleLanguage }: NavbarProps) => {
+const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
   const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -93,9 +93,7 @@ const Navbar = ({ darkMode, toggleDarkMode, toggleLanguage }: NavbarProps) => {
             <button onClick={toggleDarkMode} className={iconButton} aria-label={darkMode ? t('nav.lightMode') : t('nav.darkMode')}>
               {darkMode ? <Sun className="h-5 w-5" aria-hidden="true" /> : <Moon className="h-5 w-5" aria-hidden="true" />}
             </button>
-            <button onClick={toggleLanguage} className={`${iconButton} px-3 text-sm font-semibold`}>
-              {t('nav.language')}
-            </button>
+            <LanguageMenu buttonClass={iconButton} />
             <a href={DASHBOARD_URL} className="rounded-lg px-3 py-2 font-medium text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white">
               {t('nav.signIn')}
             </a>
@@ -153,10 +151,8 @@ const Navbar = ({ darkMode, toggleDarkMode, toggleLanguage }: NavbarProps) => {
             <button onClick={toggleDarkMode} className={iconButton} aria-label={darkMode ? t('nav.lightMode') : t('nav.darkMode')}>
               {darkMode ? <Sun className="h-5 w-5" aria-hidden="true" /> : <Moon className="h-5 w-5" aria-hidden="true" />}
             </button>
-            <button onClick={toggleLanguage} className={`${iconButton} px-3 text-sm font-semibold`}>
-              {t('nav.language')}
-            </button>
           </div>
+          <LanguageLinks />
         </div>
       </nav>
     </header>

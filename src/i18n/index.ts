@@ -1,26 +1,31 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './locales/en';
 import he from './locales/he';
+import ar from './locales/ar';
+import fr from './locales/fr';
+import es from './locales/es';
+import { LANGS, DEFAULT_LANG, langFromPath } from './languages';
 
+// LT-349: the language is the address (/ is Hebrew, /en/, /ar/, /fr/, /es/),
+// never the browser's setting: the HTML at each address is already in its
+// language (title, description, lang/dir), and a page that switched to the
+// visitor's language after loading would show a crawler one language and a
+// person another. The switcher in the navbar is a plain link to the other
+// address.
 i18n
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
+      he: { translation: he },
       en: { translation: en },
-      he: { translation: he }
+      ar: { translation: ar },
+      fr: { translation: fr },
+      es: { translation: es }
     },
-    // LT-276: the page reads i18n.language === 'he' for its direction, so the
-    // language must be exactly 'he' or 'en'. Without this a phone set to
-    // 'he-IL' (how iPhones in Israel report it) got Hebrew laid out left to
-    // right, and any other language got Hebrew text left to right as well.
-    // The region comes off before matching, so 'en-US' still beats the
-    // page's own lang="he".
-    supportedLngs: ['he', 'en'],
-    detection: { convertDetectedLanguage: (lng: string) => lng.split('-')[0] },
-    fallbackLng: 'he',
+    lng: langFromPath(window.location.pathname),
+    supportedLngs: [...LANGS],
+    fallbackLng: DEFAULT_LANG,
     interpolation: {
       escapeValue: false
     }

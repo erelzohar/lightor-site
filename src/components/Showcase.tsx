@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { isRtl } from '../i18n/languages';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { HaloReel } from './ui/halo-reel';
@@ -38,7 +39,7 @@ const useWide = (px: number): boolean => {
 
 const Showcase = () => {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'he';
+  const isRTL = isRtl(i18n.language);
   const Arrow = isRTL ? ArrowLeft : ArrowRight;
   const [active, setActive] = useState(0);
   const wide = useWide(768);

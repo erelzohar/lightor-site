@@ -10,7 +10,7 @@ export default {
     home: 'לראש העמוד',
     darkMode: 'מצב כהה',
     lightMode: 'מצב בהיר',
-    language: 'English'
+    language: 'שפה'
   },
   hero: {
     badge: 'חדש: Lighty, העוזר החכם שלך',

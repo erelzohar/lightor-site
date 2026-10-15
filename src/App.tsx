@@ -11,6 +11,7 @@ import Showcase from './components/Showcase';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import './i18n';
+import { isRtl } from './i18n/languages';
 
 function App() {
   const { i18n } = useTranslation();
@@ -26,15 +27,8 @@ function App() {
     }
   };
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'he' ? 'en' : 'he';
-    i18n.changeLanguage(newLang);
-    document.documentElement.dir = newLang === 'he' ? 'rtl' : 'ltr';
-    document.documentElement.lang = newLang;
-  };
-
   React.useEffect(() => {
-    document.documentElement.dir = i18n.language === 'he' ? 'rtl' : 'ltr';
+    document.documentElement.dir = isRtl(i18n.language) ? 'rtl' : 'ltr';
     document.documentElement.lang = i18n.language;
   }, [i18n.language]);
 
@@ -63,7 +57,7 @@ function App() {
           <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white dark:focus:bg-black focus:text-black dark:focus:text-white">
             Skip to main content
           </a>
-          <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} toggleLanguage={toggleLanguage} />
+          <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
           <main id="main-content" tabIndex={-1}>
             <Hero />
             <SiteKinds />

@@ -32,12 +32,13 @@
     <link rel="preload" as="image" href="/lighty-wave.webp" fetchpriority="high" />
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="manifest" href="/manifest.json" />
-    <title>Lightor - האתר שלך, תוך 60 שניות</title>
+    <title>Lightor | לייטור | אתר לכל עסק, אירוע או רעיון - עם AI</title>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Lightor",
+        "alternateName": ["לייטור", "لايتور"],
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
         "url": "https://lightor.app",
@@ -76,6 +77,18 @@
             "description": "Lightor+ subscription: ₪119 a month, or ₪1,190 a year"
           }
         ]
+      }
+    </script>
+    <!-- LT-349: the site's name for Google, with the brand as written in
+         Hebrew and Arabic, so a search for either finds it. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Lightor",
+        "alternateName": ["לייטור", "لايتور"],
+        "url": "https://lightor.app/",
+        "inLanguage": ["he", "en", "ar", "fr", "es"]
       }
     </script>
   </head>
