@@ -1,5 +1,6 @@
 export default {
   nav: {
+    main: 'Navegación principal',
     how: 'Cómo funciona',
     lighty: 'Lighty',
     features: 'Funciones',
@@ -166,7 +167,9 @@ export default {
     },
     visit: 'Visitar el sitio',
     all: 'Ver todos los sitios',
-    alt: 'El sitio de {{name}} en un móvil'
+    alt: 'El sitio de {{name}} en un móvil',
+    pause: 'Pausar la rotación',
+    play: 'Reanudar la rotación'
   },
   contact: {
     title: 'Empieza gratis',
@@ -175,6 +178,24 @@ export default {
     signIn: 'Ya tengo una cuenta',
     note: 'Gratis para empezar, con 60 días de Lightor+ para cada cuenta nueva. Mejora tu plan solo cuando necesites más.',
     imageAlt: 'Lighty celebrando'
+  },
+  a11y: {
+    skip: 'Saltar al contenido',
+    menu: {
+      button: 'Menú de accesibilidad',
+      title: 'Accesibilidad',
+      close: 'Cerrar',
+      text: 'Tamaño del texto',
+      textSmaller: 'Reducir texto',
+      textLarger: 'Aumentar texto',
+      contrast: 'Alto contraste',
+      links: 'Resaltar enlaces',
+      font: 'Fuente legible',
+      spacing: 'Espaciado del texto',
+      still: 'Detener animaciones',
+      reset: 'Restablecer',
+      statement: 'Declaración de accesibilidad'
+    }
   },
   footer: {
     tagline: 'Un sitio para tu negocio, tu evento o cualquier idea - a partir de una conversación con Lighty.',
@@ -192,7 +213,8 @@ export default {
       support: 'Soporte',
       privacy: 'Política de privacidad',
       terms: 'Términos del servicio',
-      refund: 'Política de reembolso'
+      refund: 'Política de reembolso',
+      accessibility: 'Declaración de accesibilidad'
     },
     copyright: '© 2026 Lightor. Todos los derechos reservados.'
   }

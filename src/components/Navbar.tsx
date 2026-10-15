@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Menu, Moon, Sun, X } from 'lucide-react';
 import { LanguageLinks, LanguageMenu } from './LanguageMenu';
+import AccessibilityMenu from './AccessibilityMenu';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -62,7 +63,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
           in over the live 3D Lighty right behind it, and phones froze while
           the menu opened. */}
       <nav
-        aria-label="Main navigation"
+        aria-label={t('nav.main')}
         className={`mx-auto max-w-7xl rounded-2xl transition-[background-color,box-shadow] duration-300 ${
           open
             ? 'bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:bg-gray-950'
@@ -72,12 +73,15 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
         }`}
       >
         <div className="flex h-16 items-center justify-between gap-4 px-4 sm:px-5">
-          <a href="#home" className="flex items-center gap-2.5" aria-label={t('nav.home')}>
+          <a href="#home" className="flex shrink-0 items-center gap-2.5" aria-label={t('nav.home')}>
             <img src="/lightor-logo.webp" alt="" width={36} height={36} className="h-9 w-9 rounded-xl" />
-            <span className="text-xl font-bold text-gray-950 dark:text-white">Lightor</span>
+            <span className="nav-brand-name text-xl font-bold text-gray-950 dark:text-white">Lightor</span>
           </a>
 
-          <div className="hidden items-center gap-1 md:flex">
+          {/* LT-357: the full bar from lg. With the accessibility button it no
+              longer fits a 768px tablet, and in French and Spanish it never
+              did: "start free" ran off the edge. Tablets get the phone bar. */}
+          <div className="nav-desktop hidden items-center gap-1 lg:flex">
             {links.map((l) => (
               <a
                 key={l.href}
@@ -89,7 +93,8 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
             ))}
           </div>
 
-          <div className="hidden items-center gap-1.5 md:flex">
+          <div className="nav-desktop hidden items-center gap-1.5 lg:flex">
+            <AccessibilityMenu buttonClass={iconButton} />
             <button onClick={toggleDarkMode} className={iconButton} aria-label={darkMode ? t('nav.lightMode') : t('nav.darkMode')}>
               {darkMode ? <Sun className="h-5 w-5" aria-hidden="true" /> : <Moon className="h-5 w-5" aria-hidden="true" />}
             </button>
@@ -105,23 +110,26 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
             </a>
           </div>
 
-          <button
-            ref={buttonRef}
-            onClick={() => setOpen((v) => !v)}
-            className={`${iconButton} md:hidden`}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            aria-label={t('nav.menu')}
-          >
-            {open ? <X className="h-6 w-6" aria-hidden="true" /> : <Menu className="h-6 w-6" aria-hidden="true" />}
-          </button>
+          <div className="nav-phone flex items-center gap-1 lg:hidden">
+            <button
+              ref={buttonRef}
+              onClick={() => setOpen((v) => !v)}
+              className={iconButton}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              aria-label={t('nav.menu')}
+            >
+              {open ? <X className="h-6 w-6" aria-hidden="true" /> : <Menu className="h-6 w-6" aria-hidden="true" />}
+            </button>
+            <AccessibilityMenu buttonClass={iconButton} />
+          </div>
         </div>
 
         <div
           ref={menuRef}
           id="mobile-menu"
           hidden={!open}
-          className="border-t border-gray-200/70 px-4 pb-4 pt-2 md:hidden dark:border-gray-800"
+          className="nav-phone-menu border-t border-gray-200/70 px-4 pb-4 pt-2 lg:hidden dark:border-gray-800"
         >
           <ul className="space-y-1">
             {links.map((l) => (

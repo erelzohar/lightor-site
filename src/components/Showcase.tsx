@@ -89,6 +89,8 @@ const Showcase = () => {
         cardWidth={150}
         cardHeight={325}
         mirror={isRTL}
+        pauseLabel={t('showcase.pause')}
+        playLabel={t('showcase.play')}
         // Wide: the ring rides one edge and the front site is named in the
         // space beside it. Phone: the front card is centred (centre + rx =
         // half the width) and the site is named under the ring.

@@ -60,5 +60,97 @@ a:focus {
 
 /* Skip link styles */
 .sr-only.focus\:not-sr-only:focus {
-  @apply fixed top-0 left-0 z-50 p-4 bg-white dark:bg-black text-black dark:text-white;
+  @apply fixed top-0 start-0 z-50 p-4 bg-white dark:bg-black text-black dark:text-white;
+}
+
+/* LT-357: the accessibility menu's choices (services/a11yPrefs), one class
+   on <html> each; the same menu as the customer sites (lightor-front,
+   LT-346). `!important` so the visitor's choice wins over the design. */
+html.a11y-text-1 { font-size: 115% !important; }
+html.a11y-text-2 { font-size: 130% !important; }
+html.a11y-text-3 { font-size: 150% !important; }
+
+/* High contrast: the page has no palette variables to swap, so the muted
+   greys and the light accents it uses go to black (white in dark mode), and
+   the gradient headline to a solid colour. The footer is black in both
+   modes, so its greys go to white. */
+html.a11y-contrast :is(.text-gray-500, .text-gray-600, .text-gray-700, .text-gray-800, .text-gray-950) { color: #000 !important; }
+html.a11y-contrast :is(.text-violet-600, .text-violet-700) { color: #4c1d95 !important; }
+html.a11y-contrast :is(.text-white\/85, .text-white\/90, .text-violet-100, .text-violet-100\/85, .text-violet-100\/90) { color: #fff !important; }
+html.a11y-contrast .bg-clip-text.text-transparent { background: none !important; color: #4c1d95 !important; }
+html.a11y-contrast :is(.border-gray-200, .border-gray-200\/70, .border-gray-300) { border-color: #4b5563 !important; }
+html.a11y-contrast.dark :is(.dark\:text-white, .dark\:text-gray-100, .dark\:text-gray-200, .dark\:text-gray-300, .dark\:text-gray-400) { color: #fff !important; }
+html.a11y-contrast.dark :is(.dark\:text-violet-200, .dark\:text-violet-300, .dark\:text-violet-400) { color: #ddd6fe !important; }
+html.a11y-contrast.dark .bg-clip-text.text-transparent { color: #fff !important; }
+html.a11y-contrast.dark :is(.dark\:border-gray-700, .dark\:border-gray-800, .dark\:border-white\/15) { border-color: #d1d5db !important; }
+html.a11y-contrast footer :is(.text-gray-400, .text-gray-500) { color: #fff !important; }
+
+html.a11y-links a[href] {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 0.2em;
+  outline: 2px dashed currentColor;
+  outline-offset: 2px;
+}
+html.a11y-links :focus-visible {
+  outline: 3px solid #6d28d9 !important;
+  outline-offset: 3px !important;
+}
+html.a11y-links.dark :focus-visible { outline-color: #c4b5fd !important; }
+
+/* Arial carries Hebrew and Arabic on desktops; Assistant (loaded) covers phones. */
+html.a11y-font * {
+  font-family: Arial, 'Assistant', sans-serif !important;
+  font-style: normal !important;
+}
+
+/* WCAG 1.4.12 text spacing; Arabic keeps its letters joined. */
+html.a11y-spacing body * {
+  line-height: 1.6 !important;
+  letter-spacing: 0.06em !important;
+  word-spacing: 0.16em !important;
+}
+html.a11y-spacing[lang="ar"] body * { letter-spacing: normal !important; }
+
+/* Stop animations: the CSS half. framer-motion, the 3D Lighty and the
+   showcase ring stop through useStill / MotionConfig. */
+html.a11y-still *,
+html.a11y-still *::before,
+html.a11y-still *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}
+
+/* Enlarged text or spacing must reflow, not run off a phone's screen: a
+   phrase kept on one line (the hero's "in 60 seconds") wraps, and a long
+   word breaks rather than widening its card past the screen. */
+html:is(.a11y-text-1, .a11y-text-2, .a11y-text-3, .a11y-spacing) .whitespace-nowrap { white-space: normal !important; }
+html:is(.a11y-text-1, .a11y-text-2, .a11y-text-3, .a11y-spacing) body * { overflow-wrap: break-word; }
+html:is(.a11y-text-1, .a11y-text-2, .a11y-text-3, .a11y-spacing) .grid > * { min-width: 0; }
+/* Enlarged text or spacing does not move the width breakpoints, so the full
+   navbar ran out of room on small laptops: it keeps the phone bar (logo,
+   accessibility, burger with everything else) up to 1535px. */
+@media (min-width: 1024px) and (max-width: 1535px) {
+  html:is(.a11y-text-1, .a11y-text-2, .a11y-text-3, .a11y-spacing) .nav-desktop { display: none !important; }
+  html:is(.a11y-text-1, .a11y-text-2, .a11y-text-3, .a11y-spacing) .nav-phone { display: flex !important; }
+  html:is(.a11y-text-1, .a11y-text-2, .a11y-text-3, .a11y-spacing) .nav-phone-menu:not([hidden]) { display: block !important; }
+}
+/* On a narrow phone the enlarged navbar keeps the logo and its buttons and
+   drops the word beside the logo (the link is named anyway). */
+@media (max-width: 479px) {
+  html:is(.a11y-text-2, .a11y-text-3) .nav-brand-name { display: none; }
+}
+
+/* Lightor's own panels (the accessibility menu) keep their own type,
+   whatever the page around them does to its headings. */
+.lt-ui :is(h1, h2, h3, h4) {
+  font-family: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  font-size: 1.25rem;
+  line-height: 1.35;
 }

@@ -4,10 +4,11 @@ import {
   motion,
   useMotionValue,
   useMotionValueEvent,
-  useReducedMotion,
   useTransform,
   type MotionValue,
 } from 'framer-motion';
+import { Pause, Play } from 'lucide-react';
+import { useStill } from '../../hooks/useA11yPrefs';
 
 /* ── Halo Reel ───────────────────────────────────────────────────
  * Cards ride an ellipse. Card i sits at θ = i·step + rotation on an
@@ -71,6 +72,10 @@ export interface HaloReelProps
   /** Mirror the ring for right-to-left pages: `centerXRatio` counts from the
    *  right edge and the front card faces left. @default false */
   mirror?: boolean;
+  /** Names of the pause control while turning / while paused (LT-357: the
+   *  ring turns on its own for more than 5 s, so it needs one, WCAG 2.2.2). */
+  pauseLabel?: string;
+  playLabel?: string;
 }
 
 const TAU = Math.PI * 2;
@@ -100,18 +105,23 @@ export function HaloReel({
   imageClassName,
   onActiveChange,
   mirror = false,
+  pauseLabel = 'Pause',
+  playLabel = 'Play',
   className,
   style,
   ...props
 }: HaloReelProps) {
   const stageRef = React.useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
+  // LT-357: the device's "reduce motion" or the menu's "stop animations".
+  const reduceMotion = useStill();
+  const [paused, setPaused] = React.useState(false);
 
   const count = items.length;
 
   const rotation = useMotionValue(0);
   const draggingRef = React.useRef(false);
   const hoverRef = React.useRef(false);
+  const focusRef = React.useRef(false);
   const [visible, setVisible] = React.useState(false);
 
   const [size, setSize] = React.useState({ w: 0, h: 0 });
@@ -171,15 +181,16 @@ export function HaloReel({
   React.useEffect(() => report(rotation.get()), [report, rotation]);
 
   // Autoplay. Each step schedules the next, so a paused tick only re-checks.
+  // Keyboard focus inside the ring holds it too, as a hovering pointer does.
   React.useEffect(() => {
-    if (!autoPlay || reduceMotion || !count || !visible) return;
+    if (!autoPlay || reduceMotion || paused || !count || !visible) return;
 
     let timer = 0;
     let controls: ReturnType<typeof animate> | undefined;
 
     const tick = () => {
       timer = window.setTimeout(() => {
-        if (draggingRef.current || (pauseOnHover && hoverRef.current)) {
+        if (draggingRef.current || focusRef.current || (pauseOnHover && hoverRef.current)) {
           tick();
           return;
         }
@@ -196,7 +207,7 @@ export function HaloReel({
       window.clearTimeout(timer);
       controls?.stop();
     };
-  }, [autoPlay, count, holdDuration, pauseOnHover, reduceMotion, rotation, step, stepDuration, visible]);
+  }, [autoPlay, count, holdDuration, pauseOnHover, paused, reduceMotion, rotation, step, stepDuration, visible]);
 
   /* ── drag ──────────────────────────────────────────────────── */
 
@@ -269,12 +280,17 @@ export function HaloReel({
       aria-roledescription="carousel"
       tabIndex={0}
       onKeyDown={onKeyDown}
+      onFocus={() => { focusRef.current = true; }}
+      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) focusRef.current = false; }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
+      // `isolate`: the cards stack by z-index up to 1000 (nearer = higher);
+      // kept inside the ring, or they draw over the fixed navbar and the
+      // accessibility menu as the page scrolls under them (LT-357).
       className={cx(
-        'relative w-full touch-pan-y select-none overflow-hidden outline-none',
+        'relative isolate w-full touch-pan-y select-none overflow-hidden outline-none',
         draggable && 'cursor-grab active:cursor-grabbing',
         'focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-violet-500',
         className,
@@ -319,6 +335,19 @@ export function HaloReel({
             }}
           />
         ))}
+
+      {autoPlay && !reduceMotion && (
+        <button
+          type="button"
+          onClick={() => setPaused((p) => !p)}
+          onPointerDown={(e) => e.stopPropagation()}
+          aria-label={paused ? playLabel : pauseLabel}
+          className="absolute bottom-3 end-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-md ring-1 ring-black/10 dark:bg-gray-900/90 dark:text-white dark:ring-white/15"
+          style={{ zIndex: 1001 }}
+        >
+          {paused ? <Play className="h-4 w-4" aria-hidden="true" /> : <Pause className="h-4 w-4" aria-hidden="true" />}
+        </button>
+      )}
     </div>
   );
 }

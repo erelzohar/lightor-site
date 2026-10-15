@@ -17,6 +17,7 @@ const LINKS = {
     { key: 'privacy', href: 'https://lightor.app/privacy.html' },
     { key: 'terms', href: 'https://lightor.app/terms.html' },
     { key: 'refund', href: 'https://lightor.app/refund.html' },
+    { key: 'accessibility', href: 'https://lightor.app/accessibility.html' },
   ],
 } as const;
 
@@ -49,7 +50,7 @@ const Footer = () => {
             </nav>
           ))}
         </div>
-        <p className="mt-12 border-t border-white/10 pt-8 text-center text-sm text-gray-500">{t('footer.copyright')}</p>
+        <p className="mt-12 border-t border-white/10 pt-8 text-center text-sm text-gray-400">{t('footer.copyright')}</p>
       </div>
     </footer>
   );

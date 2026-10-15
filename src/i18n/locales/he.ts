@@ -1,5 +1,6 @@
 export default {
   nav: {
+    main: 'ניווט ראשי',
     how: 'איך זה עובד',
     lighty: 'Lighty',
     features: 'מה מקבלים',
@@ -166,7 +167,9 @@ export default {
     },
     visit: 'לאתר',
     all: 'לכל האתרים',
-    alt: 'האתר של {{name}} בטלפון'
+    alt: 'האתר של {{name}} בטלפון',
+    pause: 'עצירת הסיבוב',
+    play: 'המשך הסיבוב'
   },
   contact: {
     title: 'מתחילים בחינם',
@@ -175,6 +178,24 @@ export default {
     signIn: 'כבר יש לי חשבון',
     note: 'מתחילים בחינם, עם 60 יום של Lightor+ לכל חשבון חדש. משדרגים רק כשצריך יותר.',
     imageAlt: 'Lighty שמח'
+  },
+  a11y: {
+    skip: 'דילוג לתוכן',
+    menu: {
+      button: 'תפריט נגישות',
+      title: 'נגישות',
+      close: 'סגירה',
+      text: 'גודל טקסט',
+      textSmaller: 'הקטנת טקסט',
+      textLarger: 'הגדלת טקסט',
+      contrast: 'ניגודיות גבוהה',
+      links: 'הדגשת קישורים',
+      font: 'גופן קריא',
+      spacing: 'ריווח טקסט',
+      still: 'עצירת אנימציות',
+      reset: 'איפוס',
+      statement: 'הצהרת נגישות'
+    }
   },
   footer: {
     tagline: 'אתר לעסק, לאירוע או לכל רעיון - בשיחה עם Lighty.',
@@ -192,7 +213,8 @@ export default {
       support: 'תמיכה',
       privacy: 'מדיניות פרטיות',
       terms: 'תנאי שימוש',
-      refund: 'מדיניות ביטולים והחזרים'
+      refund: 'מדיניות ביטולים והחזרים',
+      accessibility: 'הצהרת נגישות'
     },
     copyright: '© 2026 לייטור. כל הזכויות שמורות.'
   }

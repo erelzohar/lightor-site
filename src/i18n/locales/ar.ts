@@ -1,5 +1,6 @@
 export default {
   nav: {
+    main: 'التنقل الرئيسي',
     how: 'كيف يعمل',
     lighty: 'Lighty',
     features: 'المزايا',
@@ -166,7 +167,9 @@ export default {
     },
     visit: 'زيارة الموقع',
     all: 'شاهد كل المواقع',
-    alt: 'موقع {{name}} على الهاتف'
+    alt: 'موقع {{name}} على الهاتف',
+    pause: 'إيقاف الدوران',
+    play: 'استئناف الدوران'
   },
   contact: {
     title: 'ابدأ مجانًا',
@@ -175,6 +178,24 @@ export default {
     signIn: 'لدي حساب بالفعل',
     note: 'البداية مجانية، مع 60 يومًا من Lightor+ لكل حساب جديد. قم بالترقية فقط عندما تحتاج المزيد.',
     imageAlt: 'Lighty يهتف فرحًا'
+  },
+  a11y: {
+    skip: 'تخطَّ إلى المحتوى',
+    menu: {
+      button: 'قائمة إمكانية الوصول',
+      title: 'إمكانية الوصول',
+      close: 'إغلاق',
+      text: 'حجم النص',
+      textSmaller: 'تصغير النص',
+      textLarger: 'تكبير النص',
+      contrast: 'تباين عالٍ',
+      links: 'إبراز الروابط',
+      font: 'خط سهل القراءة',
+      spacing: 'تباعد النص',
+      still: 'إيقاف الحركة',
+      reset: 'إعادة الضبط',
+      statement: 'بيان إمكانية الوصول'
+    }
   },
   footer: {
     tagline: 'موقع لعملك أو لحدثك أو لأي فكرة - من محادثة مع Lighty.',
@@ -192,7 +213,8 @@ export default {
       support: 'الدعم',
       privacy: 'سياسة الخصوصية',
       terms: 'شروط الخدمة',
-      refund: 'سياسة الاسترداد'
+      refund: 'سياسة الاسترداد',
+      accessibility: 'بيان إمكانية الوصول'
     },
     copyright: '© 2026 Lightor. جميع الحقوق محفوظة.'
   }

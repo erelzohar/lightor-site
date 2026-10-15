@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { MotionConfig } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import SiteKinds from './components/SiteKinds';
@@ -10,11 +11,13 @@ import HowItWorks from './components/HowItWorks';
 import Showcase from './components/Showcase';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import { useStill } from './hooks/useA11yPrefs';
 import './i18n';
 import { isRtl } from './i18n/languages';
 
 function App() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const still = useStill();
   const [darkMode, setDarkMode] = React.useState(false);
 
   const toggleDarkMode = () => {
@@ -52,24 +55,28 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
-        <div className="bg-white dark:bg-primary transition-colors duration-200">
-          <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white dark:focus:bg-black focus:text-black dark:focus:text-white">
-            Skip to main content
-          </a>
-          <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-          <main id="main-content" tabIndex={-1}>
-            <Hero />
-            <SiteKinds />
-            <LightySection />
-            <Features />
-            <HowItWorks />
-            <Showcase />
-            <Contact />
-          </main>
-          <Footer />
+      {/* LT-357: framer's reveals hold still when the device asks for less
+          motion, and always once the visitor chooses "stop animations". */}
+      <MotionConfig reducedMotion={still ? 'always' : 'user'}>
+        <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
+          <div className="bg-white dark:bg-primary transition-colors duration-200">
+            <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white dark:focus:bg-black focus:text-black dark:focus:text-white">
+              {t('a11y.skip')}
+            </a>
+            <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+            <main id="main-content" tabIndex={-1}>
+              <Hero />
+              <SiteKinds />
+              <LightySection />
+              <Features />
+              <HowItWorks />
+              <Showcase />
+              <Contact />
+            </main>
+            <Footer />
+          </div>
         </div>
-      </div>
+      </MotionConfig>
     </BrowserRouter>
   );
 }

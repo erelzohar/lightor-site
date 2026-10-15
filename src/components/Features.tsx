@@ -68,7 +68,7 @@ const Features = () => {
                   {t(`features.items.${id}.text`)}
                 </p>
                 {lead && (
-                  <p dir="ltr" className="mt-8 inline-block rounded-2xl bg-white/15 px-4 py-2 font-mono text-base sm:text-lg">
+                  <p dir="ltr" className="mt-8 inline-block max-w-full rounded-2xl bg-white/15 px-4 py-2 font-mono text-base sm:text-lg">
                     your-business.lightor.app
                   </p>
                 )}

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { isRtl } from '../i18n/languages';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
+import { useStill } from '../hooks/useA11yPrefs';
 
 const REGISTER_URL = 'https://register.lightor.app';
 const SITES_URL = 'https://lightor.app/sites';
@@ -38,8 +39,11 @@ const Hero = () => {
   const { t, i18n } = useTranslation();
   const isRTL = isRtl(i18n.language);
   const Arrow = isRTL ? ArrowLeft : ArrowRight;
-  const mount3d = useLiveLighty();
+  // LT-357: "stop animations" in the accessibility menu puts the still back.
+  const still = useStill();
+  const mount3d = useLiveLighty() && !still;
   const [live, setLive] = useState(false);
+  useEffect(() => { if (still) setLive(false); }, [still]);
 
   return (
     <section id="home" className="relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pt-36 lg:pb-24" aria-labelledby="hero-title">
