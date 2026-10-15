@@ -126,12 +126,12 @@ export default {
     },
     seo: {
       eyebrow: 'SEO y búsqueda con IA, incluidos',
-      title: 'Te encuentran en Google, y en ChatGPT',
+      title: 'Te encuentran en Google, y en los buscadores con IA',
       text: 'Cada sitio de Lightor está hecho para que los buscadores y las herramientas de IA entiendan quién eres y qué ofreces, y puedan mostrarte y recomendarte - sin pagar anuncios.',
       points: [
         'Los buscadores reciben un aviso con cada cambio en tu sitio',
         'Tus datos, servicios y horario - en un lenguaje que los buscadores y la IA entienden',
-        'Abierto a los rastreadores de IA de ChatGPT, Perplexity y más',
+        'Abierto a los rastreadores de los buscadores con IA',
         'Un enlace a tu sitio desde la página "Sitios que creamos" de Lightor'
       ],
       imageAlt: 'Lighty montado en una flecha verde de crecimiento'

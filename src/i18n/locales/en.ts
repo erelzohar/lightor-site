@@ -126,12 +126,12 @@ export default {
     },
     seo: {
       eyebrow: 'SEO and AI search, built in',
-      title: 'Found on Google, and on ChatGPT',
+      title: 'Found on Google, and in AI search',
       text: 'Every Lightor site is built so search engines and AI tools understand who you are and what you offer, and can show and recommend you - no paying for ads.',
       points: [
         'Search engines are updated on every change to your site',
         'Your details, services and hours - in a language search engines and AI understand',
-        'Open to the AI crawlers of ChatGPT, Perplexity and more',
+        'Open to the crawlers of AI search engines',
         'A link to your site from Lightor\'s "Sites we built" page'
       ],
       imageAlt: 'Lighty riding a green growth arrow'
