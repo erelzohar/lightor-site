@@ -23,7 +23,8 @@ export default {
     trust: {
       card: 'Sin tarjeta de crédito, sin compromiso',
       plus: '60 días de Lightor+ de regalo',
-      languages: 'En 5 idiomas'
+      languages: 'En 5 idiomas',
+      search: 'En Google y en la IA'
     },
     lightyAlt: 'Lighty, el personaje de Lightor, saludando'
   },
@@ -124,13 +125,16 @@ export default {
       }
     },
     seo: {
-      title: 'Posicionamiento orgánico, incluido',
-      text: 'Lightor promociona cada sitio de forma orgánica en Google y Bing - sin pagar anuncios.',
+      eyebrow: 'SEO y búsqueda con IA, incluidos',
+      title: 'Te encuentran en Google, y en ChatGPT',
+      text: 'Cada sitio de Lightor está hecho para que los buscadores y las herramientas de IA entiendan quién eres y qué ofreces, y puedan mostrarte y recomendarte - sin pagar anuncios.',
       points: [
         'Los buscadores reciben un aviso con cada cambio en tu sitio',
-        'Tu contenido, servicios y horario - en un lenguaje que los buscadores entienden',
+        'Tus datos, servicios y horario - en un lenguaje que los buscadores y la IA entienden',
+        'Abierto a los rastreadores de IA de ChatGPT, Perplexity y más',
         'Un enlace a tu sitio desde la página "Sitios que creamos" de Lightor'
-      ]
+      ],
+      imageAlt: 'Lighty montado en una flecha verde de crecimiento'
     }
   },
   how: {

@@ -23,7 +23,8 @@ export default {
     trust: {
       card: 'Sans carte bancaire, sans engagement',
       plus: '60 jours de Lightor+ offerts',
-      languages: 'En 5 langues'
+      languages: 'En 5 langues',
+      search: 'Visible sur Google et l\'IA'
     },
     lightyAlt: 'Lighty, le personnage de Lightor, qui fait coucou'
   },
@@ -124,13 +125,16 @@ export default {
       }
     },
     seo: {
-      title: 'Le référencement naturel, intégré',
-      text: 'Lightor fait connaître chaque site naturellement sur Google et Bing - sans payer de publicité.',
+      eyebrow: 'SEO et recherche IA, intégrés',
+      title: 'On vous trouve sur Google, et sur ChatGPT',
+      text: 'Chaque site Lightor est conçu pour que les moteurs de recherche et les outils d\'IA comprennent qui vous êtes et ce que vous proposez, et puissent vous montrer et vous recommander - sans payer de publicité.',
       points: [
         'Les moteurs de recherche sont avertis à chaque changement de votre site',
-        'Votre contenu, vos services et vos horaires - dans un langage que les moteurs comprennent',
+        'Vos informations, services et horaires - dans un langage que les moteurs et l\'IA comprennent',
+        'Ouvert aux robots IA de ChatGPT, Perplexity et d\'autres',
         'Un lien vers votre site depuis la page « Sites réalisés » de Lightor'
-      ]
+      ],
+      imageAlt: 'Lighty sur une flèche de croissance verte'
     }
   },
   how: {
