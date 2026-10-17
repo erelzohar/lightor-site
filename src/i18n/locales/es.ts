@@ -27,7 +27,9 @@ export default {
       languages: 'En 5 idiomas',
       search: 'En Google y en la IA'
     },
-    lightyAlt: 'Lighty, el personaje de Lightor, saludando'
+    lightyAlt: 'Lighty, el personaje de Lightor, saludando',
+    poof: '¡PUF!',
+    guard: 'Lighty el guerrero - haz clic para que ataque'
   },
   kinds: {
     eyebrow: 'Qué puedes crear',

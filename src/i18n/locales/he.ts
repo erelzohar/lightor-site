@@ -27,7 +27,9 @@ export default {
       languages: 'ב-5 שפות',
       search: 'מופיעים בגוגל וב-AI'
     },
-    lightyAlt: 'Lighty, הדמות של לייטור, מנופף לשלום'
+    lightyAlt: 'Lighty, הדמות של לייטור, מנופף לשלום',
+    poof: 'פוף!',
+    guard: 'Lighty הלוחם - לחצו כדי שיתקוף'
   },
   kinds: {
     eyebrow: 'מה אפשר לבנות',

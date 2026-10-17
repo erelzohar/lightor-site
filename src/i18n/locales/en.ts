@@ -27,7 +27,9 @@ export default {
       languages: 'In 5 languages',
       search: 'Found on Google and AI'
     },
-    lightyAlt: 'Lighty, the Lightor character, waving hello'
+    lightyAlt: 'Lighty, the Lightor character, waving hello',
+    poof: 'POOF!',
+    guard: 'Lighty the warrior - click to make him strike'
   },
   kinds: {
     eyebrow: 'What you can build',

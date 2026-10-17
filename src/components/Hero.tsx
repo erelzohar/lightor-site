@@ -1,4 +1,5 @@
-import { lazy, Suspense, useEffect, useState, type ComponentProps, type ComponentType } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ComponentProps, type ComponentType } from 'react';
+import Poof from './Poof';
 import { useTranslation } from 'react-i18next';
 import { isRtl } from '../i18n/languages';
 import { motion } from 'framer-motion';
@@ -17,6 +18,11 @@ type Lighty3DProps = ComponentProps<typeof import('./Lighty3D').default>;
 const NoLighty3D = () => null;
 const Lighty3D = lazy<ComponentType<Lighty3DProps>>(() =>
   import('./Lighty3D').catch(() => ({ default: NoLighty3D }))
+);
+// LT-388: the guardian, loaded only once Lighty has been tapped a couple of times.
+type WarriorProps = ComponentProps<typeof import('./LightyWarrior').default>;
+const LightyWarrior = lazy<ComponentType<WarriorProps>>(() =>
+  import('./LightyWarrior').catch(() => ({ default: NoLighty3D as ComponentType<WarriorProps> }))
 );
 
 /**
@@ -44,6 +50,47 @@ const Hero = () => {
   const mount3d = useLiveLighty() && !still;
   const [live, setLive] = useState(false);
   useEffect(() => { if (still) setLive(false); }, [still]);
+
+  // LT-388: tap Lighty five times in a row and - poof - he is the guardian
+  // from the payment page, who fights back. Half a minute without a click
+  // and - poof - Lighty is back.
+  const [form, setForm] = useState<'lighty' | 'warrior'>('lighty');
+  const [poofKey, setPoofKey] = useState(0);
+  const [loadWarrior, setLoadWarrior] = useState(false);
+  const [warriorUp, setWarriorUp] = useState(false);
+  const taps = useRef<number[]>([]);
+  const idle = useRef(0);
+  const poof = () => setPoofKey((k) => k + 1);
+  const backToLighty = useCallback(() => {
+    poof();
+    window.setTimeout(() => {
+      setForm('lighty');
+      setLive(false);
+      setWarriorUp(false);
+      setLoadWarrior(false);
+    }, 260);
+  }, []);
+  const stillPlaying = useCallback(() => {
+    window.clearTimeout(idle.current);
+    idle.current = window.setTimeout(backToLighty, 30_000);
+  }, [backToLighty]);
+  useEffect(() => () => window.clearTimeout(idle.current), []);
+  useEffect(() => { if (still && form === 'warrior') backToLighty(); }, [still, form, backToLighty]);
+  const onLightyTap = (e: React.MouseEvent) => {
+    if (still || form !== 'lighty' || !mount3d) return;
+    // When the tap happened, not when it was handled: loading the guardian
+    // holds the page for a moment, and the taps queued meanwhile still count.
+    const now = e.timeStamp;
+    taps.current = [...taps.current.filter((at) => now - at < 3000), now];
+    setLoadWarrior(true);
+    if (taps.current.length >= 5) {
+      taps.current = [];
+      poof();
+      window.setTimeout(() => setForm('warrior'), 260);
+      stillPlaying();
+    }
+  };
+  const showLighty = form === 'lighty';
 
   return (
     <section id="home" className="relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pt-36 lg:pb-24" aria-labelledby="hero-title">
@@ -130,16 +177,16 @@ const Hero = () => {
           </ul>
         </div>
 
-        <div className="relative order-1 mx-auto h-[230px] w-[230px] sm:h-[320px] sm:w-[320px] lg:order-2 lg:h-[520px] lg:w-[520px]">
+        <div onClick={onLightyTap} className="relative order-1 mx-auto h-[230px] w-[230px] sm:h-[320px] sm:w-[320px] lg:order-2 lg:h-[520px] lg:w-[520px]">
           <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(closest-side,rgba(196,181,253,0.4),rgba(249,168,212,0.14)_65%,transparent)] dark:bg-[radial-gradient(closest-side,rgba(124,58,237,0.32),rgba(219,39,119,0.12)_65%,transparent)]" />
           <img
             src="/lighty-wave.webp"
             alt={t('hero.lightyAlt')}
             width={900}
             height={900}
-            className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${live ? 'opacity-0' : 'opacity-100'}`}
+            className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${live || !showLighty ? 'opacity-0' : 'opacity-100'}`}
           />
-          {mount3d && (
+          {mount3d && showLighty && (
             <Suspense fallback={null}>
               <Lighty3D
                 onReady={() => setLive(true)}
@@ -147,6 +194,17 @@ const Hero = () => {
               />
             </Suspense>
           )}
+          {loadWarrior && (
+            <Suspense fallback={null}>
+              <LightyWarrior
+                onReady={() => setWarriorUp(true)}
+                onStrike={stillPlaying}
+                active={form === 'warrior'}
+                className={`absolute inset-0 z-10 transition-transform duration-300 ${form === 'warrior' && warriorUp ? 'scale-100' : 'pointer-events-none invisible scale-75'}`}
+              />
+            </Suspense>
+          )}
+          {poofKey > 0 && <Poof key={poofKey} />}
         </div>
       </div>
     </section>

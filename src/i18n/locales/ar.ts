@@ -27,7 +27,9 @@ export default {
       languages: 'بخمس لغات',
       search: 'يظهر في Google والذكاء الاصطناعي'
     },
-    lightyAlt: 'Lighty، شخصية لايتور، يلوّح بالتحية'
+    lightyAlt: 'Lighty، شخصية لايتور، يلوّح بالتحية',
+    poof: 'بوف!',
+    guard: 'Lighty المحارب - انقروا ليهاجم'
   },
   kinds: {
     eyebrow: 'ماذا يمكنك أن تبني',

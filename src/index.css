@@ -154,3 +154,19 @@ html:is(.a11y-text-1, .a11y-text-2, .a11y-text-3, .a11y-spacing) .grid > * { min
   font-size: 1.25rem;
   line-height: 1.35;
 }
+/* ─── LT-388: the hero's poof and the guardian's slash marks ───────── */
+.lt-poof-flash { background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(196, 181, 253, 0.55) 55%, transparent); animation: lt-poof-flash 520ms ease-out forwards; }
+.lt-poof-puff { background: radial-gradient(closest-side, #ffffff 0%, #f3e8ff 45%, #ddd6fe 72%, rgba(196, 181, 253, 0) 100%); opacity: 0; animation: lt-poof-puff 760ms cubic-bezier(0.2, 0.8, 0.3, 1) forwards; }
+.lt-poof-star { opacity: 0; animation: lt-poof-star 700ms ease-out forwards; }
+.lt-poof-word { color: #fff; text-shadow: 0 3px 0 #7c3aed, 3px 0 0 #7c3aed, -3px 0 0 #7c3aed, 0 -3px 0 #7c3aed, 0 8px 18px rgba(124, 58, 237, 0.45); transform: rotate(-8deg); opacity: 0; animation: lt-poof-word 820ms cubic-bezier(0.2, 0.9, 0.3, 1.3) forwards; }
+@keyframes lt-poof-flash { 0% { transform: scale(0.2); opacity: 0; } 25% { opacity: 1; } 100% { transform: scale(1.7); opacity: 0; } }
+@keyframes lt-poof-puff {
+  0% { transform: translate(0, 0) scale(0.2); opacity: 0; }
+  20% { opacity: 1; }
+  70% { opacity: 0.95; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(calc(var(--s) * 1.5)); opacity: 0; }
+}
+@keyframes lt-poof-star { 0% { transform: translate(0, 0) scale(0.2) rotate(0deg); opacity: 0; } 30% { opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(1) rotate(160deg); opacity: 0; } }
+@keyframes lt-poof-word { 0% { transform: rotate(-8deg) scale(0.3); opacity: 0; } 30% { transform: rotate(-8deg) scale(1.15); opacity: 1; } 70% { transform: rotate(-4deg) scale(1); opacity: 1; } 100% { transform: rotate(-4deg) scale(1.05); opacity: 0; } }
+.lt-slash { opacity: 0; animation: lt-slash 520ms ease-out forwards; filter: drop-shadow(0 0 6px rgba(253, 230, 138, 0.9)); }
+@keyframes lt-slash { 0% { opacity: 0; transform: scale(0.6); } 20% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0; transform: scale(1.15); } }

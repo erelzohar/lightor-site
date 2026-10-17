@@ -27,7 +27,9 @@ export default {
       languages: 'En 5 langues',
       search: 'Visible sur Google et l\'IA'
     },
-    lightyAlt: 'Lighty, le personnage de Lightor, qui fait coucou'
+    lightyAlt: 'Lighty, le personnage de Lightor, qui fait coucou',
+    poof: 'POUF !',
+    guard: "Lighty le guerrier - cliquez pour qu'il frappe"
   },
   kinds: {
     eyebrow: 'Ce que vous pouvez créer',
