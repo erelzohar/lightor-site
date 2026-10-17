@@ -28,7 +28,6 @@ export default {
       search: 'Found on Google and AI'
     },
     lightyAlt: 'Lighty, the Lightor character, waving hello',
-    poof: 'POOF!',
     guard: 'Lighty the warrior - click to make him strike'
   },
   kinds: {

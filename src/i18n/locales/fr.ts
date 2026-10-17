@@ -28,7 +28,6 @@ export default {
       search: 'Visible sur Google et l\'IA'
     },
     lightyAlt: 'Lighty, le personnage de Lightor, qui fait coucou',
-    poof: 'POUF !',
     guard: "Lighty le guerrier - cliquez pour qu'il frappe"
   },
   kinds: {

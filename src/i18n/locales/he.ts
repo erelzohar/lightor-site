@@ -28,7 +28,6 @@ export default {
       search: 'מופיעים בגוגל וב-AI'
     },
     lightyAlt: 'Lighty, הדמות של לייטור, מנופף לשלום',
-    poof: 'פוף!',
     guard: 'Lighty הלוחם - לחצו כדי שיתקוף'
   },
   kinds: {

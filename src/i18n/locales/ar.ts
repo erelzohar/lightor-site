@@ -28,7 +28,6 @@ export default {
       search: 'يظهر في Google والذكاء الاصطناعي'
     },
     lightyAlt: 'Lighty، شخصية لايتور، يلوّح بالتحية',
-    poof: 'بوف!',
     guard: 'Lighty المحارب - انقروا ليهاجم'
   },
   kinds: {
