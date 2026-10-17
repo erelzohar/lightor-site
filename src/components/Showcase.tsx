@@ -7,7 +7,7 @@ import { HaloReel } from './ui/halo-reel';
 
 /**
  * LT-260: real sites built with Lightor, as their owners' customers see them
- * on a phone (screenshots in public/showcase, 2026-10-12 and 2026-10-15). The terms
+ * on a phone (screenshots in public/showcase, retaken 2026-10-17). The terms
  * (section 5) let Lightor show a public site in its marketing; an owner who
  * asks to be left out is removed here by hand — the live list, which follows
  * "hide from search" on its own, is lightor.app/sites.
@@ -15,7 +15,7 @@ import { HaloReel } from './ui/halo-reel';
 const SITES = [
   { sub: 'zoharsweets', name: 'Zohar Sweets', kind: 'leads' },
   // LT-331 demo sites: built by the real wizard, seeded with activity by
-  // lightor-back's seedDemoSites (screenshots 2026-10-15).
+  // lightor-back's seedDemoSites.
   { sub: 'hakise-barbershop', name: 'דקל ברברשופ', kind: 'booking' },
   { sub: 'noga-nails', name: 'נוגה ניילס', kind: 'booking' },
   { sub: 'studio-koach', name: 'סטודיו Loose', kind: 'booking' },
@@ -23,6 +23,9 @@ const SITES = [
   { sub: 'neshima-yoga', name: 'נשימה', kind: 'booking' },
   { sub: 'dyo-tattoo', name: 'דיו', kind: 'booking' },
 ] as const;
+
+/** The screenshots' date: a new set gets a new address, past the 4 h cache (LT-372). */
+const SHOTS = '2026-10-17';
 
 /** True while the viewport is at least `px` wide; follows resizes. */
 const useWide = (px: number): boolean => {
@@ -83,7 +86,7 @@ const Showcase = () => {
       {/* LT-330: the phones ride a turning ring (HaloReel); the site at the
           front is named beside it on wide screens and under it on phones. */}
       <HaloReel
-        items={SITES.map(({ sub, name }) => ({ src: `/showcase/${sub}.webp`, alt: t('showcase.alt', { name }) }))}
+        items={SITES.map(({ sub, name }) => ({ src: `/showcase/${sub}.webp?v=${SHOTS}`, alt: t('showcase.alt', { name }) }))}
         aria-label={t('showcase.title')}
         onActiveChange={setActive}
         cardWidth={150}
