@@ -55,7 +55,7 @@ export default {
       ]
     },
     leads: {
-      title: 'Vous voulez recevoir des demandes ?',
+      title: 'Vous voulez recevoir des leads ?',
       lead: 'Pour les devis, les inscriptions et les rappels',
       points: [
         'Un formulaire avec vos propres questions',

@@ -55,7 +55,7 @@ export default {
       ]
     },
     leads: {
-      title: '¿Quieres recibir consultas?',
+      title: '¿Quieres recibir leads?',
       lead: 'Para presupuestos, inscripciones y llamadas',
       points: [
         'Un formulario con tus propias preguntas',

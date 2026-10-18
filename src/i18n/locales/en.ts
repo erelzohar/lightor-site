@@ -55,7 +55,7 @@ export default {
       ]
     },
     leads: {
-      title: 'Want to get inquiries?',
+      title: 'Want to get leads?',
       lead: 'For quotes, sign-ups and call-backs',
       points: [
         'A form with your own questions',
