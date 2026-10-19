@@ -109,7 +109,9 @@ const Hero = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/80 px-4 py-1.5 text-sm font-semibold text-violet-700 hover:bg-white dark:border-violet-800 dark:bg-white/5 dark:text-violet-300"
+            /* LT-409: plain text, not a pill (Erel: it looked like a button);
+               still the way down to Lighty, underlined on hover. */
+            className="inline-flex items-center gap-2 text-sm font-semibold text-violet-700 underline-offset-4 hover:underline dark:text-violet-300"
           >
             <Sparkles className="h-4 w-4" aria-hidden="true" />
             {t('hero.badge')}
