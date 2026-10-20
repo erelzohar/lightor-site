@@ -208,6 +208,7 @@ export default {
       lighty: 'Lighty',
       features: 'Funciones',
       sites: 'Sitios creados con Lightor',
+      blog: 'Blog (en hebreo)',
       start: 'Empieza gratis',
       signIn: 'Iniciar sesión',
       pricing: 'Precios',

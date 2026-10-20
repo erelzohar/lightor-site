@@ -208,6 +208,7 @@ export default {
       lighty: 'Lighty',
       features: 'المزايا',
       sites: 'مواقع مبنية بلايتور',
+      blog: 'المدونة (بالعبرية)',
       start: 'ابدأ مجانًا',
       signIn: 'تسجيل الدخول',
       pricing: 'الأسعار',

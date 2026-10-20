@@ -4,6 +4,12 @@ name: Deploy
 on:
   push:
     branches: [main]
+    # LT-430: the blog's notes (topic list, facts, how-to) change no page.
+    paths-ignore:
+      - 'blog/topics.md'
+      - 'blog/FACTS.md'
+      - 'blog/README.md'
+      - 'README.md'
   workflow_dispatch:
 
 # Never let two deploys overlap; a half-swapped dist directory is the one state
@@ -66,6 +72,12 @@ jobs:
         env:
           HOST: ${{ secrets.DEPLOY_HOST }}
         run: KEY="$HOME/.ssh/deploy_key" ./deploy.sh
+
+      # LT-430: tell Bing and the other IndexNow engines about the blog pages
+      # dated today (Google reads the sitemap). Never fails the deploy.
+      - name: Notify search engines of new blog pages
+        continue-on-error: true
+        run: node scripts/blog/indexnow.mjs
 
       - name: Remove the key from the runner
         if: always()

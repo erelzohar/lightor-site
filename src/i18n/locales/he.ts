@@ -208,6 +208,7 @@ export default {
       lighty: 'Lighty',
       features: 'מה מקבלים',
       sites: 'אתרים שנבנו עם לייטור',
+      blog: 'בלוג',
       start: 'התחלה בחינם',
       signIn: 'כניסה',
       pricing: 'מחירים',
