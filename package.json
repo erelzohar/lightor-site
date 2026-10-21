@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/blog/build.mjs",
-    "blog": "node scripts/blog/build.mjs",
+    "build": "vite build && npm run blog",
+    "blog": "vite build --ssr src/blog/entry-server.tsx --outDir dist-ssr && node scripts/blog/build.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

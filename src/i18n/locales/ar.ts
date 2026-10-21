@@ -5,6 +5,7 @@ export default {
     lighty: 'Lighty',
     features: 'المزايا',
     sites: 'مواقع بنيناها',
+    blog: 'المدونة',
     start: 'ابدأ مجانًا',
     signIn: 'تسجيل الدخول',
     menu: 'القائمة',

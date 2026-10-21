@@ -7,13 +7,16 @@ import AccessibilityMenu from './AccessibilityMenu';
 interface NavbarProps {
   darkMode: boolean;
   toggleDarkMode: () => void;
+  /** LT-430: "" on the home page, "/" elsewhere, before the section anchors. */
+  home?: string;
+  current?: 'blog';
 }
 
 const REGISTER_URL = 'https://register.lightor.app';
 const DASHBOARD_URL = 'https://dashboard.lightor.app';
 
-const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
-  const { t } = useTranslation();
+const Navbar = ({ darkMode, toggleDarkMode, home = '', current }: NavbarProps) => {
+  const { t, i18n } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -46,11 +49,14 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
     };
   }, [open]);
 
-  const links = [
-    { href: '#how', label: t('nav.how') },
-    { href: '#lighty', label: t('nav.lighty') },
-    { href: '#features', label: t('nav.features') },
+  const links: { href: string; label: string; current?: boolean }[] = [
+    { href: `${home}#how`, label: t('nav.how') },
+    { href: `${home}#lighty`, label: t('nav.lighty') },
+    { href: `${home}#features`, label: t('nav.features') },
     { href: 'https://lightor.app/sites', label: t('nav.sites') },
+    // LT-430: the blog is written in Hebrew, so only the Hebrew bar links it;
+    // the other languages reach it from the footer, marked as Hebrew.
+    ...(i18n.language === 'he' ? [{ href: '/blog/', label: t('nav.blog'), current: current === 'blog' }] : []),
   ];
 
   const iconButton =
@@ -73,7 +79,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
         }`}
       >
         <div className="flex h-16 items-center justify-between gap-4 px-4 sm:px-5">
-          <a href="#home" className="flex shrink-0 items-center gap-2.5" aria-label={t('nav.home')}>
+          <a href={`${home}#home`} className="flex shrink-0 items-center gap-2.5" aria-label={t('nav.home')}>
             <img src="/lightor-logo.webp" alt="" width={36} height={36} className="h-9 w-9 rounded-xl" />
             <span className="nav-brand-name text-xl font-bold text-gray-950 dark:text-white">Lightor</span>
           </a>
@@ -86,7 +92,10 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
               <a
                 key={l.href}
                 href={l.href}
-                className="rounded-lg px-3 py-2 font-medium text-gray-700 transition-colors hover:text-black dark:text-gray-300 dark:hover:text-white"
+                aria-current={l.current ? 'page' : undefined}
+                className={`rounded-lg px-3 py-2 font-medium transition-colors ${
+                  l.current ? 'text-violet-700 dark:text-violet-300' : 'text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white'
+                }`}
               >
                 {l.label}
               </a>
@@ -136,6 +145,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
               <li key={l.href}>
                 <a
                   href={l.href}
+                  aria-current={l.current ? 'page' : undefined}
                   onClick={() => setOpen(false)}
                   className="block rounded-lg px-3 py-2.5 text-base font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-white/10"
                 >

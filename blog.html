@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- LT-430: the shell of every blog page. Vite adds the scripts and
+         styles; scripts/blog/build.mjs fills in each page's head and its
+         pre-rendered body, then removes this file from dist. -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/lightor192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json" />
+    <!-- LT-357: a stored accessibility choice is on <html> before the first paint. -->
+    <script>try{var j=JSON.parse(localStorage.getItem('lt-a11y')||'null');if(j){var c=document.documentElement.classList;if([1,2,3].indexOf(j.text)>-1)c.add('a11y-text-'+j.text);['contrast','links','font','spacing','still'].forEach(function(k){if(j[k]===true)c.add('a11y-'+k)})}}catch(e){}</script>
+    <!--lt-blog-head-->
+  </head>
+  <body>
+    <div id="root"><!--lt-blog-app--></div>
+    <!--lt-blog-data-->
+    <script type="module" src="/src/blog/entry-client.tsx"></script>
+  </body>
+</html>

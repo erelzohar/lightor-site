@@ -5,6 +5,7 @@ export default {
     lighty: 'Lighty',
     features: 'Funciones',
     sites: 'Sitios que creamos',
+    blog: 'Blog',
     start: 'Empieza gratis',
     signIn: 'Iniciar sesión',
     menu: 'Menú',

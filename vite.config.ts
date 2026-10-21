@@ -12,7 +12,8 @@ import { localizeHtml } from './src/i18n/seo';
  */
 const languagePages = (): Plugin => ({
   name: 'lightor-language-pages',
-  apply: 'build',
+  // Not in the blog's server-side build (LT-430), which has no index.html.
+  apply: (_config, env) => env.command === 'build' && !env.isSsrBuild,
   enforce: 'post',
   generateBundle(_options, bundle) {
     const page = bundle['index.html'];
@@ -29,6 +30,14 @@ const languagePages = (): Plugin => ({
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), languagePages()],
+  build: {
+    rollupOptions: {
+      // LT-430: blog.html is the shell scripts/blog/build.mjs fills for every
+      // blog page; `vite build --ssr src/blog/entry-server.tsx` replaces this
+      // input with its own entry.
+      input: { main: 'index.html', blog: 'blog.html' },
+    },
+  },
   optimizeDeps: {
     exclude: ['lucide-react'],
   },

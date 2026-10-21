@@ -23,7 +23,7 @@ i18n
       fr: { translation: fr },
       es: { translation: es }
     },
-    lng: langFromPath(window.location.pathname),
+    lng: typeof window === 'undefined' ? DEFAULT_LANG : langFromPath(window.location.pathname),
     supportedLngs: [...LANGS],
     fallbackLng: DEFAULT_LANG,
     interpolation: {

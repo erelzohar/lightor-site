@@ -22,7 +22,8 @@ const LINKS = {
   ],
 } as const;
 
-const Footer = () => {
+/** LT-430: `home` is "" on the home page and "/" elsewhere, before its section anchors. */
+const Footer = ({ home = '' }: { home?: string }) => {
   const { t } = useTranslation();
 
   return (
@@ -30,7 +31,7 @@ const Footer = () => {
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <a href="#home" className="inline-flex items-center gap-2.5" aria-label="Lightor">
+            <a href={`${home}#home`} className="inline-flex items-center gap-2.5" aria-label="Lightor">
               <img src="/lightor-logo.webp" alt="" width={36} height={36} className="h-9 w-9 rounded-xl" />
               <span className="text-xl font-bold">Lightor</span>
             </a>
@@ -42,7 +43,7 @@ const Footer = () => {
               <ul className="mt-4 space-y-2.5">
                 {LINKS[group].map(({ key, href }) => (
                   <li key={key}>
-                    <a href={href} className="text-gray-400 transition-colors hover:text-white">
+                    <a href={href.startsWith('#') ? `${home}${href}` : href} className="text-gray-400 transition-colors hover:text-white">
                       {t(`footer.links.${key}`)}
                     </a>
                   </li>

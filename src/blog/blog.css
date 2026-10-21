@@ -1,0 +1,51 @@
+/* LT-430: an article's text arrives as HTML from its Markdown file
+   (scripts/blog/build.mjs), so it is styled here rather than with utility
+   classes. Sizes in rem, so the accessibility menu's larger text follows. */
+.blog-prose { font-size: 1.125rem; line-height: 1.8; color: #1f2937; }
+.blog-prose > :first-child { margin-top: 0; }
+.blog-prose h2 { margin: 2.75rem 0 0.75rem; font-size: 1.75rem; line-height: 1.3; font-weight: 700; letter-spacing: -0.01em; color: #030712; text-wrap: balance; scroll-margin-top: 6rem; }
+.blog-prose h3 { margin: 1.75rem 0 0.5rem; font-size: 1.25rem; line-height: 1.4; font-weight: 700; color: #030712; scroll-margin-top: 6rem; }
+.blog-prose p { margin: 0 0 1.15rem; }
+.blog-prose ul, .blog-prose ol { margin: 0 0 1.25rem; padding-inline-start: 1.5rem; }
+.blog-prose ul { list-style: disc; }
+.blog-prose ol { list-style: decimal; }
+.blog-prose li { margin-bottom: 0.45rem; }
+.blog-prose li::marker { color: #7c3aed; }
+.blog-prose li > ul, .blog-prose li > ol { margin: 0.4rem 0 0; }
+.blog-prose strong { font-weight: 700; color: #030712; }
+.blog-prose a { color: #6d28d9; text-decoration: underline; text-underline-offset: 0.2em; }
+.blog-prose a:hover { color: #5b21b6; }
+.blog-prose blockquote { margin: 1.5rem 0; padding: 1rem 1.25rem; border-radius: 1rem; border-inline-start: 4px solid #7c3aed; background: #f5f3ff; }
+.blog-prose blockquote p:last-child { margin-bottom: 0; }
+.blog-prose .table { margin: 1.5rem 0; overflow-x: auto; }
+.blog-prose table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.blog-prose th, .blog-prose td { border: 1px solid #e5e7eb; padding: 0.6rem 0.75rem; text-align: start; vertical-align: top; }
+.blog-prose th { background: #f9fafb; font-weight: 700; color: #030712; }
+.blog-prose hr { margin: 2rem 0; border: 0; border-top: 1px solid #e5e7eb; }
+
+/* `[[cta]]` in an article: a short invitation half way down. */
+.blog-prose .cta-inline { margin: 2rem 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1rem; padding: 1.1rem 1.25rem; border: 1px solid #ddd6fe; border-radius: 1.5rem; background: #f5f3ff; }
+.blog-prose .cta-inline p { flex: 1 1 16rem; margin: 0; font-weight: 600; color: #030712; }
+.blog-prose .cta-inline .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.65rem 1.25rem; border-radius: 9999px; background-image: linear-gradient(to right, #7c3aed, #db2777); color: #fff; font-weight: 600; text-decoration: none; text-align: center; }
+.blog-prose .cta-inline .btn:hover { color: #fff; box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25); }
+
+.dark .blog-prose { color: #d1d5db; }
+.dark .blog-prose :is(h2, h3, strong, th) { color: #fff; }
+.dark .blog-prose a { color: #c4b5fd; }
+.dark .blog-prose a:hover { color: #ddd6fe; }
+.dark .blog-prose li::marker { color: #a78bfa; }
+.dark .blog-prose blockquote { background: rgba(124, 58, 237, 0.15); border-inline-start-color: #a78bfa; }
+.dark .blog-prose :is(th, td) { border-color: #1f2937; }
+.dark .blog-prose th { background: #030712; }
+.dark .blog-prose hr { border-top-color: #1f2937; }
+.dark .blog-prose .cta-inline { background: rgba(124, 58, 237, 0.15); border-color: rgba(167, 139, 250, 0.35); }
+.dark .blog-prose .cta-inline p { color: #fff; }
+.dark .blog-prose .cta-inline .btn { color: #fff; }
+
+/* The accessibility menu's high contrast (LT-357), for the article text. */
+html.a11y-contrast .blog-prose, html.a11y-contrast .blog-prose :is(h2, h3, strong, th, p) { color: #000 !important; }
+html.a11y-contrast .blog-prose a { color: #4c1d95 !important; }
+html.a11y-contrast .blog-prose :is(th, td, .cta-inline) { border-color: #4b5563 !important; }
+html.a11y-contrast.dark .blog-prose, html.a11y-contrast.dark .blog-prose :is(h2, h3, strong, th, p) { color: #fff !important; }
+html.a11y-contrast.dark .blog-prose a { color: #ddd6fe !important; }
+html.a11y-contrast .blog-prose .cta-inline .btn { color: #fff !important; }

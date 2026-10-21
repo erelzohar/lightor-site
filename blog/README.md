@@ -1,16 +1,26 @@
 # The lightor.app blog (LT-430)
 
-Every article is one Markdown file in `blog/posts/`. `npm run build` (vite,
-then `scripts/blog/build.mjs`) turns them into static pages that a crawler
-reads without JavaScript:
+Every article is one Markdown file in `blog/posts/`. The blog is part of the
+marketing site: its pages are the site's own React code (the same navbar,
+footer, dark mode, language and accessibility menus as the home page, see
+`src/blog/` and `src/components/SiteShell.tsx`), rendered to HTML when the
+site is built, so a search engine reads the whole article without running a
+script, and then taken over by the browser.
 
-- `https://lightor.app/blog/` - the index, newest first
-- `https://lightor.app/blog/<file-name>/` - one page per article (keep the
-  trailing slash; nginx 301s the bare URL to it, as it does for `/en/`)
+`npm run build` runs, in order:
+1. `vite build` - the site, plus `blog.html`, the shell of every blog page;
+2. `vite build --ssr src/blog/entry-server.tsx` - the same blog components,
+   for rendering on the build machine (into `dist-ssr/`);
+3. `scripts/blog/build.mjs` - reads the articles, checks them, and writes
+   - `https://lightor.app/blog/` - the index, newest first
+   - `https://lightor.app/blog/<file-name>/` - one page per article (keep the
+     trailing slash; nginx 301s the bare URL to it, as it does for `/en/`)
 
-and adds every URL to `dist/sitemap.xml`. After a deploy, the workflow tells
-Bing and the other IndexNow engines about the blog pages dated today
-(`scripts/blog/indexnow.mjs`); Google reads the sitemap.
+   and adds every URL to `dist/sitemap.xml`. `npm run blog` repeats steps 2-3.
+
+After a deploy, the workflow tells Bing and the other IndexNow engines about
+the blog pages dated today (`scripts/blog/indexnow.mjs`); Google reads the
+sitemap.
 
 ## Adding an article
 
@@ -46,7 +56,7 @@ and `cta_text` (the closing box), `draft: true` (left out of the build).
    missing field, a title or description out of range, fewer than 800 or more
    than 1,600 words, an em-dash, a link to an article that does not exist, a
    date in the future, or the same title/description as another article.
-4. Look at `dist/blog/<slug>/index.html` (for example `npm run preview`).
+4. Look at it: `npm run preview`, then `/blog/<slug>/`.
 5. Mark the topic as used in `blog/topics.md`, commit, push to main.
 
 ## Writing rules

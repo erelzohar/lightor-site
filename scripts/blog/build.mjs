@@ -1,27 +1,36 @@
 /**
  * LT-430: the blog. Every article is one Markdown file in blog/posts/; this
- * script, run after `vite build`, turns them into static pages:
+ * script, run by `npm run build` after `vite build` (the site, and blog.html,
+ * the blog pages' shell) and `vite build --ssr` (src/blog/entry-server), turns
+ * them into pages of the site:
  *
  *   dist/blog/index.html          https://lightor.app/blog/
  *   dist/blog/<slug>/index.html   https://lightor.app/blog/<slug>/
  *
- * and adds them to dist/sitemap.xml. nginx serves a folder's index.html at
- * its URL with the trailing slash (and 301s the bare one there), as it does
- * for /en/.
+ * Each page is the site's own navbar, article and footer rendered to HTML, so
+ * a search engine reads it without running a script, plus the JSON the
+ * browser needs to take it over. They are added to dist/sitemap.xml. nginx
+ * serves a folder's index.html at its URL with the trailing slash (and 301s
+ * the bare one there), as it does for /en/.
  *
  * It is also the gate: an article with a missing field, a broken link, an
  * em-dash (LT-350), too few words or a duplicate title fails the build, so
  * nothing half-written can deploy. See blog/README.md.
  */
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { Marked } from 'marked';
-import { ORIGIN, articlePage, esc, indexPage, inlineCta } from './template.mjs';
+import { ORIGIN, articleHead, esc, heDate, indexHead, inlineCta } from './template.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const POSTS_DIR = join(ROOT, 'blog', 'posts');
 const DIST = join(ROOT, 'dist');
+const SSR = join(ROOT, 'dist-ssr');
+const SHELL = join(DIST, 'blog.html');
+// Outside dist-ssr, which `vite build --ssr` empties on every run.
+const SHELL_COPY = join(ROOT, 'node_modules', '.cache', 'lightor-blog', 'blog-shell.html');
+const MARKS = ['<!--lt-blog-head-->', '<!--lt-blog-app-->', '<!--lt-blog-data-->'];
 
 const MIN_WORDS = 800; // Hebrew is compact: 800 words read like 1,100 in English
 const MAX_WORDS = 1600;
@@ -202,19 +211,65 @@ const write = (rel, content) => {
   return path;
 };
 
-const main = () => {
+/** What the page's React code gets (src/blog/types.ts): dates already in Hebrew. */
+const card = (p) => ({ slug: p.slug, path: p.path, title: p.title, description: p.description, date: p.date, dateLabel: heDate(p.date), minutes: p.minutes });
+
+const articleData = (post, related) => ({
+  kind: 'article',
+  post: {
+    ...card(post),
+    ...(post.updated ? { updated: post.updated, updatedLabel: heDate(post.updated) } : {}),
+    headings: post.headings.map((h) => ({ id: h.id, text: textOf(h.html) })),
+    ...(post.ctaTitle ? { ctaTitle: post.ctaTitle } : {}),
+    ...(post.ctaText ? { ctaText: post.ctaText } : {}),
+  },
+  related: related.map(card),
+});
+
+const main = async () => {
   if (!existsSync(join(DIST, 'index.html'))) {
-    console.error('✗ blog: dist/index.html is missing - run `vite build` first (npm run build does both).');
+    console.error('✗ blog: dist/index.html is missing - run `npm run build` (vite, then the blog).');
     process.exit(1);
   }
+  // The shell leaves dist (it is no page of its own); a second run uses the copy.
+  if (existsSync(SHELL)) {
+    mkdirSync(dirname(SHELL_COPY), { recursive: true });
+    copyFileSync(SHELL, SHELL_COPY);
+    rmSync(SHELL);
+  }
+  const entry = join(SSR, 'entry-server.js');
+  if (!existsSync(SHELL_COPY) || !existsSync(entry)) {
+    console.error('✗ blog: the blog shell or dist-ssr/entry-server.js is missing - run `npm run build`.');
+    process.exit(1);
+  }
+  const shell = readFileSync(SHELL_COPY, 'utf8');
+  for (const mark of MARKS) if (!shell.includes(mark)) fail('blog.html', `the built shell lost its ${mark} marker`);
+  const { render } = await import(pathToFileURL(entry).href);
+
   const posts = loadPosts();
   checkLinks(posts);
 
-  const pages = [];
-  for (const post of posts) pages.push([`blog/${post.slug}/index.html`, articlePage(post, relatedFor(post, posts))]);
-  if (posts.length) pages.push(['blog/index.html', indexPage(posts)]);
+  const page = (head, data, html) =>
+    shell
+      .replace(MARKS[0], () => head)
+      .replace(MARKS[1], () => render(data, html))
+      .replace(MARKS[2], () => `<script type="application/json" id="lt-blog-data">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`);
 
-  for (const [rel, html] of pages) if (DASHES.test(html)) fail(rel, 'the built page contains an em-dash (LT-350)');
+  const pages = [];
+  if (!errors.length) {
+    for (const post of posts) pages.push([`blog/${post.slug}/index.html`, page(articleHead(post), articleData(post, relatedFor(post, posts)), post.html)]);
+    if (posts.length) pages.push(['blog/index.html', page(indexHead(posts), { kind: 'index', posts: posts.map(card) }, '')]);
+  }
+
+  for (const [rel, html] of pages) {
+    if (DASHES.test(html)) fail(rel, 'the built page contains an em-dash (LT-350)');
+    if (!html.includes('id="main-content"') || !html.includes('<nav')) fail(rel, 'the rendered page has no navbar or main content');
+  }
+  for (const post of posts) {
+    const built = pages.find(([rel]) => rel === `blog/${post.slug}/index.html`)?.[1] || '';
+    const firstWords = textOf(post.html).split(' ').slice(0, 8).join(' ');
+    if (built && !textOf(built).includes(firstWords)) fail(post.file, 'the article text is missing from its built page');
+  }
 
   const sitemapPath = join(DIST, 'sitemap.xml');
   let sitemap = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') : '';
@@ -239,4 +294,7 @@ const main = () => {
   for (const p of posts) console.log(`   ${p.path}  ${p.words} words  ${p.date}`);
 };
 
-main();
+main().catch((error) => {
+  console.error(`✗ blog: ${error?.stack || error}`);
+  process.exit(1);
+});

@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { MotionConfig } from 'framer-motion';
-import Navbar from './components/Navbar';
+import SiteShell from './components/SiteShell';
 import Hero from './components/Hero';
 import SiteKinds from './components/SiteKinds';
 import LightySection from './components/LightySection';
@@ -10,31 +8,9 @@ import Features from './components/Features';
 import HowItWorks from './components/HowItWorks';
 import Showcase from './components/Showcase';
 import Contact from './components/Contact';
-import Footer from './components/Footer';
-import { useStill } from './hooks/useA11yPrefs';
 import './i18n';
-import { isRtl } from './i18n/languages';
 
 function App() {
-  const { t, i18n } = useTranslation();
-  const still = useStill();
-  const [darkMode, setDarkMode] = React.useState(false);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
-    // Update theme-color meta tag
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', !darkMode ? '#000000' : '#ffffff');
-    }
-  };
-
-  React.useEffect(() => {
-    document.documentElement.dir = isRtl(i18n.language) ? 'rtl' : 'ltr';
-    document.documentElement.lang = i18n.language;
-  }, [i18n.language]);
-
   // LT-263: an address like lightor.app/#lighty (the /sites page links here)
   // lands on its section. The browser looks for the section while the page
   // is still loading, before React has drawn it, and then gives up.
@@ -55,28 +31,15 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* LT-357: framer's reveals hold still when the device asks for less
-          motion, and always once the visitor chooses "stop animations". */}
-      <MotionConfig reducedMotion={still ? 'always' : 'user'}>
-        <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
-          <div className="bg-white dark:bg-primary transition-colors duration-200">
-            <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white dark:focus:bg-black focus:text-black dark:focus:text-white">
-              {t('a11y.skip')}
-            </a>
-            <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-            <main id="main-content" tabIndex={-1}>
-              <Hero />
-              <SiteKinds />
-              <LightySection />
-              <Features />
-              <HowItWorks />
-              <Showcase />
-              <Contact />
-            </main>
-            <Footer />
-          </div>
-        </div>
-      </MotionConfig>
+      <SiteShell>
+        <Hero />
+        <SiteKinds />
+        <LightySection />
+        <Features />
+        <HowItWorks />
+        <Showcase />
+        <Contact />
+      </SiteShell>
     </BrowserRouter>
   );
 }
