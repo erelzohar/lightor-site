@@ -35,6 +35,8 @@ date: 2026-10-20
 keyword: the search phrase this article answers
 tags: קוסמטיקה, תורים
 related: other-slug, another-slug
+image_alt: what the photo shows, in Hebrew, 15-160 characters
+image_credit: Photographer Name / Unsplash
 ---
 
 Opening paragraph (no "# " heading: the title is the page's heading).
@@ -52,12 +54,35 @@ and `cta_text` (the closing box), `draft: true` (left out of the build).
 `/blog/<slug>/` (with the slash), the showcase as `/sites`, pricing as
 `/pricing.html`.
 
-3. `npm run build`. It fails, and writes nothing, when an article has a
+3. Add its photo as `blog/images/<the same file name>.jpg` (see "The
+   photo" below). The build cuts it into the page's sizes and the share
+   preview.
+4. `npm run build`. It fails, and writes nothing, when an article has a
    missing field, a title or description out of range, fewer than 800 or more
    than 1,600 words, an em-dash, a link to an article that does not exist, a
-   date in the future, or the same title/description as another article.
-4. Look at it: `npm run preview`, then `/blog/<slug>/`.
-5. Mark the topic as used in `blog/topics.md`, commit, push to main.
+   date in the future, the same title/description as another article, or no
+   photo (or one smaller than 1200x630, or not landscape).
+5. Look at it: `npm run preview`, then `/blog/<slug>/`.
+6. Mark the topic as used in `blog/topics.md`, commit, push to main.
+
+## The photo
+
+Every article has one real photo: the cover under the title, the card on
+the blog's pages, and the share preview on WhatsApp and Facebook.
+
+- Free licence only, from Unsplash: open
+  `https://unsplash.com/s/photos/<english-query>?license=free&orientation=landscape`
+  in the browser (its JSON API needs a key). A photo page whose title ends
+  "Free Photo on Unsplash" is free; never one marked Unsplash+.
+- It shows the article's world: a person at work in a studio, a client with
+  a phone, a treatment, products on a table. No brand logos, readable product
+  names or app logos; no photo another article already uses.
+- Download the 16:9 crop straight into the repo:
+  `curl -sf -o blog/images/<slug>.jpg "https://images.unsplash.com/<photo-id>?w=1600&h=900&fit=crop&crop=entropy&q=80&fm=jpg"`
+  (`photo-id` is the `photo-...` part of the image address; for people use
+  `crop=faces,entropy`). Look at it before committing.
+- `image_alt`: what the photo shows, in Hebrew. `image_credit`: the
+  photographer's name as Unsplash shows it, then ` / Unsplash`.
 
 ## Writing rules
 

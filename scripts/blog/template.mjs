@@ -64,7 +64,7 @@ export const inlineCta = (text) => `
 /** An article's <head> lines: title, description, canonical, share card, structured data. */
 export const articleHead = (post) => {
   const url = `${ORIGIN}${post.path}`;
-  const image = post.image || DEFAULT_IMAGE;
+  const image = post.og || DEFAULT_IMAGE;
   const article = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -77,13 +77,17 @@ export const articleHead = (post) => {
     dateModified: post.updated || post.date,
     author: PUBLISHER,
     publisher: PUBLISHER,
-    image: [image.url],
+    image: [image.url, ...(post.image ? [`${ORIGIN}${post.image.src1200}`] : [])],
     wordCount: post.words,
     ...(post.keyword ? { keywords: post.keyword } : {}),
     isPartOf: { '@type': 'Blog', name: BLOG_NAME, url: `${ORIGIN}/blog/` },
   };
   return `<title>${esc(post.title)} | לייטור</title>
-    <meta name="description" content="${esc(post.description)}" />${socialMeta({ url, title: post.title, description: post.description, type: 'article', image, imageAlt: post.imageAlt || DEFAULT_IMAGE_ALT })}
+    <meta name="description" content="${esc(post.description)}" />${socialMeta({ url, title: post.title, description: post.description, type: 'article', image, imageAlt: post.imageAlt || DEFAULT_IMAGE_ALT })}${
+      post.image
+        ? `\n    <link rel="preload" as="image" href="${post.image.src1200}" imagesrcset="${post.image.src640} 640w, ${post.image.src1200} 1200w" imagesizes="(min-width: 1024px) 1024px, 100vw" fetchpriority="high" />`
+        : ''
+    }
     <meta property="article:published_time" content="${post.date}" />
     <meta property="article:modified_time" content="${post.updated || post.date}" />
     <script type="application/ld+json">${ld(article)}</script>

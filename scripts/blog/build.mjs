@@ -20,11 +20,14 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createHash } from 'node:crypto';
 import { Marked } from 'marked';
+import sharp from 'sharp';
 import { ORIGIN, articleHead, esc, heDate, indexHead, inlineCta } from './template.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const POSTS_DIR = join(ROOT, 'blog', 'posts');
+const IMAGES_DIR = join(ROOT, 'blog', 'images');
 const DIST = join(ROOT, 'dist');
 const SSR = join(ROOT, 'dist-ssr');
 const SHELL = join(DIST, 'blog.html');
@@ -126,7 +129,8 @@ const loadPosts = () => {
     if (meta.draft === 'true') continue;
     const slug = name.replace(/\.md$/, '');
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) fail(file, 'the file name (the URL) must be lowercase English words joined by "-"');
-    for (const key of ['title', 'description', 'date', 'keyword']) if (!meta[key]) fail(file, `"${key}" is missing`);
+    for (const key of ['title', 'description', 'date', 'keyword', 'image_alt', 'image_credit']) if (!meta[key]) fail(file, `"${key}" is missing`);
+    if (meta.image_alt && (meta.image_alt.length < 15 || meta.image_alt.length > 160)) fail(file, `image_alt is ${meta.image_alt.length} characters, keep it 15-160 (what the photo shows, in Hebrew)`);
     if (meta.title && meta.title.length > TITLE_MAX) fail(file, `title is ${meta.title.length} characters, at most ${TITLE_MAX}`);
     const d = meta.description || '';
     if (d && (d.length < DESCRIPTION_RANGE[0] || d.length > DESCRIPTION_RANGE[1]))
@@ -149,6 +153,8 @@ const loadPosts = () => {
       keyword: meta.keyword || '',
       tags: list(meta.tags),
       relatedSlugs: list(meta.related),
+      imageAlt: meta.image_alt || '',
+      imageCredit: meta.image_credit || '',
       ctaTitle: meta.cta_title || '',
       ctaText: meta.cta_text || '',
       html,
@@ -211,13 +217,65 @@ const write = (rel, content) => {
   return path;
 };
 
+/**
+ * Every article has a photo at blog/images/<slug>.jpg (landscape, at least
+ * 1200x630). The build cuts it into two 16:9 webp sizes for the page and a
+ * 1200x630 jpg for share previews, named by the photo's hash so a new photo
+ * is never served from an old cache.
+ */
+const preparePhotos = async (posts) => {
+  const jobs = [];
+  for (const post of posts) {
+    const src = join(IMAGES_DIR, `${post.slug}.jpg`);
+    if (!existsSync(src)) {
+      fail(post.file, `no photo at blog/images/${post.slug}.jpg (see blog/README.md)`);
+      continue;
+    }
+    const buf = readFileSync(src);
+    const { width = 0, height = 0 } = await sharp(buf).metadata();
+    if (width < 1200 || height < 630) fail(`blog/images/${post.slug}.jpg`, `${width}x${height}; the photo must be at least 1200x630`);
+    else if (width / height < 1.3) fail(`blog/images/${post.slug}.jpg`, `${width}x${height} is not landscape (at least 4:3)`);
+    const base = `/blog/img/${post.slug}-${createHash('sha1').update(buf).digest('hex').slice(0, 8)}`;
+    post.image = { src640: `${base}-640.webp`, src1200: `${base}-1200.webp`, width: 1200, height: 675, alt: post.imageAlt };
+    post.og = { url: `${ORIGIN}${base}-og.jpg`, width: 1200, height: 630, alt: post.imageAlt };
+    jobs.push(
+      [buf, 640, 360, `${base}-640.webp`],
+      [buf, 1200, 675, `${base}-1200.webp`],
+      [buf, 1200, 630, `${base}-og.jpg`],
+    );
+  }
+  return jobs;
+};
+
+const writePhotos = (jobs) =>
+  Promise.all(
+    jobs.map(([buf, w, h, path]) => {
+      const out = join(DIST, path);
+      mkdirSync(dirname(out), { recursive: true });
+      const img = sharp(buf).resize(w, h, { fit: 'cover', position: path.endsWith('-og.jpg') ? 'attention' : 'centre' });
+      return (path.endsWith('.jpg') ? img.jpeg({ quality: 82, mozjpeg: true }) : img.webp({ quality: 78 })).toFile(out);
+    }),
+  );
+
 /** What the page's React code gets (src/blog/types.ts): dates already in Hebrew. */
-const card = (p) => ({ slug: p.slug, path: p.path, title: p.title, description: p.description, date: p.date, dateLabel: heDate(p.date), minutes: p.minutes });
+const card = (p) => ({
+  slug: p.slug,
+  path: p.path,
+  title: p.title,
+  description: p.description,
+  date: p.date,
+  dateLabel: heDate(p.date),
+  minutes: p.minutes,
+  image: p.image,
+  ...(p.tags[0] ? { tag: p.tags[0] } : {}),
+});
 
 const articleData = (post, related) => ({
   kind: 'article',
   post: {
     ...card(post),
+    tags: post.tags,
+    credit: post.imageCredit,
     ...(post.updated ? { updated: post.updated, updatedLabel: heDate(post.updated) } : {}),
     headings: post.headings.map((h) => ({ id: h.id, text: textOf(h.html) })),
     ...(post.ctaTitle ? { ctaTitle: post.ctaTitle } : {}),
@@ -248,6 +306,7 @@ const main = async () => {
 
   const posts = loadPosts();
   checkLinks(posts);
+  const photoJobs = await preparePhotos(posts);
 
   const page = (head, data, html) =>
     shell
@@ -283,6 +342,7 @@ const main = async () => {
     process.exit(1);
   }
 
+  await writePhotos(photoJobs);
   for (const [rel, html] of pages) write(rel, html);
   writeFileSync(sitemapPath, sitemap);
   for (const p of posts) if (!sitemap.includes(`<loc>${ORIGIN}${p.path}</loc>`)) fail('sitemap', `${p.path} is not in it`);

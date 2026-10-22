@@ -5,6 +5,8 @@ date: 2026-10-21
 keyword: אתר או אינסטגרם לעסק
 tags: קוסמטיקה, אתר לעסק, שיווק
 related: website-for-cosmetician, facial-clinic-website-checklist, booking-system-for-cosmetician
+image_alt: ידיים גוללות פיד של תמונות בטלפון, ליד מקלדת על שולחן עץ
+image_credit: Gabrielle Henderson / Unsplash
 ---
 
 "יש לי אינסטגרם, למה אני צריכה אתר?" זו אחת השאלות הנפוצות אצל קוסמטיקאיות, מניקוריסטיות ומעצבות גבות. והשאלה הגיונית: אינסטגרם חינמי, כל הלקוחות שם, והעבודות נראות בו מצוין.

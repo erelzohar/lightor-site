@@ -1,6 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import SiteShell from '../components/SiteShell';
-import { BODY_ATTR, type ArticlePost, type BlogData, type PostCard } from './types';
+import { BODY_ATTR, type ArticlePost, type BlogData, type BlogImage, type PostCard } from './types';
 
 /**
  * LT-430: the blog, inside the same frame as the home page (navbar, footer,
@@ -14,11 +14,44 @@ import { BODY_ATTR, type ArticlePost, type BlogData, type PostCard } from './typ
 
 const REGISTER_URL = 'https://register.lightor.app';
 
-const Crumbs = ({ current }: { current?: string }) => (
+/**
+ * The home page's two soft glows (Hero.tsx): radial gradients, never blur
+ * filters, never moving. Not clipped to the header, which is shorter than
+ * they are: they fade out on their own (the page clips the sides).
+ */
+const Glows = () => (
+  <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+    <div className="absolute -top-56 start-[30%] h-[38rem] w-[38rem] bg-[radial-gradient(closest-side,rgba(167,139,250,0.32),rgba(167,139,250,0.176)_55%,transparent)] dark:bg-[radial-gradient(closest-side,rgba(109,40,217,0.32),rgba(109,40,217,0.176)_55%,transparent)]" />
+    <div className="absolute top-16 -end-48 h-[34rem] w-[34rem] bg-[radial-gradient(closest-side,rgba(249,168,212,0.32),rgba(249,168,212,0.176)_55%,transparent)] dark:bg-[radial-gradient(closest-side,rgba(190,24,93,0.26),rgba(190,24,93,0.143)_55%,transparent)]" />
+  </div>
+);
+
+const Picture = ({ image, sizes, eager, className }: { image: BlogImage; sizes: string; eager?: boolean; className: string }) => (
+  <img
+    src={image.src1200}
+    srcSet={`${image.src640} 640w, ${image.src1200} 1200w`}
+    sizes={sizes}
+    width={image.width}
+    height={image.height}
+    alt={image.alt}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    {...(eager ? { fetchpriority: 'high' } : {})}
+    className={className}
+  />
+);
+
+const Chip = ({ children }: { children: string }) => (
+  <span className="inline-block rounded-full bg-violet-50 px-3 py-1 text-xs font-semibold text-violet-700 dark:bg-violet-500/15 dark:text-violet-300">
+    {children}
+  </span>
+);
+
+const Crumbs = ({ inArticle }: { inArticle?: boolean }) => (
   <nav aria-label="פירורי לחם" className="text-sm text-gray-600 dark:text-gray-400">
     <a href="/" className="hover:text-violet-700 hover:underline dark:hover:text-violet-300">לייטור</a>
     <span aria-hidden="true" className="mx-2">/</span>
-    {current ? (
+    {inArticle ? (
       <a href="/blog/" className="hover:text-violet-700 hover:underline dark:hover:text-violet-300">בלוג</a>
     ) : (
       <span aria-current="page">בלוג</span>
@@ -26,31 +59,51 @@ const Crumbs = ({ current }: { current?: string }) => (
   </nav>
 );
 
-const Card = ({ post }: { post: PostCard }) => (
-  <li>
+const Meta = ({ post }: { post: PostCard }) => (
+  <p className="text-sm text-gray-600 dark:text-gray-400">
+    <time dateTime={post.date}>{post.dateLabel}</time> · {post.minutes} דקות קריאה
+  </p>
+);
+
+/** A card with the article's photo on top; `featured` lays it out wide, photo beside the text. */
+const Card = ({ post, featured, headingLevel: H = 'h3' }: { post: PostCard; featured?: boolean; headingLevel?: 'h2' | 'h3' }) => (
+  <li className={featured ? 'sm:col-span-2 lg:col-span-3' : undefined}>
     <a
       href={post.path}
-      className="flex h-full flex-col rounded-3xl border border-gray-200 bg-white p-6 transition hover:border-violet-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:border-gray-800 dark:bg-black dark:hover:border-violet-500/50"
+      className={`flex h-full overflow-hidden rounded-3xl border border-gray-200 bg-white transition-[border-color,box-shadow] duration-200 hover:border-violet-300 hover:shadow-[0_12px_40px_rgba(76,29,149,0.12)] dark:border-gray-800 dark:bg-black dark:hover:border-violet-500/50 ${
+        featured ? 'flex-col md:flex-row' : 'flex-col'
+      }`}
     >
-      <h3 className="text-balance text-lg font-bold leading-snug text-gray-950 dark:text-white">{post.title}</h3>
-      <p className="mt-2 flex-1 text-gray-600 dark:text-gray-400">{post.description}</p>
-      <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-        <time dateTime={post.date}>{post.dateLabel}</time> · {post.minutes} דקות קריאה
-      </p>
+      <div className={`bg-gray-100 dark:bg-gray-900 ${featured ? 'md:w-[55%] md:shrink-0' : ''}`}>
+        <Picture
+          image={post.image}
+          sizes={featured ? '(min-width: 768px) 55vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
+          eager={featured}
+          className={`aspect-[16/9] w-full object-cover ${featured ? 'md:aspect-auto md:h-full md:min-h-[20rem]' : ''}`}
+        />
+      </div>
+      <div className={`flex flex-1 flex-col gap-3 p-6 ${featured ? 'md:justify-center md:p-10' : ''}`}>
+        {post.tag && <div><Chip>{post.tag}</Chip></div>}
+        <H className={`text-balance font-bold leading-snug text-gray-950 dark:text-white ${featured ? 'text-2xl sm:text-3xl' : 'text-lg'}`}>
+          {post.title}
+        </H>
+        <p className={`flex-1 text-gray-600 dark:text-gray-400 ${featured ? 'text-lg' : ''}`}>{post.description}</p>
+        <Meta post={post} />
+      </div>
     </a>
   </li>
 );
 
 /** The closing call to action, in the home page's own style. */
-const Cta = ({ title, text, as: Heading = 'h2' }: { title?: string; text?: string; as?: 'h2' }) => (
+const Cta = ({ title, text }: { title?: string; text?: string }) => (
   <aside
     aria-labelledby="blog-cta-title"
     className="relative mt-14 grid items-center gap-6 overflow-hidden rounded-[2rem] bg-gradient-to-br from-violet-600 via-purple-600 to-pink-600 px-6 py-10 text-white sm:px-10 md:grid-cols-[1fr_auto]"
   >
     <div className="text-center md:text-start">
-      <Heading id="blog-cta-title" className="text-balance text-2xl font-bold tracking-tight sm:text-3xl">
+      <h2 id="blog-cta-title" className="text-balance text-2xl font-bold tracking-tight sm:text-3xl">
         {title || 'האתר שלכם, תוך 60 שניות'}
-      </Heading>
+      </h2>
       <p className="mt-3 text-lg text-white/90">
         {text || 'מספרים ל-Lighty על העסק במילים פשוטות, והוא בונה את האתר - עם קביעת תורים או טופס לידים, תזכורות ללקוחות וכתובת משלכם. ללא אשראי וללא התחייבות.'}
       </p>
@@ -83,40 +136,64 @@ const Cta = ({ title, text, as: Heading = 'h2' }: { title?: string; text?: strin
 
 const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard[]; html: string }) => (
   <>
-    <article className="mx-auto max-w-3xl px-4 pb-6 pt-28 sm:px-6 sm:pt-36">
-      <Crumbs current={post.title} />
-      <h1 className="text-balance mt-4 text-3xl font-bold leading-tight tracking-tight text-gray-950 sm:text-5xl sm:leading-tight dark:text-white">
-        {post.title}
-      </h1>
-      <p className="mt-4 text-gray-600 dark:text-gray-400">
-        <time dateTime={post.date}>{post.dateLabel}</time>
-        {post.updated && (
-          <>
-            {' · עודכן '}
-            <time dateTime={post.updated}>{post.updatedLabel}</time>
-          </>
+    <article>
+      <header className="relative isolate pt-28 sm:pt-36">
+        <Glows />
+        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+          <Crumbs inArticle />
+          {post.tags.length > 0 && (
+            <div className="mt-5 flex flex-wrap gap-2">
+              {post.tags.map((t) => <Chip key={t}>{t}</Chip>)}
+            </div>
+          )}
+          <h1 className="text-balance mt-4 text-3xl font-bold leading-tight tracking-tight text-gray-950 sm:text-5xl sm:leading-tight dark:text-white">
+            {post.title}
+          </h1>
+          <p className="mt-4 text-lg text-gray-600 sm:text-xl dark:text-gray-400">{post.description}</p>
+          <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            <time dateTime={post.date}>{post.dateLabel}</time>
+            {post.updated && (
+              <>
+                {' · עודכן '}
+                <time dateTime={post.updated}>{post.updatedLabel}</time>
+              </>
+            )}
+            {` · ${post.minutes} דקות קריאה`}
+          </p>
+        </div>
+        <figure className="mx-auto mt-8 max-w-5xl px-4 sm:mt-10 sm:px-6">
+          <Picture
+            image={post.image}
+            sizes="(min-width: 1024px) 1024px, 100vw"
+            eager
+            className="aspect-[16/9] w-full rounded-3xl bg-gray-100 object-cover shadow-[0_24px_60px_rgba(76,29,149,0.16)] dark:bg-gray-900"
+          />
+          <figcaption className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+            צילום: <bdi>{post.credit}</bdi>
+          </figcaption>
+        </figure>
+      </header>
+      <div className="mx-auto max-w-3xl px-4 pb-6 sm:px-6">
+        {post.headings.length >= 4 && (
+          <nav aria-labelledby="toc-title" className="mt-10 rounded-3xl border border-gray-200 bg-gray-50 p-5 sm:p-6 dark:border-gray-800 dark:bg-gray-950">
+            <h2 id="toc-title" className="font-bold text-gray-950 dark:text-white">בכתבה</h2>
+            <ol className="mt-2 list-decimal space-y-1 ps-5 text-gray-700 marker:text-violet-600 dark:text-gray-300">
+              {post.headings.map((h) => (
+                <li key={h.id}>
+                  <a href={`#${h.id}`} className="hover:text-violet-700 hover:underline dark:hover:text-violet-300">{h.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
         )}
-        {` · ${post.minutes} דקות קריאה`}
-      </p>
-      {post.headings.length >= 4 && (
-        <nav aria-labelledby="toc-title" className="mt-8 rounded-3xl border border-gray-200 bg-gray-50 p-5 sm:p-6 dark:border-gray-800 dark:bg-gray-950">
-          <h2 id="toc-title" className="font-bold text-gray-950 dark:text-white">בכתבה</h2>
-          <ol className="mt-2 list-decimal space-y-1 ps-5 text-gray-700 marker:text-violet-600 dark:text-gray-300">
-            {post.headings.map((h) => (
-              <li key={h.id}>
-                <a href={`#${h.id}`} className="hover:text-violet-700 hover:underline dark:hover:text-violet-300">{h.text}</a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-      )}
-      <div className="blog-prose mt-10" {...{ [BODY_ATTR]: '' }} dangerouslySetInnerHTML={{ __html: html }} />
-      <Cta title={post.ctaTitle} text={post.ctaText} />
+        <div className="blog-prose mt-10" {...{ [BODY_ATTR]: '' }} dangerouslySetInnerHTML={{ __html: html }} />
+        <Cta title={post.ctaTitle} text={post.ctaText} />
+      </div>
     </article>
     {related.length > 0 && (
-      <section aria-labelledby="related-title" className="mx-auto max-w-6xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+      <section aria-labelledby="related-title" className="mx-auto max-w-6xl px-4 pb-20 pt-12 sm:px-6 lg:px-8">
         <h2 id="related-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">עוד בבלוג</h2>
-        <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {related.map((p) => <Card key={p.slug} post={p} />)}
         </ul>
       </section>
@@ -124,22 +201,43 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
   </>
 );
 
-const Index = ({ posts }: { posts: PostCard[] }) => (
-  <div className="mx-auto max-w-6xl px-4 pb-20 pt-28 sm:px-6 sm:pt-36 lg:px-8">
-    <Crumbs />
-    <h1 className="text-balance mt-4 text-4xl font-bold tracking-tight text-gray-950 sm:text-5xl dark:text-white">הבלוג של לייטור</h1>
-    <p className="mt-4 max-w-3xl text-lg text-gray-600 sm:text-xl dark:text-gray-400">
-      מדריכים קצרים ומעשיים לבעלי עסקים קטנים: איך בונים אתר, מקבלים תורים ולידים אונליין, שולחים תזכורות ללקוחות ומופיעים בגוגל.
-    </p>
-    <section aria-labelledby="list-title" className="mt-12">
-      <h2 id="list-title" className="sr-only">כל הכתבות</h2>
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((p) => <Card key={p.slug} post={p} />)}
-      </ul>
-    </section>
-    <Cta />
-  </div>
-);
+const Index = ({ posts }: { posts: PostCard[] }) => {
+  const [latest, ...rest] = posts;
+  return (
+    <>
+      <section className="relative isolate pt-28 sm:pt-36" aria-labelledby="blog-title">
+        <Glows />
+        <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 sm:px-6 md:grid-cols-[1fr_auto] lg:px-8">
+          <div>
+            <Crumbs />
+            <p className="mt-6 text-sm font-bold tracking-wide text-violet-600 dark:text-violet-400">מדריכים לעסקים קטנים</p>
+            <h1 id="blog-title" className="text-balance mt-3 text-4xl font-bold tracking-tight text-gray-950 sm:text-6xl dark:text-white">
+              הבלוג של{' '}
+              <span className="bg-gradient-to-r from-violet-600 to-pink-600 bg-clip-text text-transparent">לייטור</span>
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg text-gray-600 sm:text-xl dark:text-gray-400">
+              מדריכים קצרים ומעשיים: איך בונים אתר, מקבלים תורים ולידים אונליין, שולחים תזכורות ללקוחות ומופיעים בגוגל.
+            </p>
+          </div>
+          <img
+            src="/lighty-growth.webp"
+            alt=""
+            width={640}
+            height={640}
+            className="hidden w-52 drop-shadow-[0_18px_30px_rgba(76,29,149,0.25)] md:block lg:w-64"
+          />
+        </div>
+      </section>
+      <section aria-label="כל הכתבות" className="mx-auto max-w-6xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {latest && <Card post={latest} featured headingLevel="h2" />}
+          {rest.map((p) => <Card key={p.slug} post={p} headingLevel="h2" />)}
+        </ul>
+        <Cta />
+      </section>
+    </>
+  );
+};
 
 const BlogApp = ({ data, html }: { data: BlogData; html: string }) => (
   <SiteShell home="/" current="blog">

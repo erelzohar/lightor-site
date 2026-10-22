@@ -5,6 +5,15 @@
  * Dates arrive already written out in Hebrew, so the server and the browser
  * print the same text.
  */
+/** An article's photo, cut by the build into two 16:9 sizes (blog/images/<slug>.jpg). */
+export interface BlogImage {
+  src640: string;
+  src1200: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
 export interface PostCard {
   slug: string;
   path: string;
@@ -13,9 +22,15 @@ export interface PostCard {
   date: string;
   dateLabel: string;
   minutes: number;
+  image: BlogImage;
+  /** The article's first tag, shown as a chip. */
+  tag?: string;
 }
 
 export interface ArticlePost extends PostCard {
+  tags: string[];
+  /** Who took the photo, as "Name / Unsplash". */
+  credit: string;
   updated?: string;
   updatedLabel?: string;
   headings: { id: string; text: string }[];
