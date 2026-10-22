@@ -133,7 +133,7 @@ export default {
       text: 'Every Lightor site is built so search engines and AI tools understand who you are and what you offer, and can show and recommend you - no paying for ads.',
       points: [
         'Search engines are updated on every change to your site',
-        'Your details, services and hours - in a language search engines and AI understand',
+        'Your details, services and hours - in a language search engines understand',
         'Open to the crawlers of AI search engines',
         'A link to your site from Lightor\'s "Sites we built" page'
       ],

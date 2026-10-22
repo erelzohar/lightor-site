@@ -133,7 +133,7 @@ export default {
       text: 'Chaque site Lightor est conçu pour que les moteurs de recherche et les outils d\'IA comprennent qui vous êtes et ce que vous proposez, et puissent vous montrer et vous recommander - sans payer de publicité.',
       points: [
         'Les moteurs de recherche sont avertis à chaque changement de votre site',
-        'Vos informations, services et horaires - dans un langage que les moteurs et l\'IA comprennent',
+        'Vos informations, services et horaires - dans un langage que les moteurs de recherche comprennent',
         'Ouvert aux robots des moteurs de recherche IA',
         'Un lien vers votre site depuis la page « Sites réalisés » de Lightor'
       ],
