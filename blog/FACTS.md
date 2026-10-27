@@ -93,8 +93,10 @@ update this file in the same mission.
 - Free forever: 30 appointments a month, 3 services, 15 inquiries a month,
   3 AI site rebuilds a month, the "Built with Lightor" badge, confirmation +
   07:00 reminder.
-- Lightor+: ₪119 a month or ₪1,190 a year. Unlimited appointments, services and
-  inquiries, the hour-before reminder, 20 rebuilds a month, insights + CSV,
+- Lightor+: ₪119 a month or ₪1,190 a year. Unlimited appointments (500 a month
+  included, then ₪0.35 per extra appointment; a cancelled one counts, each
+  class attendee counts), unlimited services and inquiries, the hour-before reminder, 20 rebuilds a month, insights + CSV,
   no badge, priority support, site Lighty.
-- Every new account: 60 days of Lightor+ free, no credit card, no commitment.
+- Every new account: 60 days of Lightor+ free, no credit card, no commitment,
+  up to 200 appointments a month (then bookings pause until a card is added).
   Once per phone, email or Google account.
