@@ -48,7 +48,10 @@ Opening paragraph (no "# " heading: the title is the page's heading).
 ```
 
 Optional fields: `kind: guide` (see "Guides"), `updated: YYYY-MM-DD` (after a real revision), `cta_title`
-and `cta_text` (the closing box), `draft: true` (left out of the build).
+and `cta_text` (the closing box), `draft: true` (left out of the build),
+`featured: true` (pinned to the top of /blog/; the first two pins by date
+show there, and with no pins the top shows the newest guide and the newest
+article - pins are Erel's call, the recurring task leaves them alone).
 `[[cta]]` on its own line puts a short call to action there;
 `[[cta: your own sentence]]` changes its sentence. Link other articles as
 `/blog/<slug>/` (with the slash), the showcase as `/sites`, pricing as
@@ -112,6 +115,10 @@ screenshots carry part of them.
   `blog/topics.md`; the recurring task publishes them in turn with articles. A
   link from a published article to a draft shows as plain text until the
   draft is live, so guides can link to each other ahead of time.
+- **Screenshot tips** from the second batch: element screenshots inside the
+  dashboard's scroll container come out blank, so use a tall viewport
+  (2300-3000) and crop; hide the site's floating buttons before shooting;
+  a modal is `[role=dialog]:visible` (hidden ones stay in the page).
 - **When the product changes,** a guide whose steps changed is re-done in the
   product (screenshots too) and gets a new `verified` date, or is taken down.
 

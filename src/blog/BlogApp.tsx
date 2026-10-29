@@ -75,8 +75,14 @@ const Meta = ({ post }: { post: PostCard }) => (
   </p>
 );
 
-/** A card with the article's photo on top; `featured` lays it out wide, photo beside the text. */
-const Card = ({ post, featured, headingLevel: H = 'h3' }: { post: PostCard; featured?: boolean; headingLevel?: 'h2' | 'h3' }) => (
+/**
+ * A card with the article's photo on top. `wide` spans the row with the photo
+ * beside the text; `large` is one of the two cards at the top of the page.
+ */
+const Card = ({ post, layout, headingLevel: H = 'h3' }: { post: PostCard; layout?: 'wide' | 'large'; headingLevel?: 'h2' | 'h3' }) => {
+  const featured = layout === 'wide';
+  const big = layout === 'wide' || layout === 'large';
+  return (
   <li className={featured ? 'sm:col-span-2 lg:col-span-3' : undefined}>
     <a
       href={post.path}
@@ -87,22 +93,23 @@ const Card = ({ post, featured, headingLevel: H = 'h3' }: { post: PostCard; feat
       <div className={`bg-gray-100 dark:bg-gray-900 ${featured ? 'md:w-[55%] md:shrink-0' : ''}`}>
         <Picture
           image={post.image}
-          sizes={featured ? '(min-width: 768px) 55vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
-          eager={featured}
+          sizes={featured ? '(min-width: 768px) 55vw, 100vw' : layout === 'large' ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
+          eager={big}
           className={`aspect-[16/9] w-full object-cover ${featured ? 'md:aspect-auto md:h-full md:min-h-[20rem]' : ''}`}
         />
       </div>
       <div className={`flex flex-1 flex-col gap-3 p-6 ${featured ? 'md:justify-center md:p-10' : ''}`}>
         <div><CardChip post={post} /></div>
-        <H className={`text-balance font-bold leading-snug text-gray-950 dark:text-white ${featured ? 'text-2xl sm:text-3xl' : 'text-lg'}`}>
+        <H className={`text-balance font-bold leading-snug text-gray-950 dark:text-white ${big ? 'text-2xl sm:text-3xl' : 'text-lg'}`}>
           {post.title}
         </H>
-        <p className={`flex-1 text-gray-600 dark:text-gray-400 ${featured ? 'text-lg' : ''}`}>{post.description}</p>
+        <p className={`flex-1 text-gray-600 dark:text-gray-400 ${big ? 'text-lg' : ''}`}>{post.description}</p>
         <Meta post={post} />
       </div>
     </a>
   </li>
-);
+  );
+};
 
 /** The closing call to action, in the home page's own style. */
 const Cta = ({ title, text }: { title?: string; text?: string }) => (
@@ -217,10 +224,23 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
   </>
 );
 
+/**
+ * The top of the blog's page: up to two pinned posts (`featured: true`), or
+ * else the newest guide and the newest article, so one niche article never
+ * stands there alone.
+ */
+const topOf = (posts: PostCard[]): PostCard[] => {
+  const pinned = posts.filter((p) => p.featured).slice(0, 2);
+  if (pinned.length) return pinned;
+  return [posts.find((p) => p.kind === 'guide'), posts.find((p) => p.kind !== 'guide')].filter((p): p is PostCard => !!p);
+};
+
 const Index = ({ posts }: { posts: PostCard[] }) => {
-  const [latest, ...rest] = posts;
+  const top = topOf(posts);
+  const rest = posts.filter((p) => !top.includes(p));
   const guides = rest.filter((p) => p.kind === 'guide');
   const articles = rest.filter((p) => p.kind !== 'guide');
+  const jump = 'inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/70 px-4 py-2 font-semibold text-gray-800 transition-colors hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-black/40 dark:text-gray-200 dark:hover:text-violet-300';
   return (
     <>
       <section className="relative isolate pt-28 sm:pt-36" aria-labelledby="blog-title">
@@ -236,6 +256,10 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
             <p className="mt-5 max-w-2xl text-lg text-gray-600 sm:text-xl dark:text-gray-400">
               מדריכים קצרים ומעשיים: איך בונים אתר, מקבלים תורים ולידים אונליין, שולחים תזכורות ללקוחות ומופיעים בגוגל.
             </p>
+            <nav aria-label="בבלוג" className="mt-6 flex flex-wrap gap-3">
+              <a href="#guides" className={jump}>מדריכים ללייטור <span className="text-violet-600 dark:text-violet-400">{posts.filter((p) => p.kind === 'guide').length}</span></a>
+              <a href="#articles" className={jump}>כתבות <span className="text-violet-600 dark:text-violet-400">{posts.filter((p) => p.kind !== 'guide').length}</span></a>
+            </nav>
           </div>
           <img
             src="/lighty-growth.webp"
@@ -247,11 +271,13 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
         </div>
       </section>
       <div className="mx-auto max-w-6xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-        <section aria-label="הכתבה החדשה">
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{latest && <Card post={latest} featured headingLevel="h2" />}</ul>
+        <section aria-label="מומלץ">
+          <ul className={`grid gap-5 ${top.length > 1 ? 'lg:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
+            {top.map((p) => <Card key={p.slug} post={p} layout={top.length > 1 ? 'large' : 'wide'} headingLevel="h2" />)}
+          </ul>
         </section>
         {guides.length > 0 && (
-          <section aria-labelledby="guides-title" className="mt-14">
+          <section id="guides" aria-labelledby="guides-title" className="mt-14">
             <h2 id="guides-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">מדריכים ללייטור</h2>
             <p className="mt-2 text-gray-600 dark:text-gray-400">צעד אחר צעד, עם צילומי מסך מהמערכת עצמה.</p>
             <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -260,7 +286,7 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
           </section>
         )}
         {articles.length > 0 && (
-          <section aria-labelledby="articles-title" className="mt-14">
+          <section id="articles" aria-labelledby="articles-title" className="mt-14">
             <h2 id="articles-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">כתבות</h2>
             <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {articles.map((p) => <Card key={p.slug} post={p} />)}

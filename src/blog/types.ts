@@ -27,6 +27,8 @@ export interface PostCard {
   kind: 'article' | 'guide';
   /** The article's first tag, shown as a chip. */
   tag?: string;
+  /** Pinned to the top of the blog's page (`featured: true`). */
+  featured?: boolean;
 }
 
 export interface ArticlePost extends PostCard {

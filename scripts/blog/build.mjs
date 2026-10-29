@@ -219,6 +219,7 @@ const loadPosts = () => {
       tags: list(meta.tags),
       relatedSlugs: list(meta.related),
       kind,
+      featured: meta.featured === 'true',
       verified: meta.verified || '',
       imageAlt: meta.image_alt || '',
       imageCredit: meta.image_credit || '',
@@ -341,6 +342,7 @@ const card = (p) => ({
   minutes: p.minutes,
   image: p.image,
   kind: p.kind,
+  ...(p.featured ? { featured: true } : {}),
   ...(p.tags[0] ? { tag: p.tags[0] } : {}),
 });
 

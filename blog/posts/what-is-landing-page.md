@@ -2,6 +2,7 @@
 title: מה זה דף נחיתה, ומתי עסק קטן צריך אחד
 description: דף נחיתה מה זה: עמוד אחד עם מטרה אחת. ההבדל מאתר רגיל, מתי עסק קטן, סדנה או אירוע צריכים אחד, מה חייב להיות בו, וטעויות שכדאי להימנע מהן.
 date: 2026-10-29
+featured: true
 keyword: דף נחיתה מה זה
 tags: דף נחיתה, אתר לעסק, שיווק
 related: guide-build-a-site-with-lighty, website-or-instagram, link-in-bio-instagram
