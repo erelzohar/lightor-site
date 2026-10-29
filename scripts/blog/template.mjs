@@ -81,10 +81,25 @@ export const articleHead = (post) => {
     wordCount: post.words,
     ...(post.keyword ? { keywords: post.keyword } : {}),
     isPartOf: { '@type': 'Blog', name: BLOG_NAME, url: `${ORIGIN}/blog/` },
+    ...(post.video
+      ? {
+          video: {
+            '@type': 'VideoObject',
+            name: post.title,
+            description: post.video.alt,
+            thumbnailUrl: `${ORIGIN}${post.video.poster}`,
+            contentUrl: `${ORIGIN}${post.video.mp4}`,
+            uploadDate: post.updated || post.date,
+            inLanguage: 'he',
+          },
+        }
+      : {}),
   };
   return `<title>${esc(post.title)} | לייטור</title>
     <meta name="description" content="${esc(post.description)}" />${socialMeta({ url, title: post.title, description: post.description, type: 'article', image, imageAlt: post.imageAlt || DEFAULT_IMAGE_ALT })}${
-      post.image
+      post.video
+        ? `\n    <link rel="preload" as="image" href="${post.video.poster}" fetchpriority="high" />`
+        : post.image
         ? `\n    <link rel="preload" as="image" href="${post.image.src1200}" imagesrcset="${post.image.src640} 640w, ${post.image.src1200} 1200w" imagesizes="(min-width: 1024px) 1024px, 100vw" fetchpriority="high" />`
         : ''
     }

@@ -31,8 +31,21 @@ export interface PostCard {
   featured?: boolean;
 }
 
+/** A short silent clip shown instead of the photo at the top (blog/videos/<name>). */
+export interface BlogVideo {
+  mp4: string;
+  webm: string;
+  /** The clip's last state, shown before it plays and to anyone who asked for less motion. */
+  poster: string;
+  width: number;
+  height: number;
+  /** What the clip shows, read out instead of it. */
+  alt: string;
+}
+
 export interface ArticlePost extends PostCard {
   tags: string[];
+  video?: BlogVideo;
   /** Who took the photo, as "Name / Unsplash". */
   credit: string;
   /** A guide: the day its steps were checked in the product. */

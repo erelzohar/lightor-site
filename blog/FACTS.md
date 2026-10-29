@@ -101,6 +101,11 @@ it out. When a feature ships or changes, update this file in the same mission.
   shows both times first and texts the customer "התור שלך ב-<עסק> עודכן
   ל..."; a cancel asks first and texts "...בוטל על ידי העסק. לקביעת מועד
   חדש: <site>".
+- Dragging a booking in the week view to another day or time (checked
+  2026-10-30) opens "להעביר את התור?" with the customer, the service, the
+  current and the new time and "הלקוח יקבל הודעה על המועד החדש"; "העברה"
+  saves ("התור הועבר") and texts the customer like a move, "ביטול" leaves it.
+  Outside the opening hours it warns "שימו לב: זה מחוץ לשעות הפתיחה."
 - **Not available**: online payment or deposits ("coming soon"), a waitlist,
   no-show tracking, memberships or punch cards. Blocking a customer exists (a
   blocked customer cannot book online).

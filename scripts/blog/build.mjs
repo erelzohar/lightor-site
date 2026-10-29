@@ -29,6 +29,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const POSTS_DIR = join(ROOT, 'blog', 'posts');
 const IMAGES_DIR = join(ROOT, 'blog', 'images');
 const SHOTS_DIR = join(ROOT, 'blog', 'shots');
+const VIDEOS_DIR = join(ROOT, 'blog', 'videos');
 const KINDS = ['article', 'guide'];
 const DIST = join(ROOT, 'dist');
 const SSR = join(ROOT, 'dist-ssr');
@@ -203,6 +204,13 @@ const loadPosts = () => {
     if (!KINDS.includes(kind)) fail(file, `kind "${kind}" is not one of ${KINDS.join(', ')}`);
     if (kind === 'guide' && (!validDate(meta.verified || '') || meta.verified > today))
       fail(file, 'a guide needs "verified: YYYY-MM-DD", the day its steps were checked in the product');
+    if (meta.video) {
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(meta.video)) fail(file, `video "${meta.video}" must be a file name in blog/videos, without its extension`);
+      for (const ext of ['mp4', 'webm', 'jpg'])
+        if (!existsSync(join(VIDEOS_DIR, `${meta.video}.${ext}`))) fail(file, `no blog/videos/${meta.video}.${ext} (a clip needs its mp4, webm and poster jpg)`);
+      if (!meta.video_alt || meta.video_alt.length < 15 || meta.video_alt.length > 200)
+        fail(file, 'a video needs "video_alt", 15-200 characters on what it shows, in Hebrew');
+    }
     const words = textOf(html).split(' ').filter(Boolean).length;
     // A guide's screenshots carry part of it: it may be shorter than an article.
     const minWords = (meta.kind || 'article') === 'guide' ? MIN_GUIDE_WORDS : MIN_WORDS;
@@ -223,6 +231,8 @@ const loadPosts = () => {
       verified: meta.verified || '',
       imageAlt: meta.image_alt || '',
       imageCredit: meta.image_credit || '',
+      videoName: meta.video || '',
+      videoAlt: meta.video_alt || '',
       ctaTitle: meta.cta_title || '',
       ctaText: meta.cta_text || '',
       html,
@@ -315,6 +325,38 @@ const preparePhotos = async (posts) => {
   return jobs;
 };
 
+/**
+ * A post's clip (blog/videos/<name>.mp4, .webm and a poster .jpg), published
+ * under the mp4's hash like the photos. The files are copied as they are: they
+ * are encoded for the web before they are added (blog/README.md, "Clips").
+ */
+const prepareVideos = async (posts) => {
+  const jobs = [];
+  for (const post of posts) {
+    if (!post.videoName) continue;
+    const src = (ext) => join(VIDEOS_DIR, `${post.videoName}.${ext}`);
+    if (!['mp4', 'webm', 'jpg'].every((ext) => existsSync(src(ext)))) continue;
+    const poster = readFileSync(src('jpg'));
+    const { width = 0, height = 0 } = await sharp(poster).metadata();
+    if (width < 1200 || Math.abs(width / height - 16 / 9) > 0.02) fail(`blog/videos/${post.videoName}.jpg`, `${width}x${height}; a clip is 16:9, at least 1200 wide`);
+    const base = `/blog/vid/${post.videoName}-${hash8(readFileSync(src('mp4')))}`;
+    post.video = { mp4: `${base}.mp4`, webm: `${base}.webm`, poster: `${base}-poster.webp`, width: 1280, height: 720, alt: post.videoAlt };
+    jobs.push([src('mp4'), `${base}.mp4`], [src('webm'), `${base}.webm`], [poster, `${base}-poster.webp`]);
+  }
+  return jobs;
+};
+
+const writeVideos = (jobs) =>
+  Promise.all(
+    jobs.map(([src, path]) => {
+      const out = join(DIST, path);
+      mkdirSync(dirname(out), { recursive: true });
+      if (Buffer.isBuffer(src)) return sharp(src).resize(1280, 720, { fit: 'cover' }).webp({ quality: 82 }).toFile(out);
+      copyFileSync(src, out);
+      return null;
+    }),
+  );
+
 const writePhotos = (jobs) =>
   Promise.all([
     ...jobs.map(([buf, w, h, path]) => {
@@ -351,6 +393,7 @@ const articleData = (post, related) => ({
   post: {
     ...card(post),
     tags: post.tags,
+    ...(post.video ? { video: post.video } : {}),
     credit: post.imageCredit,
     ...(post.verified ? { verified: post.verified, verifiedLabel: heDate(post.verified) } : {}),
     ...(post.updated ? { updated: post.updated, updatedLabel: heDate(post.updated) } : {}),
@@ -384,6 +427,7 @@ const main = async () => {
   const posts = loadPosts();
   checkLinks(posts);
   const photoJobs = await preparePhotos(posts);
+  const videoJobs = await prepareVideos(posts);
   // A link to an article that is not out yet keeps its words and loses the link.
   for (const p of posts)
     p.html = p.html.replace(/<a href="\/blog\/([a-z0-9-]+)\/[^"]*"[^>]*>([\s\S]*?)<\/a>/g, (m, slug, text) => (drafts.has(slug) ? text : m));
@@ -423,6 +467,7 @@ const main = async () => {
   }
 
   await writePhotos(photoJobs);
+  await writeVideos(videoJobs);
   for (const [rel, html] of pages) write(rel, html);
   writeFileSync(sitemapPath, sitemap);
   for (const p of posts) if (!sitemap.includes(`<loc>${ORIGIN}${p.path}</loc>`)) fail('sitemap', `${p.path} is not in it`);

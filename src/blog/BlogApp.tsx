@@ -1,6 +1,7 @@
-import { ArrowLeft } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { ArrowLeft, Pause, Play, RotateCcw } from 'lucide-react';
 import SiteShell from '../components/SiteShell';
-import { BODY_ATTR, type ArticlePost, type BlogData, type BlogImage, type PostCard } from './types';
+import { BODY_ATTR, type ArticlePost, type BlogData, type BlogImage, type BlogVideo, type PostCard } from './types';
 
 /**
  * LT-430: the blog, inside the same frame as the home page (navbar, footer,
@@ -40,6 +41,77 @@ const Picture = ({ image, sizes, eager, className }: { image: BlogImage; sizes: 
     className={className}
   />
 );
+
+const COVER = 'aspect-[16/9] w-full rounded-3xl bg-gray-100 object-cover shadow-[0_24px_60px_rgba(76,29,149,0.16)] dark:bg-gray-900';
+
+/**
+ * A guide's clip in place of its cover: silent, played once when it comes into
+ * view, then it rests on its last frame (no endless motion, LT-433). Anyone who
+ * asked for less motion sees that last frame and plays it themselves.
+ */
+const CoverVideo = ({ video, caption }: { video: BlogVideo; caption: string }) => {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [state, setState] = useState<'paused' | 'playing' | 'ended'>('paused');
+  useEffect(() => {
+    const clip = ref.current;
+    if (!clip) return;
+    // React leaves `muted` out of the built HTML, and browsers only start a muted clip on their own.
+    clip.muted = true;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const seen = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        seen.disconnect();
+        clip.play().catch(() => {});
+      },
+      { threshold: 0.4 },
+    );
+    seen.observe(clip);
+    return () => seen.disconnect();
+  }, []);
+  const toggle = () => {
+    const clip = ref.current;
+    if (!clip) return;
+    if (state === 'playing') return clip.pause();
+    if (state === 'ended') clip.currentTime = 0;
+    clip.play().catch(() => {});
+  };
+  const label = state === 'playing' ? 'עצירת הסרטון' : state === 'ended' ? 'הפעלה מההתחלה' : 'הפעלת הסרטון';
+  const Icon = state === 'playing' ? Pause : state === 'ended' ? RotateCcw : Play;
+  return (
+    <>
+      <video
+        ref={ref}
+        muted
+        playsInline
+        preload="metadata"
+        poster={video.poster}
+        width={video.width}
+        height={video.height}
+        aria-label={video.alt}
+        onPlay={() => setState('playing')}
+        onPause={(e) => setState(e.currentTarget.ended ? 'ended' : 'paused')}
+        onEnded={() => setState('ended')}
+        className={COVER}
+      >
+        <source src={video.webm} type="video/webm" />
+        <source src={video.mp4} type="video/mp4" />
+      </video>
+      {/* Under the clip, not on it: nothing of the screen is covered. */}
+      <figcaption className="mt-3 flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+        <button
+          type="button"
+          onClick={toggle}
+          className="inline-flex items-center gap-1.5 rounded-full border border-violet-200 bg-white px-3 py-1.5 font-semibold text-violet-700 transition-colors hover:bg-violet-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 dark:border-violet-500/40 dark:bg-gray-950 dark:text-violet-300 dark:hover:bg-violet-500/10"
+        >
+          <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+          {label}
+        </button>
+        {caption}
+      </figcaption>
+    </>
+  );
+};
 
 const Chip = ({ children, guide }: { children: string; guide?: boolean }) => (
   <span
@@ -185,15 +257,16 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
           )}
         </div>
         <figure className="mx-auto mt-8 max-w-5xl px-4 sm:mt-10 sm:px-6">
-          <Picture
-            image={post.image}
-            sizes="(min-width: 1024px) 1024px, 100vw"
-            eager
-            className="aspect-[16/9] w-full rounded-3xl bg-gray-100 object-cover shadow-[0_24px_60px_rgba(76,29,149,0.16)] dark:bg-gray-900"
-          />
-          <figcaption className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-            צילום: <bdi>{post.credit}</bdi>
-          </figcaption>
+          {post.video ? (
+            <CoverVideo video={post.video} caption="סרטון קצר, בלי קול, מהמסכים של Lightor" />
+          ) : (
+            <>
+              <Picture image={post.image} sizes="(min-width: 1024px) 1024px, 100vw" eager className={COVER} />
+              <figcaption className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                צילום: <bdi>{post.credit}</bdi>
+              </figcaption>
+            </>
+          )}
         </figure>
       </header>
       <div className="mx-auto max-w-3xl px-4 pb-6 sm:px-6">

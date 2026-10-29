@@ -119,6 +119,15 @@ screenshots carry part of them.
   dashboard's scroll container come out blank, so use a tall viewport
   (2300-3000) and crop; hide the site's floating buttons before shooting;
   a modal is `[role=dialog]:visible` (hidden ones stay in the page).
+- **Clips:** a post can open with a short silent clip instead of its photo:
+  `video: <name>` and `video_alt: <what it shows, in Hebrew>` in the front
+  matter, with `blog/videos/<name>.mp4`, `.webm` and a 16:9 poster `.jpg`
+  (the clip's last state). Encode before adding: 1280 wide, no sound,
+  H.264 `-crf 23 -movflags +faststart` and VP9 `-crf 36` (well under 1 MB
+  each). The page plays it once when it comes into view, then it rests on its
+  last frame, with a pause / play-again button; with reduced motion it only
+  plays when tapped. The photo stays the share image and the blog's card.
+  The clips are made in Remotion from real 2x screenshots and real texts.
 - **When the product changes,** a guide whose steps changed is re-done in the
   product (screenshots too) and gets a new `verified` date, or is taken down.
 
