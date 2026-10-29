@@ -11,6 +11,10 @@ itself, every step done in the product and photographed; see blog/README.md).
   article and a guide is waiting under "Guides ready", it publishes that guide;
   otherwise it writes the first `[ ]` article of the queue. When it publishes
   something it adds a line at the bottom of "Published".
+- The top of /blog/ shows the posts with `featured: true` (at most two; Erel
+  asked on 2026-10-29 for more than the newest article up there). Without
+  pins it shows the newest guide and the newest article. The recurring task
+  never adds or removes a pin.
 - An article is written by blog/README.md, only with features in
   blog/FACTS.md. The working title may change; the search phrase and the angle
   may not without Erel's OK. Erel approved publishing from this list on
@@ -29,6 +33,14 @@ itself, every step done in the product and photographed; see blog/README.md).
 - [x] 2026-10-29 · `gel-nails-get-clients` · איך להשיג לקוחות ללק ג'ל: 9 דרכים שעובדות · "איך להשיג לקוחות ללק ג'ל", "איך להשיג לקוחות לעסק" · המלצות, אינסטגרם, פרופיל בגוגל, סטורי על תור שהתפנה, חוויית ביקור ראשון. לייטור בפסקה אחת.
 - [x] 2026-10-29 · `guide-build-a-site-with-lighty` · מדריך: איך בונים אתר בלייטור עם Lighty · "איך בונים אתר בלייטור" · guide
 - [x] 2026-10-29 · `what-is-landing-page` · מה זה דף נחיתה, ומתי עסק קטן צריך אחד · "דף נחיתה מה זה", "מה זה דף נחיתה לעסק"
+- [x] 2026-10-29 · `guide-booking-setup` · הגדרת קביעת תורים: שירותים, שעות, הפסקות וחופשות · "הגדרת קביעת תורים" · guide
+- [x] 2026-10-29 · `guide-owner-alerts` · התראות לבעל העסק: אפליקציה, מייל ווואטסאפ · "התראות לבעל העסק" · guide
+- [x] 2026-10-29 · `guide-site-editor` · עריכת האתר: טקסטים, אזורים ועזרה מ-Lighty · "עריכת אתר בלייטור" · guide
+- [x] 2026-10-29 · `guide-calendar` · היומן: לקבוע, להעביר ולבטל תורים בעצמכם · "יומן תורים לעסק" · guide
+- [x] 2026-10-29 · `guide-customers` · הלקוחות: כרטיס לקוח, הערות פרטיות, חסימה וייצוא · "ניהול לקוחות לעסק קטן" · guide
+- [x] 2026-10-29 · `guide-leads` · לידים: טופס יצירת קשר, שאלות משלכם ומעקב · "טופס יצירת קשר עם שאלות" · guide
+- [x] 2026-10-29 · `guide-lighty-chat` · Lighty בלוח הבקרה: לשאול על התורים, הלקוחות והלידים · "עוזר AI לעסק קטן" · guide
+- [x] 2026-10-29 · `guide-site-settings` · ההגדרות: פרטי העסק, האתר, המטבע והודעה קופצת · "הגדרות אתר לעסק" · guide
 
 ## Guides ready
 
@@ -38,24 +50,17 @@ today, add it at the bottom of "Published" with "· guide", and delete it here.
 A guide verified more than 21 days ago is not published: report that it needs
 a fresh check in the product.
 
-1. `guide-booking-setup` · הגדרת קביעת תורים: שירותים, שעות, הפסקות וחופשות · verified 2026-10-29
-2. `guide-owner-alerts` · התראות לבעל העסק: אפליקציה, מייל ווואטסאפ · verified 2026-10-29
-3. `guide-site-editor` · עריכת האתר: טקסטים, אזורים ועזרה מ-Lighty · verified 2026-10-29
+None right now (all eight guides went live on 2026-10-29, at Erel's ask).
 
 ## Guides to make next
 
 Need a session that runs the product locally and photographs every step
 (blog/README.md, "Guides"); the recurring task does not make these.
 
-- `guide-leads` · טופס הפניות והלידים: שאלות משלכם, סטטוסים ומעקב
 - `guide-booking-questions` · שאלות בטופס קביעת התור, ושאלה לשירות מסוים
 - `guide-group-classes` · שיעורים, סדנאות וקבוצות עם מספר מקומות
-- `guide-customers` · כרטיס לקוח: היסטוריה, הערות וחסימה
-- `guide-lighty-chat` · לשאול את Lighty על התורים, הלקוחות והלידים
 - `guide-site-lighty` · Lighty באתר: עונה למבקרים (Lightor+)
 - `guide-share-site` · לשתף את האתר: קישור, וואטסאפ, קוד QR ופרופיל בגוגל
-- `guide-settings` · הגדרות האתר: שם, לוגו, קטגוריה, כתובת ומטבע
-- `guide-calendar` · היומן: לקבוע, להזיז ולבטל תורים בעצמכם
 - `guide-phone-app` · האפליקציה לטלפון (כשהיא בחנויות)
 
 ## Queue (articles)

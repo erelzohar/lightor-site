@@ -35,6 +35,11 @@ it out. When a feature ships or changes, update this file in the same mission.
   the owner's own texts** (they exist once, in one language).
 - Currency per business: ₪, $, € or £ (chosen by the AI from the country,
   changeable in Settings). A category and sub-category per site (Settings).
+- Settings also has: a popup message ("הודעה קופצת": a switch and a text;
+  the site shows it in a "הודעת מערכת" box a few seconds after a visitor
+  enters, with "סגור"), "הסתר את האתר שלי ממנועי חיפוש" (the site keeps
+  working for anyone with the link; Google may take days to drop it), and
+  the accessibility menu switch.
 - On the site: who you are and what you offer, services with duration and price,
   gallery, testimonials the owner types in (no Google-reviews import), FAQ,
   WhatsApp and phone buttons, opening hours, Instagram/Facebook/X/TikTok icons,
@@ -86,6 +91,16 @@ it out. When a feature ships or changes, update this file in the same mission.
 - Bookings the owner makes, moves or cancels text the customer up to 40 a day
   (Lightor+ and the free days) or 10 a day (free); past that the change is
   saved and the customer is not told.
+- The owner's calendar ("יומן"): week or day view and a list of upcoming
+  bookings, a month picker, a filter per service ("היומנים שלי"). "תור חדש":
+  service, then a day and a free time, or "שעה אחרת" (any time, even outside
+  the hours; a time that overlaps a booking is refused), then name, phone and
+  the booking questions. The customer gets the usual confirmation with the
+  manage link. A booking's card: change time ("שינוי מועד"), the customer's
+  card, call/WhatsApp, the answers, price, "סמן כהושלם", "ביטול תור". A move
+  shows both times first and texts the customer "התור שלך ב-<עסק> עודכן
+  ל..."; a cancel asks first and texts "...בוטל על ידי העסק. לקביעת מועד
+  חדש: <site>".
 - **Not available**: online payment or deposits ("coming soon"), a waitlist,
   no-show tracking, memberships or punch cards. Blocking a customer exists (a
   blocked customer cannot book online).
@@ -95,6 +110,16 @@ it out. When a feature ships or changes, update this file in the same mission.
   call-backs); a booking site has a short contact form too.
 - Every inquiry in one place ("לידים") with a status: new (חדש), contacted
   (נוצר קשר), closed (סגור).
+- The contact form has name, phone, the owner's questions and an optional
+  message. Questions (Settings, "האתר", "שאלות בטופס יצירת הקשר"): up to 8,
+  at most 40 characters each, an answer type, a required switch, a preview;
+  shown exactly as written, never translated. The answers show on the lead.
+- The leads page: filters with counts, a badge on its menu icon for new ones,
+  call and WhatsApp buttons, status buttons, delete, and "הוספה ללקוחות" (a
+  new or an existing customer; then the button becomes "כרטיס לקוח"). The
+  owner's email reads "ליד חדש מ-<name> דרך האתר שלך".
+- Settings, "מה האתר עושה": bookings (calendar plus contact form) or leads
+  (form only), and the main button's text.
 - The site's main button can say what the owner wants ("להרשמה", "לקבלת
   הצעת מחיר").
 - Free plan: 15 inquiries a month, then the form gives way to call and
@@ -115,10 +140,21 @@ it out. When a feature ships or changes, update this file in the same mission.
   booking emails are switched off unless the owner already chose.
 - Customers: list, visit history, private notes, blocking (every plan).
   Lightor+ only: customer insights (top customers) and CSV export.
+  Customers enter by phone from every booking (site or owner), by hand
+  ("הוספת לקוח") or from a lead. Top of the page: customers, new this month,
+  returning (2 bookings or more), blocked. The card: call, WhatsApp, book,
+  block; visits, cancellations, upcoming, estimated income (from the service
+  prices, not payments); last, next and first visit; source; private notes
+  (2,000 characters, the customer never sees them); the booking history with
+  the answers. Blocking: the customer can no longer book or change on the
+  site but can still cancel; the owner may also cancel their upcoming
+  bookings (no text is sent) and note a private reason.
 - Lighty in the dashboard answers questions from the owner's data ("מה יש לי
   היום?", "מתי אני פנוי מחר?", "סכם לי את השבוע", "יש לידים שלא טיפלתי
   בהם?", "מי הלקוחות הקבועים שלי?"). It does not book or change anything
   itself; requests to change the site open the editor.
+  The percentage beside "שיחה חדשה" is the share of the month's AI quota
+  already used.
 - Site Lighty (Lightor+ and the free days): answers visitors' questions on the
   site ("יש לכם שאלה? אני כאן") from the site's public information. It cannot
   book. It is on automatically for those sites.
