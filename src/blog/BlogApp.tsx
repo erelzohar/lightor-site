@@ -248,10 +248,8 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
         <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 sm:px-6 md:grid-cols-[1fr_auto] lg:px-8">
           <div>
             <Crumbs />
-            <p className="mt-6 text-sm font-bold tracking-wide text-violet-600 dark:text-violet-400">מדריכים לעסקים קטנים</p>
-            <h1 id="blog-title" className="text-balance mt-3 text-4xl font-bold tracking-tight text-gray-950 sm:text-6xl dark:text-white">
-              הבלוג של{' '}
-              <span className="bg-gradient-to-r from-violet-600 to-pink-600 bg-clip-text text-transparent">לייטור</span>
+            <h1 id="blog-title" className="text-balance mt-6 text-4xl font-bold tracking-tight text-gray-950 sm:text-6xl dark:text-white">
+              <span className="bg-gradient-to-r from-violet-600 to-pink-600 bg-clip-text text-transparent">בלוג</span>
             </h1>
             <p className="mt-5 max-w-2xl text-lg text-gray-600 sm:text-xl dark:text-gray-400">
               מדריכים קצרים ומעשיים: איך בונים אתר, מקבלים תורים ולידים אונליין, שולחים תזכורות ללקוחות ומופיעים בגוגל.
