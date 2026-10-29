@@ -109,7 +109,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   Events: new booking, cancellation, change, morning summary, new inquiry.
   Defaults: app and email on, phone off. **A new booking never goes by
   phone**; the phone carries only the morning summary, inquiries, and
-  cancellations or changes within the next 24 hours. If nothing reached the
+  cancellations or changes within the next 24 hours - and on the free plan
+  only the morning summary (LT-489). If nothing reached the
   owner, the alert goes by email anyway. The first time the app connects,
   booking emails are switched off unless the owner already chose.
 - Customers: list, visit history, private notes, blocking (every plan).
@@ -139,7 +140,9 @@ it out. When a feature ships or changes, update this file in the same mission.
 
 ## Plans (lightor.app/pricing.html)
 - Free forever: 30 bookings a month (cancelled ones and the owner's own count),
-  3 services, 15 inquiries a month, 3 AI site rebuilds a month, 5 AI pictures,
+  3 services, 15 inquiries a month, 3 AI site rebuilds a month, 5 AI pictures
+  a month in the site build (none from the editor), WhatsApp alerts for the
+  owner's morning summary only,
   the "Built with Lightor" badge, confirmation + 07:00 reminder. At the limit
   the site shows call/WhatsApp buttons.
 - Lightor+: ₪119 a month or ₪1,190 a year. **500 bookings a period included**
