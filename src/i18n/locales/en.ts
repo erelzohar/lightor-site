@@ -100,7 +100,7 @@ export default {
       },
       alerts: {
         title: 'Hear about every booking and inquiry',
-        text: 'An alert by WhatsApp, text or email - you choose what for.'
+        text: 'An alert in the app, by email or on WhatsApp - you choose what for.'
       },
       dashboard: {
         title: 'One dashboard',

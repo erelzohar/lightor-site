@@ -100,7 +100,7 @@ export default {
       },
       alerts: {
         title: 'Entérate de cada reserva y consulta',
-        text: 'Un aviso por WhatsApp, SMS o correo - tú eliges de qué.'
+        text: 'Un aviso en la app, por correo o WhatsApp - tú eliges de qué.'
       },
       dashboard: {
         title: 'Un solo panel',

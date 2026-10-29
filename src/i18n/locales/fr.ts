@@ -100,7 +100,7 @@ export default {
       },
       alerts: {
         title: 'Soyez averti de chaque rendez-vous et demande',
-        text: 'Une alerte par WhatsApp, SMS ou e-mail - vous choisissez pour quoi.'
+        text: 'Une alerte dans l\'app, par e-mail ou WhatsApp - vous choisissez pour quoi.'
       },
       dashboard: {
         title: 'Un seul tableau de bord',
