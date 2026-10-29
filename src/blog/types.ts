@@ -23,6 +23,8 @@ export interface PostCard {
   dateLabel: string;
   minutes: number;
   image: BlogImage;
+  /** A guide shows how to do something in Lightor itself; an article is general advice. */
+  kind: 'article' | 'guide';
   /** The article's first tag, shown as a chip. */
   tag?: string;
 }
@@ -31,6 +33,9 @@ export interface ArticlePost extends PostCard {
   tags: string[];
   /** Who took the photo, as "Name / Unsplash". */
   credit: string;
+  /** A guide: the day its steps were checked in the product. */
+  verified?: string;
+  verifiedLabel?: string;
   updated?: string;
   updatedLabel?: string;
   headings: { id: string; text: string }[];

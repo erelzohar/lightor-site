@@ -47,7 +47,7 @@ Opening paragraph (no "# " heading: the title is the page's heading).
 ...
 ```
 
-Optional fields: `updated: YYYY-MM-DD` (after a real revision), `cta_title`
+Optional fields: `kind: guide` (see "Guides"), `updated: YYYY-MM-DD` (after a real revision), `cta_title`
 and `cta_text` (the closing box), `draft: true` (left out of the build).
 `[[cta]]` on its own line puts a short call to action there;
 `[[cta: your own sentence]]` changes its sentence. Link other articles as
@@ -83,6 +83,37 @@ the blog's pages, and the share preview on WhatsApp and Facebook.
   `crop=faces,entropy`). Look at it before committing.
 - `image_alt`: what the photo shows, in Hebrew. `image_credit`: the
   photographer's name as Unsplash shows it, then ` / Unsplash`.
+
+## Guides
+
+A guide (`kind: guide`) shows how to do one thing in Lightor itself, as the
+product is on the day in `verified: YYYY-MM-DD`. Every step in it was done
+in the product and photographed; nothing is written from memory or from the
+code alone. Guides may be shorter than articles (450 words or more): the
+screenshots carry part of them.
+
+- **Screenshots** go in `blog/shots/<slug>/<name>.png` (PNG, 600-1600 wide)
+  and into the text on a line of their own:
+  `![what it shows, in Hebrew](shots/<name>.png "short caption")`.
+  The build turns each into a figure that opens full size when tapped.
+- **Cover:** `node scripts/blog/guide-cover.mjs blog/shots/<slug>/<name>.png blog/images/<slug>.jpg`
+  frames one screenshot on the brand gradient; `image_credit: מסך מתוך Lightor`.
+- **Made in batches** by a session that runs the whole product locally with
+  nothing sent: the API from a lightor-back worktree with
+  `scripts/qa/outbox.js` (see the header of `scripts/qa/lib.js`), its own
+  Redis, the dashboard, register and front dev servers (`VITE_CLIENT_APP_URL`
+  pointing the editor and the wizard at the local front, Cloudflare's test
+  Turnstile key, a dummy `VITE_GOOGLE_CLIENT_ID`), and headless Chrome
+  (Playwright) at 2x for the screenshots. The demo site of the first batch is
+  "סטודיו אורה" (`studio-ora`, owner `guide.ora.mvtubzjz@example.com` in
+  Lightor-test); reuse it so the guides look alike. Never use a real
+  customer's site or a production account.
+- **Ready guides wait** with `draft: true` under "Guides ready" in
+  `blog/topics.md`; the recurring task publishes them in turn with articles. A
+  link from a published article to a draft shows as plain text until the
+  draft is live, so guides can link to each other ahead of time.
+- **When the product changes,** a guide whose steps changed is re-done in the
+  product (screenshots too) and gets a new `verified` date, or is taken down.
 
 ## Writing rules
 

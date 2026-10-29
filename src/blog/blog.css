@@ -23,6 +23,13 @@
 .blog-prose th { background: #f9fafb; font-weight: 700; color: #030712; }
 .blog-prose hr { margin: 2rem 0; border: 0; border-top: 1px solid #e5e7eb; }
 
+/* A guide's screenshot (`![...](shots/x.png "caption")`). */
+.blog-prose figure.shot { margin: 1.75rem 0; }
+.blog-prose figure.shot img { display: block; width: 100%; height: auto; border: 1px solid #e5e7eb; border-radius: 1rem; box-shadow: 0 12px 40px rgba(76, 29, 149, 0.1); background: #fff; }
+.blog-prose figure.shot figcaption { margin-top: 0.6rem; font-size: 0.95rem; line-height: 1.5; color: #4b5563; text-align: center; }
+.dark .blog-prose figure.shot img { border-color: #1f2937; }
+.dark .blog-prose figure.shot figcaption { color: #9ca3af; }
+
 /* `[[cta]]` in an article: a short invitation half way down. */
 .blog-prose .cta-inline { margin: 2rem 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1rem; padding: 1.1rem 1.25rem; border: 1px solid #ddd6fe; border-radius: 1.5rem; background: #f5f3ff; }
 .blog-prose .cta-inline p { flex: 1 1 16rem; margin: 0; font-weight: 600; color: #030712; }

@@ -41,11 +41,21 @@ const Picture = ({ image, sizes, eager, className }: { image: BlogImage; sizes: 
   />
 );
 
-const Chip = ({ children }: { children: string }) => (
-  <span className="inline-block rounded-full bg-violet-50 px-3 py-1 text-xs font-semibold text-violet-700 dark:bg-violet-500/15 dark:text-violet-300">
+const Chip = ({ children, guide }: { children: string; guide?: boolean }) => (
+  <span
+    className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${
+      guide
+        ? 'bg-gradient-to-r from-violet-600 to-pink-600 text-white'
+        : 'bg-violet-50 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300'
+    }`}
+  >
     {children}
   </span>
 );
+
+/** A guide's chip says so; an article's is its first tag. */
+const CardChip = ({ post }: { post: PostCard }) =>
+  post.kind === 'guide' ? <Chip guide>מדריך ללייטור</Chip> : post.tag ? <Chip>{post.tag}</Chip> : null;
 
 const Crumbs = ({ inArticle }: { inArticle?: boolean }) => (
   <nav aria-label="פירורי לחם" className="text-sm text-gray-600 dark:text-gray-400">
@@ -83,7 +93,7 @@ const Card = ({ post, featured, headingLevel: H = 'h3' }: { post: PostCard; feat
         />
       </div>
       <div className={`flex flex-1 flex-col gap-3 p-6 ${featured ? 'md:justify-center md:p-10' : ''}`}>
-        {post.tag && <div><Chip>{post.tag}</Chip></div>}
+        <div><CardChip post={post} /></div>
         <H className={`text-balance font-bold leading-snug text-gray-950 dark:text-white ${featured ? 'text-2xl sm:text-3xl' : 'text-lg'}`}>
           {post.title}
         </H>
@@ -141,8 +151,9 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
         <Glows />
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
           <Crumbs inArticle />
-          {post.tags.length > 0 && (
+          {(post.kind === 'guide' || post.tags.length > 0) && (
             <div className="mt-5 flex flex-wrap gap-2">
+              {post.kind === 'guide' && <Chip guide>מדריך ללייטור</Chip>}
               {post.tags.map((t) => <Chip key={t}>{t}</Chip>)}
             </div>
           )}
@@ -160,6 +171,11 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
             )}
             {` · ${post.minutes} דקות קריאה`}
           </p>
+          {post.verified && (
+            <p className="mt-2 text-sm font-medium text-violet-700 dark:text-violet-300">
+              כל שלב במדריך נבדק במערכת עצמה ב-<time dateTime={post.verified}>{post.verifiedLabel}</time>.
+            </p>
+          )}
         </div>
         <figure className="mx-auto mt-8 max-w-5xl px-4 sm:mt-10 sm:px-6">
           <Picture
@@ -203,6 +219,8 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
 
 const Index = ({ posts }: { posts: PostCard[] }) => {
   const [latest, ...rest] = posts;
+  const guides = rest.filter((p) => p.kind === 'guide');
+  const articles = rest.filter((p) => p.kind !== 'guide');
   return (
     <>
       <section className="relative isolate pt-28 sm:pt-36" aria-labelledby="blog-title">
@@ -228,13 +246,29 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
           />
         </div>
       </section>
-      <section aria-label="כל הכתבות" className="mx-auto max-w-6xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {latest && <Card post={latest} featured headingLevel="h2" />}
-          {rest.map((p) => <Card key={p.slug} post={p} headingLevel="h2" />)}
-        </ul>
+      <div className="mx-auto max-w-6xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+        <section aria-label="הכתבה החדשה">
+          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{latest && <Card post={latest} featured headingLevel="h2" />}</ul>
+        </section>
+        {guides.length > 0 && (
+          <section aria-labelledby="guides-title" className="mt-14">
+            <h2 id="guides-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">מדריכים ללייטור</h2>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">צעד אחר צעד, עם צילומי מסך מהמערכת עצמה.</p>
+            <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {guides.map((p) => <Card key={p.slug} post={p} />)}
+            </ul>
+          </section>
+        )}
+        {articles.length > 0 && (
+          <section aria-labelledby="articles-title" className="mt-14">
+            <h2 id="articles-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">כתבות</h2>
+            <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {articles.map((p) => <Card key={p.slug} post={p} />)}
+            </ul>
+          </section>
+        )}
         <Cta />
-      </section>
+      </div>
     </>
   );
 };

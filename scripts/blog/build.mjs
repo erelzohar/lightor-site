@@ -28,6 +28,8 @@ import { ORIGIN, articleHead, esc, heDate, indexHead, inlineCta } from './templa
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const POSTS_DIR = join(ROOT, 'blog', 'posts');
 const IMAGES_DIR = join(ROOT, 'blog', 'images');
+const SHOTS_DIR = join(ROOT, 'blog', 'shots');
+const KINDS = ['article', 'guide'];
 const DIST = join(ROOT, 'dist');
 const SSR = join(ROOT, 'dist-ssr');
 const SHELL = join(DIST, 'blog.html');
@@ -37,11 +39,14 @@ const MARKS = ['<!--lt-blog-head-->', '<!--lt-blog-app-->', '<!--lt-blog-data-->
 
 const MIN_WORDS = 800; // Hebrew is compact: 800 words read like 1,100 in English
 const MAX_WORDS = 1600;
+const MIN_GUIDE_WORDS = 450;
 const TITLE_MAX = 70;
 const DESCRIPTION_RANGE = [70, 165];
 const DASHES = /[—―]/; // em-dash, horizontal bar: never in what a reader sees
 
 const errors = [];
+/** Articles waiting to be published (`draft: true`): a link to one shows as plain text until it is live. */
+const drafts = new Set();
 const fail = (where, message) => errors.push(`${where}: ${message}`);
 
 /** Today in Israel, as YYYY-MM-DD: a CI runner is on UTC. */
@@ -95,8 +100,58 @@ const anchor = (text, used) => {
 
 const marked = new Marked({ gfm: true });
 
-const render = (body, file) => {
-  let html = marked.parse(body);
+const hash8 = (buf) => createHash('sha1').update(buf).digest('hex').slice(0, 8);
+
+/** A PNG's size, read from its header (the render is synchronous). */
+const pngSize = (buf) =>
+  buf.length > 24 && buf.toString('ascii', 1, 4) === 'PNG' ? { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) } : null;
+
+/** Screenshots waiting to be written: [png, width, height, published path]. */
+const shotJobs = [];
+
+/**
+ * A guide's screenshot: `![what it shows](shots/<name>.png "caption")` on a
+ * line of its own, the file in blog/shots/<slug>/. It becomes a figure with a
+ * webp at most 1600 wide, named by the file's hash.
+ */
+const screenshots = (html, file, slug) => {
+  html = html.replace(/<p>(<img [^>]*>)<\/p>/g, (_m, img) => {
+    const src = (img.match(/ src="([^"]*)"/) || [])[1] || '';
+    const alt = (img.match(/ alt="([^"]*)"/) || [])[1] || '';
+    const caption = (img.match(/ title="([^"]*)"/) || [])[1] || '';
+    const name = (src.match(/^shots\/([a-z0-9-]+)\.png$/) || [])[1];
+    if (!name) {
+      fail(file, `image "${src}": a screenshot is written ![what it shows](shots/<name>.png "caption")`);
+      return '';
+    }
+    const path = join(SHOTS_DIR, slug, `${name}.png`);
+    if (!existsSync(path)) {
+      fail(file, `no screenshot at blog/shots/${slug}/${name}.png`);
+      return '';
+    }
+    if (alt.length < 10) fail(file, `screenshot ${name}.png needs its alt text: what it shows, in Hebrew`);
+    const buf = readFileSync(path);
+    const size = pngSize(buf);
+    if (!size || size.width < 600) {
+      fail(file, `blog/shots/${slug}/${name}.png is not a PNG at least 600 wide`);
+      return '';
+    }
+    const width = Math.min(1600, size.width);
+    const height = Math.round((size.height * width) / size.width);
+    const out = `/blog/shots/${slug}-${hash8(buf)}/${name}.webp`;
+    shotJobs.push([buf, width, height, out]);
+    // A tap opens it full size: on a phone a wide screenshot is small.
+    return `<figure class="shot"><a href="${out}" target="_blank" rel="noopener"><img src="${out}" width="${width}" height="${height}" alt="${alt}" loading="lazy" decoding="async" /></a>${
+      caption ? `<figcaption>${caption}</figcaption>` : ''
+    }</figure>`;
+  });
+  if ((html.match(/<img /g) || []).length !== (html.match(/<figure class="shot">/g) || []).length)
+    fail(file, 'a screenshot must stand on a line of its own');
+  return html;
+};
+
+const render = (body, file, slug) => {
+  let html = screenshots(marked.parse(body), file, slug);
   const used = new Set();
   const headings = [];
   html = html.replace(/<h([23])>([\s\S]*?)<\/h\1>/g, (_m, level, inner) => {
@@ -115,6 +170,7 @@ const render = (body, file) => {
   if (/<h1[\s>]/.test(html)) fail(file, 'the article has its own "# " heading; the title is the page heading, start sections with "## "');
   if (!headings.length) fail(file, 'no "## " section headings');
   if (/\[\[/.test(html)) fail(file, 'an unknown [[...]] marker is left in the text');
+  if (/\*\*/.test(textOf(html))) fail(file, 'Markdown bold did not render ("**" left in the text): after a Hebrew prefix letter write ו**מילה**, without quotes inside');
   return { html, headings };
 };
 
@@ -126,8 +182,11 @@ const loadPosts = () => {
     const file = `blog/posts/${name}`;
     const raw = readFileSync(join(POSTS_DIR, name), 'utf8').replace(/\r\n/g, '\n');
     const { meta, body } = parseFrontMatter(raw, file);
-    if (meta.draft === 'true') continue;
     const slug = name.replace(/\.md$/, '');
+    if (meta.draft === 'true') {
+      drafts.add(slug);
+      continue;
+    }
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) fail(file, 'the file name (the URL) must be lowercase English words joined by "-"');
     for (const key of ['title', 'description', 'date', 'keyword', 'image_alt', 'image_credit']) if (!meta[key]) fail(file, `"${key}" is missing`);
     if (meta.image_alt && (meta.image_alt.length < 15 || meta.image_alt.length > 160)) fail(file, `image_alt is ${meta.image_alt.length} characters, keep it 15-160 (what the photo shows, in Hebrew)`);
@@ -139,9 +198,15 @@ const loadPosts = () => {
     if (meta.date && validDate(meta.date) && meta.date > today) fail(file, `date ${meta.date} is in the future (today is ${today})`);
     if (meta.updated && (!validDate(meta.updated) || meta.updated < (meta.date || ''))) fail(file, `updated "${meta.updated}" must be a YYYY-MM-DD on or after the date`);
     if (DASHES.test(raw)) fail(file, 'contains an em-dash; write a plain "-" (LT-350)');
-    const { html, headings } = render(body, file);
+    const { html, headings } = render(body, file, slug);
+    const kind = meta.kind || 'article';
+    if (!KINDS.includes(kind)) fail(file, `kind "${kind}" is not one of ${KINDS.join(', ')}`);
+    if (kind === 'guide' && (!validDate(meta.verified || '') || meta.verified > today))
+      fail(file, 'a guide needs "verified: YYYY-MM-DD", the day its steps were checked in the product');
     const words = textOf(html).split(' ').filter(Boolean).length;
-    if (words < MIN_WORDS || words > MAX_WORDS) fail(file, `${words} words; an article is ${MIN_WORDS}-${MAX_WORDS}`);
+    // A guide's screenshots carry part of it: it may be shorter than an article.
+    const minWords = (meta.kind || 'article') === 'guide' ? MIN_GUIDE_WORDS : MIN_WORDS;
+    if (words < minWords || words > MAX_WORDS) fail(file, `${words} words; ${meta.kind === 'guide' ? 'a guide' : 'an article'} is ${minWords}-${MAX_WORDS}`);
     posts.push({
       file,
       slug,
@@ -153,6 +218,8 @@ const loadPosts = () => {
       keyword: meta.keyword || '',
       tags: list(meta.tags),
       relatedSlugs: list(meta.related),
+      kind,
+      verified: meta.verified || '',
       imageAlt: meta.image_alt || '',
       imageCredit: meta.image_credit || '',
       ctaTitle: meta.cta_title || '',
@@ -181,10 +248,10 @@ const relatedFor = (post, posts) => {
 const checkLinks = (posts) => {
   const slugs = new Set(posts.map((p) => p.slug));
   for (const p of posts) {
-    for (const s of p.relatedSlugs) if (!slugs.has(s)) fail(p.file, `related "${s}" is not an article`);
+    for (const s of p.relatedSlugs) if (!slugs.has(s) && !drafts.has(s)) fail(p.file, `related "${s}" is not an article`);
     for (const [, href] of p.html.matchAll(/href="([^"]+)"/g)) {
       const blog = href.match(/^(?:https:\/\/lightor\.app)?\/blog\/([^/#?]*)\/?(?:[#?].*)?$/);
-      if (blog && blog[1] && !slugs.has(blog[1])) fail(p.file, `links to ${href}, which is not an article`);
+      if (blog && blog[1] && !slugs.has(blog[1]) && !drafts.has(blog[1])) fail(p.file, `links to ${href}, which is not an article`);
       if (blog && blog[1] && !/\/blog\/[^/#?]+\/(?:[#?]|$)/.test(href)) fail(p.file, `link ${href} needs the trailing "/" (the article's URL)`);
       if (/^https?:\/\/(?:www\.)?lightor\.app\/?$/.test(href) === false && /^http:\/\//.test(href)) fail(p.file, `link ${href} is http, use https`);
     }
@@ -248,14 +315,20 @@ const preparePhotos = async (posts) => {
 };
 
 const writePhotos = (jobs) =>
-  Promise.all(
-    jobs.map(([buf, w, h, path]) => {
+  Promise.all([
+    ...jobs.map(([buf, w, h, path]) => {
       const out = join(DIST, path);
       mkdirSync(dirname(out), { recursive: true });
       const img = sharp(buf).resize(w, h, { fit: 'cover', position: path.endsWith('-og.jpg') ? 'attention' : 'centre' });
       return (path.endsWith('.jpg') ? img.jpeg({ quality: 82, mozjpeg: true }) : img.webp({ quality: 78 })).toFile(out);
     }),
-  );
+    // Screenshots keep every pixel of text sharp: a light resize, a high quality.
+    ...shotJobs.map(([buf, w, h, path]) => {
+      const out = join(DIST, path);
+      mkdirSync(dirname(out), { recursive: true });
+      return sharp(buf).resize(w, h).webp({ quality: 88 }).toFile(out);
+    }),
+  ]);
 
 /** What the page's React code gets (src/blog/types.ts): dates already in Hebrew. */
 const card = (p) => ({
@@ -267,6 +340,7 @@ const card = (p) => ({
   dateLabel: heDate(p.date),
   minutes: p.minutes,
   image: p.image,
+  kind: p.kind,
   ...(p.tags[0] ? { tag: p.tags[0] } : {}),
 });
 
@@ -276,6 +350,7 @@ const articleData = (post, related) => ({
     ...card(post),
     tags: post.tags,
     credit: post.imageCredit,
+    ...(post.verified ? { verified: post.verified, verifiedLabel: heDate(post.verified) } : {}),
     ...(post.updated ? { updated: post.updated, updatedLabel: heDate(post.updated) } : {}),
     headings: post.headings.map((h) => ({ id: h.id, text: textOf(h.html) })),
     ...(post.ctaTitle ? { ctaTitle: post.ctaTitle } : {}),
@@ -307,6 +382,9 @@ const main = async () => {
   const posts = loadPosts();
   checkLinks(posts);
   const photoJobs = await preparePhotos(posts);
+  // A link to an article that is not out yet keeps its words and loses the link.
+  for (const p of posts)
+    p.html = p.html.replace(/<a href="\/blog\/([a-z0-9-]+)\/[^"]*"[^>]*>([\s\S]*?)<\/a>/g, (m, slug, text) => (drafts.has(slug) ? text : m));
 
   const page = (head, data, html) =>
     shell
