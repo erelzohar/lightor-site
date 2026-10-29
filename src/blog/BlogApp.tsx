@@ -245,7 +245,7 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
     <>
       <section className="relative isolate pt-28 sm:pt-36" aria-labelledby="blog-title">
         <Glows />
-        <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 sm:px-6 md:grid-cols-[1fr_auto] lg:px-8">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div>
             <Crumbs />
             <h1 id="blog-title" className="text-balance mt-6 text-4xl font-bold tracking-tight text-gray-950 sm:text-6xl dark:text-white">
@@ -259,13 +259,6 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
               <a href="#articles" className={jump}>כתבות <span className="text-violet-600 dark:text-violet-400">{posts.filter((p) => p.kind !== 'guide').length}</span></a>
             </nav>
           </div>
-          <img
-            src="/lighty-growth.webp"
-            alt=""
-            width={640}
-            height={640}
-            className="hidden w-52 drop-shadow-[0_18px_30px_rgba(76,29,149,0.25)] md:block lg:w-64"
-          />
         </div>
       </section>
       <div className="mx-auto max-w-6xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
