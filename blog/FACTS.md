@@ -29,7 +29,8 @@ it out. When a feature ships or changes, update this file in the same mission.
 - Editing (dashboard, "עיצוב האתר"): click any text, picture or section and
   change it, by hand or with Lighty; add sections, reorder them, choose one of
   ten styles, the main colour, fonts, buttons and corners; save and publish in
-  one click. AI pictures in the editor: 5 a month free, 40 on Lightor+.
+  one click. AI pictures in the editor: Lightor+ only, 40 a month (10 in the
+  free days); the free plan's 5 are for the site build.
 - Languages: Hebrew, English, Arabic, French, Spanish, right-to-left included.
   A visitor's language switch changes the buttons and the booking flow, **not
   the owner's own texts** (they exist once, in one language).
@@ -196,8 +197,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   Lighty. A failed payment keeps the site live but closes bookings, inquiries
   and reminders.
 - Every new account: 60 days of Lightor+ free, no credit card, no commitment;
-  the morning reminder only and a smaller AI budget (a card lifts both, it is
-  then the whole of Lightor+); up to 200 bookings in each 30-day month without
+  the morning reminder only, a smaller AI budget and 10 AI pictures a month
+  (a card lifts all three, it is then the whole of Lightor+); up to 200 bookings in each 30-day month without
   a card (500 with one). Once
   per phone, email, Google or Apple account; it starts once the phone is
   verified. Subscribing in the free days charges only at day 60.
