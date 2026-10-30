@@ -77,10 +77,11 @@ it out. When a feature ships or changes, update this file in the same mission.
   The confirmation carries the manage link and says until when it can be used,
   e.g. "לינק לניהול התור עד שעה לפני התור".
 - Reminders to customers:
-  - **07:00 (Israel time) on the day of the appointment**, every plan, with the
-    manage link.
-  - **About an hour before** (45-75 minutes), **Lightor+ and the free days
-    only**, between 07:00 and 21:45, no link.
+  - **07:00 (Israel time) on the day of the appointment**, Lightor+ and the
+    free days, with the manage link. The free plan sends no reminders.
+  - **About an hour before** (45-75 minutes), **Lightor+ only**, between 07:00
+    and 21:45, no link. Not for a booking before noon whose morning reminder
+    went out: one reminder is enough.
   - None while a Lightor+ payment has failed.
 - The manage link lets the customer cancel, move the appointment, change the
   service or edit their answers. The owner sets how close to the appointment
@@ -180,11 +181,11 @@ it out. When a feature ships or changes, update this file in the same mission.
 - Never promise a ranking or "first page on Google".
 
 ## Plans (lightor.app/pricing.html)
-- Free forever: 30 bookings a month (cancelled ones and the owner's own count),
+- Free forever: 15 bookings a month (cancelled ones and the owner's own count),
   3 services, 15 inquiries a month, 3 AI site rebuilds a month, 5 AI pictures
   a month in the site build (none from the editor), WhatsApp alerts for the
   owner's morning summary only,
-  the "Built with Lightor" badge, confirmation + 07:00 reminder. At the limit
+  the "Built with Lightor" badge, the booking confirmation only (no reminders). At the limit
   the site shows call/WhatsApp buttons.
 - Lightor+: ₪119 a month or ₪1,190 a year. **500 bookings a period included**
   (a cancelled booking and each class attendee count) - **not unlimited**.
@@ -195,6 +196,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   Lighty. A failed payment keeps the site live but closes bookings, inquiries
   and reminders.
 - Every new account: 60 days of Lightor+ free, no credit card, no commitment;
-  up to 200 bookings in each 30-day month without a card (500 with one). Once
+  the morning reminder only and a smaller AI budget (a card lifts both, it is
+  then the whole of Lightor+); up to 200 bookings in each 30-day month without
+  a card (500 with one). Once
   per phone, email, Google or Apple account; it starts once the phone is
   verified. Subscribing in the free days charges only at day 60.
