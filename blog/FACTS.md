@@ -29,8 +29,8 @@ it out. When a feature ships or changes, update this file in the same mission.
 - Editing (dashboard, "עיצוב האתר"): click any text, picture or section and
   change it, by hand or with Lighty; add sections, reorder them, choose one of
   ten styles, the main colour, fonts, buttons and corners; save and publish in
-  one click. AI pictures in the editor: Lightor+ only, 40 a month (10 in the
-  free days); the free plan's 5 are for the site build.
+  one click. AI pictures in the editor: 10 a month on Lightor+, 40 on Lightor
+  Pro; the free plan's 5 are for the site build.
 - Languages: Hebrew, English, Arabic, French, Spanish, right-to-left included.
   A visitor's language switch changes the buttons and the booking flow, **not
   the owner's own texts** (they exist once, in one language).
@@ -188,7 +188,11 @@ it out. When a feature ships or changes, update this file in the same mission.
   owner's morning summary only,
   the "Built with Lightor" badge, the booking confirmation only (no reminders). At the limit
   the site shows call/WhatsApp buttons.
-- Lightor+: ₪119 a month or ₪1,190 a year. **500 bookings a period included**
+- Lightor+: ₪89 a month or ₪890 a year. **Up to 200 bookings a period**, then
+  bookings close until the next period; no extras. Unlimited services and
+  inquiries, the morning reminder only, 20 rebuilds a month, 10 AI pictures,
+  insights + CSV, no badge, priority support, site Lighty.
+- Lightor Pro: ₪119 a month or ₪1,190 a year. **500 bookings a period included**
   (a cancelled booking and each class attendee count) - **not unlimited**.
   Past 500, bookings close until the next period, unless the owner switches on
   "automatic charge for extra bookings" (off by default): then ₪0.35 each.
@@ -196,9 +200,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   month, 40 AI pictures, insights + CSV, no badge, priority support, site
   Lighty. A failed payment keeps the site live but closes bookings, inquiries
   and reminders.
-- Every new account: 60 days of Lightor+ free, no credit card, no commitment;
-  the morning reminder only, a smaller AI budget and 10 AI pictures a month
-  (a card lifts all three, it is then the whole of Lightor+); up to 200 bookings in each 30-day month without
-  a card (500 with one). Once
+- Every new account: 60 days of Lightor+ free, no credit card, no commitment,
+  up to 200 bookings in each 30-day month. Joining Lightor Pro in the free days
+  opens all of it at once (500 bookings a month until the first payment). Once
   per phone, email, Google or Apple account; it starts once the phone is
   verified. Subscribing in the free days charges only at day 60.
