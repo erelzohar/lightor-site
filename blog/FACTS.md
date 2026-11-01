@@ -194,6 +194,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   200 inquiries a month**, then the form gives way to call and WhatsApp buttons
   until next month. The morning reminder only, 20 rebuilds a month, 10 AI pictures,
   insights + CSV, no badge, priority support, site Lighty.
+- History (bookings and inquiries) shown: 2 months on free, 1 year on Lightor+,
+  2 years on Lightor Pro. Older is hidden, and an upgrade brings it back; past
+  2 years it is deleted on every plan. Customers stay.
 - Lightor Pro: ₪119 a month or ₪1,190 a year. **500 bookings a period included**
   (a cancelled booking and each class attendee count) - **not unlimited**.
   Past 500, bookings close until the next period, unless the owner switches on
