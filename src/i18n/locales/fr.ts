@@ -112,7 +112,7 @@ export default {
       },
       design: {
         title: 'Le design en un clic',
-        text: 'Cliquez sur un texte, une image ou une section pour les modifier, seul ou avec Lighty. Dix styles, des couleurs et des polices.'
+        text: 'Cliquez sur un texte, une image ou une section pour les modifier, seul ou avec Lighty. Un large choix de styles, de couleurs et de polices.'
       },
       customers: {
         title: 'Vos clients',

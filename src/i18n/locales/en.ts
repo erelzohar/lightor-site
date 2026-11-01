@@ -112,7 +112,7 @@ export default {
       },
       design: {
         title: 'Design in a click',
-        text: 'Click any text, picture or section and change it, yourself or with Lighty. Ten styles, colors and fonts.'
+        text: 'Click any text, picture or section and change it, yourself or with Lighty. A wide choice of styles, colors and fonts.'
       },
       customers: {
         title: 'Your customers',

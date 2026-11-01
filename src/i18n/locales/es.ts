@@ -112,7 +112,7 @@ export default {
       },
       design: {
         title: 'Diseño con un clic',
-        text: 'Haz clic en un texto, una imagen o una sección para cambiarlos, solo o con Lighty. Diez estilos, colores y fuentes.'
+        text: 'Haz clic en un texto, una imagen o una sección para cambiarlos, solo o con Lighty. Una amplia selección de estilos, colores y fuentes.'
       },
       customers: {
         title: 'Tus clientes',
