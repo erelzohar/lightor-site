@@ -129,8 +129,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   (form only), and the main button's text.
 - The site's main button can say what the owner wants ("להרשמה", "לקבלת
   הצעת מחיר").
-- Free plan: 15 inquiries a month, then the form gives way to call and
-  WhatsApp buttons until the next month. Closed while a payment has failed.
+- Free plan: 15 inquiries a month, Lightor+ 200 (the free days too), Lightor
+  Pro unlimited. At the limit the form gives way to call and WhatsApp buttons
+  until the next month. Closed while a payment has failed.
 
 ## The owner
 - Dashboard (web, phone or computer): home with the setup checklist, Lighty,
@@ -189,8 +190,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   the "Built with Lightor" badge, the booking confirmation only (no reminders). At the limit
   the site shows call/WhatsApp buttons.
 - Lightor+: ₪89 a month or ₪890 a year. **Up to 200 bookings a period**, then
-  bookings close until the next period; no extras. Unlimited services and
-  inquiries, the morning reminder only, 20 rebuilds a month, 10 AI pictures,
+  bookings close until the next period; no extras. Unlimited services, **up to
+  200 inquiries a month**, then the form gives way to call and WhatsApp buttons
+  until next month. The morning reminder only, 20 rebuilds a month, 10 AI pictures,
   insights + CSV, no badge, priority support, site Lighty.
 - Lightor Pro: ₪119 a month or ₪1,190 a year. **500 bookings a period included**
   (a cancelled booking and each class attendee count) - **not unlimited**.
