@@ -90,6 +90,10 @@ export default {
     eyebrow: 'Features',
     title: 'Everything your site needs',
     items: {
+      calendar: {
+        title: 'A calendar that fills itself',
+        text: 'Customers book on your site themselves. Need to move one? Drag it in the calendar and the customer gets a message.'
+      },
       address: {
         title: 'Your own address',
         text: 'Your own address to share with everyone - on a site built to be found on Google.'
@@ -105,6 +109,10 @@ export default {
       dashboard: {
         title: 'One dashboard',
         text: 'Your site, inquiries, bookings and customers - in one place, on your phone or computer.'
+      },
+      design: {
+        title: 'Design in a click',
+        text: 'Click any text, picture or section and change it, yourself or with Lighty. Ten styles, colors and fonts.'
       },
       customers: {
         title: 'Your customers',
@@ -126,6 +134,23 @@ export default {
         title: 'All on your phone',
         text: 'See what\'s happening and update your site from anywhere'
       }
+    },
+    demo: {
+      names: ['Noa', 'Dana', 'Maya', 'Ron', 'Yael'],
+      moved: 'Booking moved',
+      business: 'Studio Ora',
+      confirmed: 'Your booking is set for Monday at 10:00',
+      reminder: 'Reminder: your booking is today at 10:00',
+      alerts: {
+        booking: { title: 'New booking', text: 'Noa, tomorrow at 10:00' },
+        lead: { title: 'New inquiry', text: 'Ron, from your site' },
+        summary: { title: 'Morning summary', text: '6 bookings today' }
+      },
+      customer: 'Maya Carmi',
+      visits: 'Visits',
+      noteLabel: 'Private note',
+      note: 'Prefers morning bookings',
+      live: 'Your site is live'
     },
     seo: {
       eyebrow: 'SEO and AI search, built in',

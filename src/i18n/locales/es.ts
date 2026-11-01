@@ -90,6 +90,10 @@ export default {
     eyebrow: 'Funciones',
     title: 'Todo lo que tu sitio necesita',
     items: {
+      calendar: {
+        title: 'Una agenda que se llena sola',
+        text: 'Tus clientes reservan solos en tu sitio. ¿Hay que mover una cita? Arrástrala en la agenda y el cliente recibe un mensaje.'
+      },
       address: {
         title: 'Tu propia dirección',
         text: 'Una dirección propia para compartir con todos - en un sitio hecho para encontrarse en Google.'
@@ -105,6 +109,10 @@ export default {
       dashboard: {
         title: 'Un solo panel',
         text: 'Tu sitio, consultas, reservas y clientes - en un solo lugar, en el móvil o el ordenador.'
+      },
+      design: {
+        title: 'Diseño con un clic',
+        text: 'Haz clic en un texto, una imagen o una sección para cambiarlos, solo o con Lighty. Diez estilos, colores y fuentes.'
       },
       customers: {
         title: 'Tus clientes',
@@ -126,6 +134,23 @@ export default {
         title: 'Todo en tu móvil',
         text: 'Mira lo que pasa y actualiza tu sitio desde cualquier lugar'
       }
+    },
+    demo: {
+      names: ['Lucía', 'Ana', 'Sofía', 'Diego', 'Marta'],
+      moved: 'Cita movida',
+      business: 'Studio Ora',
+      confirmed: 'Tu cita es el lunes a las 10:00',
+      reminder: 'Recordatorio: tu cita es hoy a las 10:00',
+      alerts: {
+        booking: { title: 'Nueva cita', text: 'Lucía, mañana a las 10:00' },
+        lead: { title: 'Nueva consulta', text: 'Diego, desde tu sitio' },
+        summary: { title: 'Resumen de la mañana', text: '6 citas hoy' }
+      },
+      customer: 'Sofía Ruiz',
+      visits: 'Visitas',
+      noteLabel: 'Nota privada',
+      note: 'Prefiere citas por la mañana',
+      live: 'Tu sitio está en línea'
     },
     seo: {
       eyebrow: 'SEO y búsqueda con IA, incluidos',

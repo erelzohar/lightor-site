@@ -90,6 +90,10 @@ export default {
     eyebrow: 'Fonctionnalités',
     title: 'Tout ce dont votre site a besoin',
     items: {
+      calendar: {
+        title: 'Un agenda qui se remplit tout seul',
+        text: 'Les clients réservent eux-mêmes sur votre site. Un rendez-vous à déplacer ? Faites-le glisser dans l\'agenda et le client reçoit un message.'
+      },
       address: {
         title: 'Votre propre adresse',
         text: 'Une adresse à vous à partager avec tout le monde - sur un site conçu pour être trouvé sur Google.'
@@ -105,6 +109,10 @@ export default {
       dashboard: {
         title: 'Un seul tableau de bord',
         text: 'Votre site, vos demandes, vos rendez-vous et vos clients - au même endroit, sur téléphone ou ordinateur.'
+      },
+      design: {
+        title: 'Le design en un clic',
+        text: 'Cliquez sur un texte, une image ou une section pour les modifier, seul ou avec Lighty. Dix styles, des couleurs et des polices.'
       },
       customers: {
         title: 'Vos clients',
@@ -126,6 +134,23 @@ export default {
         title: 'Tout sur votre téléphone',
         text: 'Suivez ce qui se passe et mettez votre site à jour de n\'importe où'
       }
+    },
+    demo: {
+      names: ['Léa', 'Emma', 'Chloé', 'Hugo', 'Inès'],
+      moved: 'Rendez-vous déplacé',
+      business: 'Studio Ora',
+      confirmed: 'Votre rendez-vous est fixé à lundi, 10:00',
+      reminder: 'Rappel : votre rendez-vous est aujourd\'hui à 10:00',
+      alerts: {
+        booking: { title: 'Nouveau rendez-vous', text: 'Léa, demain à 10:00' },
+        lead: { title: 'Nouvelle demande', text: 'Hugo, depuis votre site' },
+        summary: { title: 'Résumé du matin', text: '6 rendez-vous aujourd\'hui' }
+      },
+      customer: 'Chloé Martin',
+      visits: 'Visites',
+      noteLabel: 'Note privée',
+      note: 'Préfère les rendez-vous du matin',
+      live: 'Votre site est en ligne'
     },
     seo: {
       eyebrow: 'SEO et recherche IA, intégrés',
