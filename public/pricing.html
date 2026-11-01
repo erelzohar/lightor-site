@@ -26,6 +26,12 @@
     th { background: var(--surface); font-weight: bold; }
     table.plans th:not(:first-child), table.plans td:not(:first-child) { text-align: center; }
     table.plans th:last-child { color: var(--primary); }
+    @media (max-width: 480px) {
+      table.plans { font-size: 0.8rem; table-layout: fixed; }
+      table.plans th, table.plans td { padding: 6px 5px; overflow-wrap: break-word; }
+      table.plans th:first-child, table.plans th:last-child { width: 28%; }
+      table.plans th:nth-child(2), table.plans th:nth-child(3) { width: 22%; }
+    }
     .fine { color: var(--muted); font-size: 0.9rem; }
     .cta { display: inline-block; background: var(--primary); color: #ffffff; font-weight: bold; text-decoration: none; padding: 12px 24px; border-radius: 10px; margin-top: 8px; }
     footer.pagefoot { border-top: 1px solid var(--border); margin-top: 56px; padding-top: 20px; font-size: 0.9rem; color: var(--muted); }
