@@ -128,7 +128,7 @@ export default {
       },
       languages: {
         title: 'Cinq langues',
-        text: 'Hébreu, anglais, arabe, français et espagnol, écriture de droite à gauche comprise.'
+        text: 'Hébreu, anglais, arabe, français et espagnol.'
       },
       mobile: {
         title: 'Tout sur votre téléphone',
