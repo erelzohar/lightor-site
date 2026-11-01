@@ -2,6 +2,7 @@
 title: איך לבנות אתר אינטרנט: 7 שלבים לכל מי שצריך אתר
 description: איך לבנות אתר גם בלי ניסיון: 7 שלבים לעסק, לעצמאים, לסדנה או לאירוע, מההחלטה מה האתר צריך לעשות ועד הבדיקה בטלפון והפרסום.
 date: 2026-11-01
+featured: true
 keyword: איך לבנות אתר
 tags: בניית אתר, אתר לעסק, מתחילים
 related: what-is-landing-page, website-or-instagram, guide-build-a-site-with-lighty
