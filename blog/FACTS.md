@@ -25,7 +25,11 @@ it out. When a feature ships or changes, update this file in the same mission.
   event, a workshop or course, a personal project. A site either takes
   bookings (calendar plus a contact form) or collects inquiries (form only).
 - Address: `<name>.lightor.app` only. **Connecting an own domain is NOT
-  available** ("coming soon" in the dashboard: never promise it).
+  available** ("coming soon" in the dashboard: never promise it). Lighty picks
+  the name from the business name; the owner can change it at any time in
+  Settings ("הלינק שלך"): 2 to 20 English letters, digits and hyphens, with a
+  live availability check. The previous link stops working, and Settings warns
+  about that first.
 - Editing (dashboard, "עיצוב האתר"): click any text, picture or section and
   change it, by hand or with Lighty; add sections, reorder them, choose one of
   ten styles, the main colour, fonts, buttons and corners; save and publish in

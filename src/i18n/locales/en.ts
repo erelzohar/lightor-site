@@ -96,7 +96,7 @@ export default {
       },
       address: {
         title: 'Your own address',
-        text: 'Your own address to share with everyone - on a site built to be found on Google.'
+        text: 'The name in your address is yours: pick it and edit it whenever you like. A short link to share with everyone, on a site built to be found on Google.'
       },
       reminders: {
         title: 'Reminders that work',

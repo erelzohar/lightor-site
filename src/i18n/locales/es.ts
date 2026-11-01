@@ -96,7 +96,7 @@ export default {
       },
       address: {
         title: 'Tu propia dirección',
-        text: 'Una dirección propia para compartir con todos - en un sitio hecho para encontrarse en Google.'
+        text: 'El nombre de tu dirección es tuyo: elígelo y edítalo cuando quieras. Un enlace corto para compartir con todos, en un sitio hecho para encontrarse en Google.'
       },
       reminders: {
         title: 'Recordatorios que funcionan',

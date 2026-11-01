@@ -96,7 +96,7 @@ export default {
       },
       address: {
         title: 'Votre propre adresse',
-        text: 'Une adresse à vous à partager avec tout le monde - sur un site conçu pour être trouvé sur Google.'
+        text: 'Le nom dans votre adresse est à vous : choisissez-le et modifiez-le quand vous voulez. Un lien court à partager avec tout le monde, sur un site conçu pour être trouvé sur Google.'
       },
       reminders: {
         title: 'Des rappels qui fonctionnent',
