@@ -1,6 +1,100 @@
+import { lazy, Suspense, useEffect, useRef, useState, type ComponentProps, type ComponentType } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { MessagesSquare, MousePointerClick, Wand2 } from 'lucide-react';
+import { useStill } from '../hooks/useA11yPrefs';
+import { isRtl } from '../i18n/languages';
+
+// As in the Hero (LT-315): a chunk that fails to load leaves the still.
+type LightyRunInProps = ComponentProps<typeof import('./LightyRunIn').default>;
+const NoRunIn = ({ onFail }: LightyRunInProps) => {
+  useEffect(() => onFail(), [onFail]);
+  return null;
+};
+const LightyRunIn = lazy<ComponentType<LightyRunInProps>>(() =>
+  import('./LightyRunIn').catch(() => ({ default: NoRunIn }))
+);
+
+/** How long he may keep a visitor waiting at his empty place before the still comes in. */
+const MODEL_PATIENCE_MS = 1500;
+const FADE_MS = 300;
+
+const savesData = () => (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+
+/**
+ * LT-533: the first time his place scrolls into view, the 3D Lighty runs in
+ * from the side of the screen and stops exactly on the still, which then
+ * takes over. The still is the page's Lighty: it holds his place from the
+ * start, and shows at once if the visitor asked for less motion, saves data,
+ * has no WebGL, or the model is late.
+ */
+const LightyArrival = () => {
+  const { t, i18n } = useTranslation();
+  const still = useStill();
+  const placeRef = useRef<HTMLDivElement>(null);
+  const [near, setNear] = useState(false);
+  const [go, setGo] = useState(false);
+  const [running, setRunning] = useState(false);
+  const [arrived, setArrived] = useState(savesData);
+  const [over, setOver] = useState(false);
+  const settled = arrived || still;
+
+  useEffect(() => {
+    const place = placeRef.current;
+    if (!place || settled) return;
+    // A viewport and a half early, so the model is ready when he is needed.
+    const nearby = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setNear(true);
+    }, { rootMargin: '150% 0px' });
+    const inView = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setGo(true);
+    }, { threshold: 0.6 });
+    nearby.observe(place);
+    inView.observe(place);
+    return () => {
+      nearby.disconnect();
+      inView.disconnect();
+    };
+  }, [settled]);
+
+  useEffect(() => {
+    if (!go || running || settled) return;
+    const timer = setTimeout(() => setArrived(true), MODEL_PATIENCE_MS);
+    return () => clearTimeout(timer);
+  }, [go, running, settled]);
+
+  useEffect(() => {
+    if (!settled) return;
+    const timer = setTimeout(() => setOver(true), FADE_MS);
+    return () => clearTimeout(timer);
+  }, [settled]);
+
+  return (
+    <div ref={placeRef} className="relative mx-auto mt-6 w-56 sm:w-72 lg:mx-0">
+      <img
+        src="/lighty-cast.webp"
+        alt={t('lighty.imageAlt')}
+        width={800}
+        height={800}
+        loading="lazy"
+        style={{ transitionDuration: `${FADE_MS}ms` }}
+        className={`w-full drop-shadow-[0_20px_40px_rgba(167,139,250,0.35)] transition-opacity ${settled ? 'opacity-100' : 'opacity-0'}`}
+      />
+      {near && !over && !still && (
+        <Suspense fallback={null}>
+          <LightyRunIn
+            from={isRtl(i18n.language) ? 'right' : 'left'}
+            go={go}
+            onStart={() => setRunning(true)}
+            onDone={() => setArrived(true)}
+            onFail={() => setArrived(true)}
+            className="absolute inset-0"
+          />
+        </Suspense>
+      )}
+    </div>
+  );
+};
 
 /**
  * LT-260: Lighty (LT-237 → LT-259) — he builds the site from a conversation
@@ -37,14 +131,7 @@ const LightySection = () => {
             <p className="text-sm font-bold tracking-wide text-pink-300">{t('lighty.eyebrow')}</p>
             <h2 id="lighty-title" className="text-balance mt-3 text-3xl font-bold tracking-tight sm:text-4xl">{t('lighty.title')}</h2>
             <p className="mt-4 text-lg text-violet-100/90">{t('lighty.subtitle')}</p>
-            <img
-              src="/lighty-cast.webp"
-              alt={t('lighty.imageAlt')}
-              width={800}
-              height={800}
-              loading="lazy"
-              className="mx-auto mt-6 w-56 drop-shadow-[0_20px_40px_rgba(167,139,250,0.35)] sm:w-72 lg:mx-0"
-            />
+            <LightyArrival />
           </motion.div>
 
           <div className="space-y-4">
