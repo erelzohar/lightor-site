@@ -192,7 +192,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   a month in the site build (none from the editor), WhatsApp alerts for the
   owner's morning summary only,
   the "Built with Lightor" badge, the booking confirmation only (no reminders). At the limit
-  the site shows call/WhatsApp buttons.
+  the site shows call/WhatsApp buttons. AI editing and the dashboard Lighty run
+  on a basic AI model; the free days and the paid plans on a more advanced one
+  (the build is the same model on every plan). Never name the models.
 - Lightor+: ₪89 a month or ₪890 a year. **Up to 200 bookings a period**, then
   bookings close until the next period; no extras. Unlimited services, **up to
   200 inquiries a month**, then the form gives way to call and WhatsApp buttons
