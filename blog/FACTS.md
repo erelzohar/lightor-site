@@ -38,7 +38,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   change it, by hand or with Lighty; add sections, reorder them, choose one of
   ten styles, the main colour, fonts, buttons and corners; save and publish in
   one click. AI pictures in the editor: 10 a month on Lightor+, 40 on Lightor
-  Pro; the free plan's 5 are for the site build.
+  Pro; the free plan's 5 are for the site build and for products made from a
+  few words (LT-568).
 - Languages: Hebrew, English, Arabic, French, Spanish, right-to-left included.
   A visitor's language switch changes the buttons and the booking flow, **not
   the owner's own texts** (they exist once, in one language).
@@ -164,9 +165,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   description and category from the owner's words (never a material, size,
   brand, origin or price they did not write), and, when the product has no
   picture yet, makes one with AI. That picture is one of the plan's monthly AI
-  pictures (Lightor+ and the free days 10, Lightor Pro 40); on the free plan
-  Lighty writes the texts and the owner adds a picture. Everything stays
-  editable until the owner saves.
+  pictures (the free plan 5, Lightor+ and the free days 10, Lightor Pro 40);
+  once the month's are used, Lighty writes the texts and the owner adds a
+  picture. Everything stays editable until the owner saves.
 - From pictures in Lighty's chat (LT-568): the owner attaches up to 6
   pictures to a message and asks for a product; Lighty proposes it on a card
   with the pictures, its texts from what they show, and the product is made
@@ -268,7 +269,8 @@ it out. When a feature ships or changes, update this file in the same mission.
 ## Plans (lightor.app/pricing.html)
 - Free forever: 15 bookings a month (cancelled ones and the owner's own count),
   3 services, 5 products, 15 inquiries a month, 3 AI site rebuilds a month, 5 AI pictures
-  a month in the site build (none from the editor), WhatsApp alerts for the
+  a month for the site build and products made from a few words (none from the
+  editor), WhatsApp alerts for the
   owner's morning summary only,
   the "Built with Lightor" badge, the booking confirmation only (no reminders). At the limit
   the site shows call/WhatsApp buttons. AI editing and the dashboard Lighty run
