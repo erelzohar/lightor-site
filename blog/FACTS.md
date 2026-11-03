@@ -123,14 +123,19 @@ it out. When a feature ships or changes, update this file in the same mission.
   (נוצר קשר), closed (סגור).
 - The contact form has name, phone, the owner's questions and an optional
   message. Questions (Settings, "האתר", "שאלות בטופס יצירת הקשר"): up to 8,
-  at most 40 characters each, an answer type, a required switch, a preview;
-  shown exactly as written, never translated. The answers show on the lead.
+  at most 40 characters each, an answer type (the booking questions' five:
+  short text, address, long note, multiple choice of 2-10 options, tick-box
+  confirmation), a required switch, a preview; shown exactly as written, never
+  translated. The answers show on the lead.
 - The leads page: filters with counts, a badge on its menu icon for new ones,
   call and WhatsApp buttons, status buttons, delete, and "הוספה ללקוחות" (a
   new or an existing customer; then the button becomes "כרטיס לקוח"). The
   owner's email reads "ליד חדש מ-<name> דרך האתר שלך".
-- Settings, "מה האתר עושה": bookings (calendar plus contact form) or leads
-  (form only), and the main button's text.
+- Settings, "מה האתר עושה", **shows** the site's type: bookings (calendar
+  plus contact form), leads (form only) or products. It is set when the site
+  is built and changes only by asking Lighty (LT-556): there is no switch for
+  the owner. The main button's text is the owner's to write there ("טקסט
+  הכפתור הראשי").
 - The site's main button can say what the owner wants ("להרשמה", "לקבלת
   הצעת מחיר").
 - Free plan: 15 inquiries a month, Lightor+ 200 (the free days too), Lightor
