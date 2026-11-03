@@ -15,7 +15,7 @@ export default {
     language: 'Language'
   },
   hero: {
-    badge: 'New: Lighty, your smart assistant',
+    badge: 'New: product sites, with a page for every product',
     title: 'Your website,',
     titleHighlight: 'in 60 seconds',
     subtitle: 'Tell Lighty what you want, and he builds the site.',
@@ -34,7 +34,7 @@ export default {
   kinds: {
     eyebrow: 'What you can build',
     title: 'Whatever you want to promote, on a site of its own',
-    uses: ['A business', 'A brochure site', 'A landing page', 'An event', 'A workshop or course', 'A personal project'],
+    uses: ['A business', 'A brochure site', 'A product catalog', 'A landing page', 'An event', 'A workshop or course', 'A personal project'],
     site: {
       title: 'In every site',
       lead: 'Everything you need to present yourself',
@@ -65,7 +65,17 @@ export default {
         'Your own main button, like "Sign up" or "Get a quote"'
       ]
     },
-    both: 'Lighty picks what fits from what you tell him, and you can switch at any time.'
+    products: {
+      title: 'Want to show products?',
+      lead: 'For one product or a whole catalog',
+      points: [
+        'A page for every product, with pictures, a price and a description',
+        'Upload a picture, and Lighty writes the name and the description',
+        'An inquiry about a product reaches you with the product they chose',
+        'A WhatsApp button beside every product'
+      ]
+    },
+    both: 'Lighty picks what fits from what you tell him, and you can ask him to change it at any time. Products can be added to any site.'
   },
   lighty: {
     eyebrow: 'Meet Lighty',
@@ -124,7 +134,7 @@ export default {
       },
       content: {
         title: 'A complete site',
-        text: 'Services and prices, a gallery, FAQ and reviews - all on your site.'
+        text: 'Services, products and prices, a gallery, FAQ and reviews - all on your site.'
       },
       languages: {
         title: 'Five languages',

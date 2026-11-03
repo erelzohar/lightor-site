@@ -15,7 +15,7 @@ export default {
     language: 'Idioma'
   },
   hero: {
-    badge: 'Nuevo: Lighty, tu asistente inteligente',
+    badge: 'Nuevo: sitios de productos, con una página para cada producto',
     title: 'Tu sitio web,',
     titleHighlight: 'en 60 segundos',
     subtitle: 'Dile a Lighty lo que quieres, y él crea el sitio.',
@@ -34,7 +34,7 @@ export default {
   kinds: {
     eyebrow: 'Qué puedes crear',
     title: 'Todo lo que quieras promocionar, en un sitio propio',
-    uses: ['Un negocio', 'Un sitio institucional', 'Una landing page', 'Un evento', 'Un taller o curso', 'Un proyecto personal'],
+    uses: ['Un negocio', 'Un sitio institucional', 'Un catálogo de productos', 'Una landing page', 'Un evento', 'Un taller o curso', 'Un proyecto personal'],
     site: {
       title: 'En cada sitio',
       lead: 'Todo lo que necesitas para presentarte',
@@ -65,7 +65,17 @@ export default {
         'Tu propio botón principal, como "Inscríbete" o "Pide un presupuesto"'
       ]
     },
-    both: 'Lighty elige lo que encaja según lo que le cuentes, y puedes cambiarlo en cualquier momento.'
+    products: {
+      title: '¿Quieres mostrar productos?',
+      lead: 'Para un solo producto o un catálogo entero',
+      points: [
+        'Una página para cada producto, con fotos, precio y descripción',
+        'Sube una foto y Lighty escribe el nombre y la descripción',
+        'Una consulta sobre un producto te llega con el producto elegido',
+        'Un botón de WhatsApp junto a cada producto'
+      ]
+    },
+    both: 'Lighty elige lo que encaja según lo que le cuentes, y puedes pedirle que lo cambie en cualquier momento. Se pueden añadir productos a cualquier sitio.'
   },
   lighty: {
     eyebrow: 'Conoce a Lighty',
@@ -124,7 +134,7 @@ export default {
       },
       content: {
         title: 'Un sitio completo',
-        text: 'Servicios y precios, galería, preguntas frecuentes y reseñas - todo en tu sitio.'
+        text: 'Servicios, productos y precios, galería, preguntas frecuentes y reseñas - todo en tu sitio.'
       },
       languages: {
         title: 'Cinco idiomas',

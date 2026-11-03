@@ -15,7 +15,7 @@ export default {
     language: 'Langue'
   },
   hero: {
-    badge: 'Nouveau : Lighty, votre assistant intelligent',
+    badge: 'Nouveau : des sites produits, avec une page par produit',
     title: 'Votre site,',
     titleHighlight: 'en 60 secondes',
     subtitle: 'Dites à Lighty ce que vous voulez, et il crée le site.',
@@ -34,7 +34,7 @@ export default {
   kinds: {
     eyebrow: 'Ce que vous pouvez créer',
     title: 'Tout ce que vous voulez promouvoir, sur un site à lui',
-    uses: ['Une entreprise', 'Un site vitrine', 'Une page d\'atterrissage', 'Un événement', 'Un atelier ou un cours', 'Un projet personnel'],
+    uses: ['Une entreprise', 'Un site vitrine', 'Un catalogue de produits', 'Une page d\'atterrissage', 'Un événement', 'Un atelier ou un cours', 'Un projet personnel'],
     site: {
       title: 'Dans chaque site',
       lead: 'Tout ce qu\'il faut pour vous présenter',
@@ -65,7 +65,17 @@ export default {
         'Votre propre bouton principal, comme « S\'inscrire » ou « Demander un devis »'
       ]
     },
-    both: 'Lighty choisit ce qui convient à partir de ce que vous lui dites, et vous pouvez changer à tout moment.'
+    products: {
+      title: 'Vous voulez présenter des produits ?',
+      lead: 'Pour un seul produit ou tout un catalogue',
+      points: [
+        'Une page par produit, avec photos, prix et description',
+        'Ajoutez une photo, et Lighty écrit le nom et la description',
+        'Une demande sur un produit vous arrive avec le produit choisi',
+        'Un bouton WhatsApp à côté de chaque produit'
+      ]
+    },
+    both: 'Lighty choisit ce qui convient à partir de ce que vous lui dites, et vous pouvez lui demander de changer à tout moment. On peut ajouter des produits à n\'importe quel site.'
   },
   lighty: {
     eyebrow: 'Voici Lighty',
@@ -124,7 +134,7 @@ export default {
       },
       content: {
         title: 'Un site complet',
-        text: 'Services et tarifs, galerie, FAQ et avis - tout sur votre site.'
+        text: 'Services, produits et tarifs, galerie, FAQ et avis - tout sur votre site.'
       },
       languages: {
         title: 'Cinq langues',

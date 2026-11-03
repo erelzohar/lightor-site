@@ -3,7 +3,8 @@
 Checked against the code on `origin/main` of lightor-back, lightor-front,
 lightor-dashboard, lightor-register and lightor-edge on **2026-10-29**
 (LT-430; first version 2026-10-20), and walked through in the product itself
-the same day for the guides. An article may only describe what is listed here
+the same day for the guides. Products (sites that show products) checked the
+same way on 2026-11-03 (LT-565). An article may only describe what is listed here
 as live. Anything not listed: check the code first (and add it here), or leave
 it out. When a feature ships or changes, update this file in the same mission.
 
@@ -15,7 +16,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   minute, with "what I understood" chips (kind of site, bookings or inquiries,
   language, city) that can be changed, and ten style cards to try the site on.
   It can also create the services, class places and a booking question from
-  the description. No technical knowledge, no installation.
+  the description, and on a products site up to 5 sample products (see
+  Products). No technical knowledge, no installation.
 - Signing up: Google, or email with name, phone, password and the terms box;
   then a 6-digit code to the phone. The dashboard opens with a setup checklist
   (name, phone, address, hours, services, logo), Lighty's page tours, and a
@@ -23,7 +25,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   it is verified; the site stays live).
 - Any kind of site: a business, a brochure site (אתר תדמית), a landing page, an
   event, a workshop or course, a personal project. A site either takes
-  bookings (calendar plus a contact form) or collects inquiries (form only).
+  bookings (calendar plus a contact form) or collects inquiries (form only),
+  and any site can also show products. A products site (the build's
+  "אתר מוצרים") is an inquiries site whose products sit high on the page.
 - Address: `<name>.lightor.app` only. **Connecting an own domain is NOT
   available** ("coming soon" in the dashboard: never promise it). Lighty picks
   the name from the business name; the owner can change it at any time in
@@ -136,16 +140,58 @@ it out. When a feature ships or changes, update this file in the same mission.
   is built and changes only by asking Lighty (LT-556): there is no switch for
   the owner. The main button's text is the owner's to write there ("טקסט
   הכפתור הראשי").
+- An inquiry about a product carries the product: the lead names it and
+  links to its page.
 - The site's main button can say what the owner wants ("להרשמה", "לקבלת
   הצעת מחיר").
 - Free plan: 15 inquiries a month, Lightor+ 200 (the free days too), Lightor
   Pro unlimited. At the limit the form gives way to call and WhatsApp buttons
   until the next month. Closed while a payment has failed.
 
+## Products (מוצרים)
+- Any site can show products (the dashboard's "מוצרים" page). A product has a
+  name, a short summary, a description, a category, a price (optional: with
+  none, no price is shown), up to 6 pictures and short details (bullet
+  points); it is shown or a draft, and can be marked sold out ("אזל
+  מהמלאי"). The owner drags them into order.
+- Adding them: one by one, "כמה תמונות בבת אחת" (a draft product for each
+  picture), "לייטי ימלא מהתמונה" (Lighty writes the name, summary,
+  description and category from the first picture - never the price), and a
+  gallery can become products in one step ("להפוך למוצרים"). Since LT-564
+  the dashboard's Lighty can add and change them too, on a card.
+- "הצג מוצרים באתר" on the Products page hides or shows them all at once;
+  hidden products stay stored.
+- On the site: a products section on the home page (each style has its own
+  layouts; the editor designs the card, the products page and the product
+  page). With two products or more, "/products" lists them all with category
+  chips, and each product has its own page: pictures, price, category,
+  description, details, a "מעוניין/ת" button that opens the contact form
+  with the product, "בוואטסאפ" beside it (with a ready message naming the
+  product), a share button and "עוד מוצרים" (the same category first).
+- Google: each product page has its own title, description and structured
+  data (a Product, with its price when it has one), and is in the site's
+  sitemap.
+- On a products site the dashboard's menu has "מוצרים" in its first section
+  ("ראשי"), and "סוגי שירותים" only when there are services.
+- Plans: free 5 products (with their pages), Lightor+ 15 (the free days too),
+  Lightor Pro 100. Past the plan's number the rest are kept and hidden: the
+  site shows the first ones in the owner's order, and an upgrade shows the
+  rest again. On the free plan adding stops at 5.
+- The build makes up to 5 sample products for a products site. They show on
+  the site like any other and are marked "דוגמה, כדאי להחליף" in the
+  dashboard until the owner edits them.
+- **Not available**: buying on the site (no cart, checkout or online
+  payment), orders, delivery, sizes and colours, coupons, stock counts,
+  importing from Instagram or a file, a Google Shopping feed, product
+  reviews. An inquiry or a WhatsApp tap is a message to the owner, never an
+  order. Never call it a shop or an online store, and never promise payment.
+- The Products page is in the web dashboard; the phone apps get it with their
+  next version, so do not promise it in the apps yet.
+
 ## The owner
 - Dashboard (web, phone or computer): home with the setup checklist, Lighty,
   site design, calendar, customers, leads, hours and vacations, services,
-  gallery, settings, account.
+  products, gallery, settings, account.
 - Alerts (Account page): each event has its own channels - **the app**,
   **email**, and **the phone (WhatsApp, with SMS only as a fallback)**.
   Events: new booking, cancellation, change, morning summary, new inquiry.
@@ -201,14 +247,14 @@ it out. When a feature ships or changes, update this file in the same mission.
   link, WhatsApp sharing and a QR code.
 
 ## Found on Google and AI search
-- Every site carries structured data (LocalBusiness with the services), its
-  own sitemap, change notices to search engines (IndexNow: Bing and others, not
+- Every site carries structured data (LocalBusiness with the services, and a
+  Product on each product page), its own sitemap, change notices to search engines (IndexNow: Bing and others, not
   Google), is open to AI search crawlers, and is linked from lightor.app/sites.
 - Never promise a ranking or "first page on Google".
 
 ## Plans (lightor.app/pricing.html)
 - Free forever: 15 bookings a month (cancelled ones and the owner's own count),
-  3 services, 15 inquiries a month, 3 AI site rebuilds a month, 5 AI pictures
+  3 services, 5 products, 15 inquiries a month, 3 AI site rebuilds a month, 5 AI pictures
   a month in the site build (none from the editor), WhatsApp alerts for the
   owner's morning summary only,
   the "Built with Lightor" badge, the booking confirmation only (no reminders). At the limit
@@ -216,8 +262,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   on a basic AI model; the free days and the paid plans on a more advanced one
   (the build is the same model on every plan). Never name the models.
 - Lightor+: ₪89 a month or ₪890 a year. **Up to 200 bookings a period**, then
-  bookings close until the next period; no extras. Unlimited services, **up to
-  200 inquiries a month**, then the form gives way to call and WhatsApp buttons
+  bookings close until the next period; no extras. Unlimited services, 15
+  products, **up to 200 inquiries a month**, then the form gives way to call and WhatsApp buttons
   until next month. The morning reminder only, 20 rebuilds a month, 10 AI pictures,
   insights + CSV, no badge, priority support, site Lighty.
 - History (bookings and inquiries) shown: 2 months on free, 1 year on Lightor+,
@@ -227,8 +273,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   (a cancelled booking and each class attendee count) - **not unlimited**.
   Past 500, bookings close until the next period, unless the owner switches on
   "automatic charge for extra bookings" (off by default): then ₪0.35 each.
-  Unlimited services and inquiries, the hour-before reminder, 20 rebuilds a
-  month, 40 AI pictures, insights + CSV, no badge, priority support, site
+  Unlimited services and inquiries, 100 products, the hour-before reminder,
+  20 rebuilds a month, 40 AI pictures, insights + CSV, no badge, priority support, site
   Lighty. A failed payment keeps the site live but closes bookings, inquiries
   and reminders.
 - Every new account: 60 days of Lightor+ free, no credit card, no commitment,
