@@ -160,11 +160,19 @@ it out. When a feature ships or changes, update this file in the same mission.
   (2,000 characters, the customer never sees them); the booking history with
   the answers. Blocking: the customer can no longer book or change on the
   site but can still cancel; the owner may also cancel their upcoming
-  bookings (no text is sent) and note a private reason.
+  bookings (each customer gets a cancellation message, LT-560) and note a
+  private reason.
 - Lighty in the dashboard answers questions from the owner's data ("מה יש לי
   היום?", "מתי אני פנוי מחר?", "סכם לי את השבוע", "יש לידים שלא טיפלתי
-  בהם?", "מי הלקוחות הקבועים שלי?"). It does not book or change anything
-  itself; requests to change the site open the editor.
+  בהם?", "מי הלקוחות הקבועים שלי?"). Since LT-561 it also prepares changes
+  the owner asks for - days off, opening hours and special dates, booking
+  rules, appointments (book, move, change the service, cancel, mark done),
+  leads (status, add to the customers) and customers (a note, block) - each
+  shown on a card and done only when the owner confirms it; customers get the
+  same messages as when the owner does it by hand. Not services, products,
+  prices, business details, the plan or payments. The web dashboard has it;
+  the phone apps only from their next version, so do not promise it in the
+  apps yet. Requests to change the site open the editor.
   The percentage beside "שיחה חדשה" is the share of the month's AI quota
   already used.
 - Site Lighty (Lightor+ and the free days): answers visitors' questions on the
