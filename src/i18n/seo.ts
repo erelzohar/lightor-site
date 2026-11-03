@@ -76,7 +76,8 @@ interface Summary {
   h1: string;
   intro: string;
   canTitle: string;
-  can: [string, string, string];
+  // LT-565: and products, the fourth kind on the home page.
+  can: [string, string, string, string];
   lightyTitle: string;
   lighty: [string, string, string];
   promo: string;
@@ -103,6 +104,7 @@ export const SUMMARY: Record<Lang, Summary> = {
       'כל אתר: עמוד שמספר מי אתם ומה אתם מציעים, גלריה, המלצות ושאלות נפוצות, כפתורי וואטסאפ וטלפון, וכתובת משלכם בגוגל.',
       'קביעת תורים: לקוחות בוחרים שירות ושעה פנויה בעצמם, לפי השעות האמיתיות שלכם - כולל שיעורים וקבוצות - ומקבלים אישור ותזכורת ב-SMS או בוואטסאפ.',
       'קבלת פניות: טופס עם השאלות שלכם - להצעות מחיר, להרשמה או לחזרה טלפונית - כל פנייה במקום אחד עם סטטוס, והתראה מיידית.',
+      'הצגת מוצרים: עמוד לכל מוצר עם תמונות, מחיר ותיאור. מעלים תמונה או כותבים כמה מילים, ו-Lighty כותב את המוצר, ופנייה על מוצר מגיעה עם המוצר שבחרו.',
     ],
     lightyTitle: 'Lighty, העוזר החכם',
     lighty: [
@@ -133,6 +135,7 @@ export const SUMMARY: Record<Lang, Summary> = {
       'Every site: a page about who you are and what you offer, a gallery, reviews and FAQ, WhatsApp and phone buttons, and your own address on Google.',
       'Take bookings: customers choose a service and a free slot themselves, from your real hours - classes and groups included - and get a confirmation and a reminder by text message or WhatsApp.',
       'Get inquiries: a form with your own questions - for quotes, sign-ups or call-backs - every inquiry in one place with its status, and an instant alert.',
+      'Show products: a page for every product with pictures, a price and a description. Upload a picture or write a few words and Lighty writes the product, and an inquiry about a product comes with the product chosen.',
     ],
     lightyTitle: 'Lighty, the AI assistant',
     lighty: [
@@ -163,6 +166,7 @@ export const SUMMARY: Record<Lang, Summary> = {
       'كل موقع: صفحة تعرّف بك وبما تقدّمه، ومعرض صور، وآراء وأسئلة شائعة، وأزرار واتساب وهاتف، وعنوانك الخاص على Google.',
       'استقبال الحجوزات: يختار العملاء الخدمة والموعد المتاح بأنفسهم، حسب ساعات عملك الحقيقية - بما في ذلك الدروس والمجموعات - ويتلقون تأكيدًا وتذكيرًا برسالة نصية أو عبر واتساب.',
       'استقبال الاستفسارات: نموذج بأسئلتك الخاصة - لعروض الأسعار أو التسجيل أو طلب اتصال - كل استفسار في مكان واحد مع حالته، وتنبيه فوري.',
+      'عرض المنتجات: صفحة لكل منتج مع صور وسعر ووصف. ارفع صورة أو اكتب بضع كلمات وLighty يكتب المنتج، والاستفسار عن منتج يصل مع المنتج الذي اختاره.',
     ],
     lightyTitle: 'Lighty، المساعد الذكي',
     lighty: [
@@ -193,6 +197,7 @@ export const SUMMARY: Record<Lang, Summary> = {
       'Chaque site : une page qui dit qui vous êtes et ce que vous proposez, une galerie, des avis et une FAQ, des boutons WhatsApp et téléphone, et votre propre adresse sur Google.',
       'Prendre des rendez-vous : les clients choisissent eux-mêmes un service et un créneau libre, selon vos vrais horaires - cours et groupes compris - et reçoivent une confirmation et un rappel par SMS ou WhatsApp.',
       'Recevoir des demandes : un formulaire avec vos propres questions - pour des devis, des inscriptions ou des rappels - chaque demande au même endroit avec son statut, et une alerte immédiate.',
+      'Présenter des produits : une page par produit, avec photos, prix et description. Ajoutez une photo ou quelques mots et Lighty rédige le produit, et une demande sur un produit arrive avec le produit choisi.',
     ],
     lightyTitle: "Lighty, l'assistant IA",
     lighty: [
@@ -223,6 +228,7 @@ export const SUMMARY: Record<Lang, Summary> = {
       'Cada sitio: una página sobre quién eres y qué ofreces, una galería, reseñas y preguntas frecuentes, botones de WhatsApp y teléfono, y tu propia dirección en Google.',
       'Recibir reservas: los clientes eligen ellos mismos un servicio y un horario libre, según tu horario real - clases y grupos incluidos - y reciben una confirmación y un recordatorio por SMS o WhatsApp.',
       'Recibir consultas: un formulario con tus propias preguntas - para presupuestos, inscripciones o llamadas - cada consulta en un solo lugar con su estado, y un aviso al instante.',
+      'Mostrar productos: una página para cada producto con fotos, precio y descripción. Sube una foto o escribe unas palabras y Lighty redacta el producto, y una consulta sobre un producto llega con el producto elegido.',
     ],
     lightyTitle: 'Lighty, el asistente de IA',
     lighty: [
