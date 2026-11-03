@@ -177,7 +177,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   same messages as when the owner does it by hand. Since LT-564 also
   services (add, name, price, length), products (add, name, price, texts,
   shown or a draft, sold out; pictures on the products page), the owner's
-  alerts and the business's name, address and social links. Never deletes,
+  alerts and the business's name, address and social links; since LT-567 an
+  answer to a lead (drafted, sent from the owner's own phone by WhatsApp or
+  SMS) and several appointments moved together. Never deletes,
   never the phone, the email, the plan or payments. The web dashboard has it;
   the phone apps only from their next version, so do not promise it in the
   apps yet. Requests to change the site open the editor.
