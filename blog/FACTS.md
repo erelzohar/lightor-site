@@ -160,8 +160,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   (2,000 characters, the customer never sees them); the booking history with
   the answers. Blocking: the customer can no longer book or change on the
   site but can still cancel; the owner may also cancel their upcoming
-  bookings (each customer gets a cancellation message, LT-560) and note a
-  private reason.
+  bookings (the customer gets one cancellation message for them all, LT-562)
+  and note a private reason.
 - Lighty in the dashboard answers questions from the owner's data ("מה יש לי
   היום?", "מתי אני פנוי מחר?", "סכם לי את השבוע", "יש לידים שלא טיפלתי
   בהם?", "מי הלקוחות הקבועים שלי?"). Since LT-561 it also prepares changes
@@ -176,8 +176,10 @@ it out. When a feature ships or changes, update this file in the same mission.
   The percentage beside "שיחה חדשה" is the share of the month's AI quota
   already used.
 - Site Lighty (Lightor+ and the free days): answers visitors' questions on the
-  site ("יש לכם שאלה? אני כאן") from the site's public information. It cannot
-  book. It is on automatically for those sites.
+  site ("יש לכם שאלה? אני כאן") from the site's public information, and
+  since LT-563 tells the free times the booking calendar shows ("מה פנוי
+  מחר?"), times only, never who booked. It cannot book. It is on
+  automatically for those sites.
 - The phone app is the dashboard with push alerts: **Android in Google Play**
   (approved 2026-10-29; check the listing is public before linking it), the
   **iPhone app is in App Store review** - do not promise an App Store
