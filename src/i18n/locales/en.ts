@@ -15,7 +15,7 @@ export default {
     language: 'Language'
   },
   hero: {
-    badge: 'New: product sites, with a page for every product',
+    badge: 'New: Lighty, your smart assistant',
     title: 'Your website,',
     titleHighlight: 'in 60 seconds',
     subtitle: 'Tell Lighty what you want, and he builds the site.',
@@ -62,7 +62,7 @@ export default {
         'A form with your own questions',
         'Every inquiry in one place, each with a status',
         'An instant alert by WhatsApp, text or email',
-        'Your own main button, like "Sign up" or "Get a quote"'
+        'Lighty answers your leads'
       ]
     },
     products: {
@@ -70,9 +70,9 @@ export default {
       lead: 'For one product or a whole catalog',
       points: [
         'A page for every product, with pictures, a price and a description',
-        'Upload a picture, and Lighty writes the name and the description',
+        'Upload a picture or write a short description, and Lighty creates the product with its name and full description',
         'An inquiry about a product reaches you with the product they chose',
-        'A WhatsApp button beside every product'
+        'A whole store in a few seconds'
       ]
     },
     both: 'Lighty picks what fits from what you tell him, and you can ask him to change it at any time. Products can be added to any site.'

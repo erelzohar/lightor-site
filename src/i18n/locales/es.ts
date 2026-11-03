@@ -15,7 +15,7 @@ export default {
     language: 'Idioma'
   },
   hero: {
-    badge: 'Nuevo: sitios de productos, con una página para cada producto',
+    badge: 'Nuevo: Lighty, tu asistente inteligente',
     title: 'Tu sitio web,',
     titleHighlight: 'en 60 segundos',
     subtitle: 'Dile a Lighty lo que quieres, y él crea el sitio.',
@@ -62,7 +62,7 @@ export default {
         'Un formulario con tus propias preguntas',
         'Todas las consultas en un solo lugar, cada una con su estado',
         'Un aviso al instante por WhatsApp, SMS o correo',
-        'Tu propio botón principal, como "Inscríbete" o "Pide un presupuesto"'
+        'Lighty responde a tus leads'
       ]
     },
     products: {
@@ -70,9 +70,9 @@ export default {
       lead: 'Para un solo producto o un catálogo entero',
       points: [
         'Una página para cada producto, con fotos, precio y descripción',
-        'Sube una foto y Lighty escribe el nombre y la descripción',
+        'Sube una foto o escribe una descripción breve, y Lighty crea el producto con su nombre y su descripción completa',
         'Una consulta sobre un producto te llega con el producto elegido',
-        'Un botón de WhatsApp junto a cada producto'
+        'Una tienda completa en unos segundos'
       ]
     },
     both: 'Lighty elige lo que encaja según lo que le cuentes, y puedes pedirle que lo cambie en cualquier momento. Se pueden añadir productos a cualquier sitio.'

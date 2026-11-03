@@ -159,6 +159,18 @@ it out. When a feature ships or changes, update this file in the same mission.
   description and category from the first picture - never the price), and a
   gallery can become products in one step ("להפוך למוצרים"). Since LT-564
   the dashboard's Lighty can add and change them too, on a card.
+- From a few words (LT-568): a new product's form has "כמה מילים על המוצר"
+  and "Lighty ייצור את המוצר": Lighty writes the name, summary, full
+  description and category from the owner's words (never a material, size,
+  brand, origin or price they did not write), and, when the product has no
+  picture yet, makes one with AI. That picture is one of the plan's monthly AI
+  pictures (Lightor+ and the free days 10, Lightor Pro 40); on the free plan
+  Lighty writes the texts and the owner adds a picture. Everything stays
+  editable until the owner saves.
+- From pictures in Lighty's chat (LT-568): the owner attaches up to 6
+  pictures to a message and asks for a product; Lighty proposes it on a card
+  with the pictures, its texts from what they show, and the product is made
+  when the owner confirms (a draft unless they said to show it).
 - "הצג מוצרים באתר" on the Products page hides or shows them all at once;
   hidden products stay stored.
 - On the site: a products section on the home page (each style has its own
@@ -184,7 +196,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   payment), orders, delivery, sizes and colours, coupons, stock counts,
   importing from Instagram or a file, a Google Shopping feed, product
   reviews. An inquiry or a WhatsApp tap is a message to the owner, never an
-  order. Never call it a shop or an online store, and never promise payment.
+  order. The home page says "חנות שלמה בכמה שניות" (a store that shows the
+  products); never promise buying or payment on the site.
 - The Products page is in the web dashboard; the phone apps get it with their
   next version, so do not promise it in the apps yet.
 

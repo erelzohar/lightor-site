@@ -105,13 +105,12 @@ const Hero = () => {
       <div className="relative mx-auto grid max-w-7xl items-center gap-6 px-4 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10 lg:px-8">
         <div className="order-2 text-center lg:order-1 lg:text-start">
           <motion.a
-            href="#kinds"
+            href="#lighty"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            /* LT-409: plain text, not a pill (Erel: it looked like a button),
-               underlined on hover. LT-565: what is new is the products site,
-               so it leads down to the kinds of sites. */
+            /* LT-409: plain text, not a pill (Erel: it looked like a button);
+               still the way down to Lighty, underlined on hover. */
             className="inline-flex items-center gap-2 text-sm font-semibold text-violet-700 underline-offset-4 hover:underline dark:text-violet-300"
           >
             <Sparkles className="h-4 w-4" aria-hidden="true" />
