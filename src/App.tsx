@@ -10,7 +10,12 @@ import Showcase from './components/Showcase';
 import Contact from './components/Contact';
 import './i18n';
 
-function App() {
+/**
+ * The home page itself. LT-579: drawn to HTML at build time by
+ * entry-server.tsx (no router there: nothing in the page reads one), then
+ * taken over in the browser by main.tsx.
+ */
+export function Home() {
   // LT-263: an address like lightor.app/#lighty (the /sites page links here)
   // lands on its section. The browser looks for the section while the page
   // is still loading, before React has drawn it, and then gives up.
@@ -30,16 +35,22 @@ function App() {
   }, []);
 
   return (
+    <SiteShell>
+      <Hero />
+      <SiteKinds />
+      <LightySection />
+      <Features />
+      <HowItWorks />
+      <Showcase />
+      <Contact />
+    </SiteShell>
+  );
+}
+
+function App() {
+  return (
     <BrowserRouter>
-      <SiteShell>
-        <Hero />
-        <SiteKinds />
-        <LightySection />
-        <Features />
-        <HowItWorks />
-        <Showcase />
-        <Contact />
-      </SiteShell>
+      <Home />
     </BrowserRouter>
   );
 }

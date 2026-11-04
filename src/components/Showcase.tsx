@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isRtl } from '../i18n/languages';
 import { motion } from 'framer-motion';
@@ -27,17 +27,21 @@ const SITES = [
 /** The screenshots' date: a new set gets a new address, past the 4 h cache (LT-372). */
 const SHOTS = '2026-10-17';
 
-/** True while the viewport is at least `px` wide; follows resizes. */
+/**
+ * True while the viewport is at least `px` wide; follows resizes. The page
+ * drawn at build time (LT-579) is the phone's; the browser corrects it.
+ */
 const useWide = (px: number): boolean => {
   const query = `(min-width: ${px}px)`;
-  const [wide, setWide] = useState(() => window.matchMedia(query).matches);
-  useEffect(() => {
-    const mq = window.matchMedia(query);
-    const on = () => setWide(mq.matches);
-    mq.addEventListener('change', on);
-    return () => mq.removeEventListener('change', on);
-  }, [query]);
-  return wide;
+  return useSyncExternalStore(
+    (on) => {
+      const mq = window.matchMedia(query);
+      mq.addEventListener('change', on);
+      return () => mq.removeEventListener('change', on);
+    },
+    () => window.matchMedia(query).matches,
+    () => false,
+  );
 };
 
 const Showcase = () => {

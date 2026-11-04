@@ -164,12 +164,18 @@ const cell = ({ col, row }: { col: number; row: number }, rtl: boolean) => ({
   y: `${row * 100}%`,
 });
 
-const weekdays = (lang: string) => {
-  // 1 Nov 2026 is a Sunday: the working week starts there in Hebrew and Arabic.
-  const first = isRtl(lang) ? 1 : 2;
-  const format = new Intl.DateTimeFormat(lang, { weekday: 'short' });
-  return Array.from({ length: COLS }, (_, i) => format.format(new Date(2026, 10, first + i)));
+// The working week: Sunday to Thursday in Hebrew and Arabic. Written out, not
+// Intl: the page is drawn on the build machine (LT-579), whose dates can read
+// differently from a browser's, and the two must match.
+const WEEKDAYS: Record<Lang, string[]> = {
+  he: ['יום א׳', 'יום ב׳', 'יום ג׳', 'יום ד׳', 'יום ה׳'],
+  en: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+  ar: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'],
+  fr: ['lun.', 'mar.', 'mer.', 'jeu.', 'ven.'],
+  es: ['lun', 'mar', 'mié', 'jue', 'vie'],
 };
+
+const weekdays = (lang: string) => WEEKDAYS[lang as Lang] ?? WEEKDAYS.he;
 
 const CalendarScene = ({ step }: { step: number }) => {
   const { t, i18n } = useTranslation();

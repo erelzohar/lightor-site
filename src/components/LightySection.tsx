@@ -19,7 +19,8 @@ const LightyRunIn = lazy<ComponentType<LightyRunInProps>>(() =>
 const MODEL_PATIENCE_MS = 1500;
 const FADE_MS = 300;
 
-const savesData = () => (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+const savesData = () =>
+  typeof navigator !== 'undefined' && (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
 
 /**
  * LT-533: the first time his place scrolls into view, the 3D Lighty runs in
@@ -35,9 +36,15 @@ const LightyArrival = () => {
   const [near, setNear] = useState(false);
   const [go, setGo] = useState(false);
   const [running, setRunning] = useState(false);
-  const [arrived, setArrived] = useState(savesData);
+  const [arrived, setArrived] = useState(false);
   const [over, setOver] = useState(false);
   const settled = arrived || still;
+
+  // In an effect, not the first render: the page drawn at build time (LT-579)
+  // cannot know, and the browser's first render must match it.
+  useEffect(() => {
+    if (savesData()) setArrived(true);
+  }, []);
 
   useEffect(() => {
     const place = placeRef.current;
