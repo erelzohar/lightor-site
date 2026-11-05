@@ -82,7 +82,8 @@ it out. When a feature ships or changes, update this file in the same mission.
 - If the same phone already has a booking that day, after the code the
   customer is offered to book another or update the one they have.
 - Confirmation by SMS or WhatsApp - **the customer chooses** with a switch on
-  the form (SMS preselected). A failed WhatsApp is resent by SMS. Texts in
+  the form (SMS preselected); in the free days there is no switch and it is
+  SMS (LT-600). A failed WhatsApp is resent by SMS. Texts in
   Hebrew and English only, written by Lightor (the owner does not edit them).
   The confirmation carries the manage link and says until when it can be used,
   e.g. "לינק לניהול התור עד שעה לפני התור".
@@ -212,7 +213,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   Defaults: app and email on, phone off. **A new booking never goes by
   phone**; the phone carries only the morning summary, inquiries, and
   cancellations or changes within the next 24 hours - and on the free plan
-  only the morning summary (LT-489). If nothing reached the
+  only the morning summary (LT-489); in the free days no WhatsApp at all
+  (LT-600). If nothing reached the
   owner, the alert goes by email anyway. The first time the app connects,
   booking emails are switched off unless the owner already chose.
 - Customers: list, visit history, private notes, blocking (every plan).
@@ -298,3 +300,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   2026-11-05). Once per phone, email, Google or Apple account; it starts once
   the phone is verified. Joining Lightor+ in the free days charges only at day
   60.
+- **No WhatsApp in the free days** (LT-600, Erel 2026-11-06), a card added in
+  them included: customers get the code, confirmation and reminders by SMS
+  (the booking form has no SMS/WhatsApp switch), and the owner's alerts come
+  in the app and by email (no WhatsApp option on the Account page). WhatsApp
+  is back when the free days end, on any plan. Never promise WhatsApp in the
+  free days.
