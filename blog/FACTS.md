@@ -294,6 +294,7 @@ it out. When a feature ships or changes, update this file in the same mission.
   and reminders.
 - Every new account: 60 days of Lightor+ free, no credit card, no commitment,
   up to 200 bookings in each 30-day month. Joining Lightor Pro in the free days
-  opens all of it at once (500 bookings a month until the first payment). Once
-  per phone, email, Google or Apple account; it starts once the phone is
-  verified. Subscribing in the free days charges only at day 60.
+  is paid at once and opens all of it at once; the free days left end (LT-589,
+  2026-11-05). Once per phone, email, Google or Apple account; it starts once
+  the phone is verified. Joining Lightor+ in the free days charges only at day
+  60.
