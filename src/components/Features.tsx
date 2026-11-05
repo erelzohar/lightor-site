@@ -1,33 +1,34 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Check, Clock, Images, LayoutDashboard, Smartphone, TrendingUp } from 'lucide-react';
+import { Check, LayoutDashboard, Smartphone, TrendingUp, Users } from 'lucide-react';
 import {
   FeatureCard,
   addressScene,
   alertsScene,
   calendarScene,
-  customersScene,
-  designScene,
   languagesScene,
-  remindersScene,
+  leadsScene,
+  productsScene,
+  siteScene,
 } from './ui/feature';
 
-// Three columns from lg: the two wide cards zigzag. Two columns at md: the
-// calendar alone on the first row, then pairs.
+// Three columns from lg: the site first, then the three things a site can
+// do side by side (LT-582: "just a site" and products fit as well as
+// bookings), and the wide cards zigzag. Two columns at md: the site alone on
+// the first row, then pairs.
 const CARDS = [
-  { id: 'calendar', scene: calendarScene, wide: true, className: 'md:col-span-2' },
-  { id: 'reminders', scene: remindersScene },
-  { id: 'alerts', scene: alertsScene },
-  { id: 'customers', scene: customersScene },
-  { id: 'design', scene: designScene },
+  { id: 'site', scene: siteScene, wide: true, className: 'md:col-span-2' },
+  { id: 'address', scene: addressScene, lead: true },
+  { id: 'products', scene: productsScene },
+  { id: 'leads', scene: leadsScene },
+  { id: 'calendar', scene: calendarScene },
   { id: 'languages', scene: languagesScene },
-  { id: 'address', scene: addressScene, wide: true, lead: true, className: 'lg:col-span-2' },
+  { id: 'alerts', scene: alertsScene, wide: true, className: 'lg:col-span-2' },
 ] as const;
 
 const EXTRAS = [
   { id: 'dashboard', Icon: LayoutDashboard },
-  { id: 'hours', Icon: Clock },
-  { id: 'content', Icon: Images },
+  { id: 'customers', Icon: Users },
   { id: 'mobile', Icon: Smartphone },
 ] as const;
 
@@ -69,7 +70,7 @@ const Features = () => {
           ))}
         </div>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:mt-5 lg:grid-cols-4 lg:gap-5">
+        <div className="mt-4 grid gap-4 sm:grid-cols-3 lg:mt-5 lg:gap-5">
           {EXTRAS.map(({ id, Icon }, i) => (
             <motion.article
               key={id}

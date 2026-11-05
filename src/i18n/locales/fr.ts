@@ -100,41 +100,37 @@ export default {
     eyebrow: 'Fonctionnalités',
     title: 'Tout ce dont votre site a besoin',
     items: {
+      site: {
+        title: 'Un site complet, à votre image',
+        text: 'Une page qui dit qui vous êtes, une galerie, une FAQ et des avis. Cliquez sur un texte, une image ou une section pour les modifier, seul ou avec Lighty, avec un large choix de styles, de couleurs et de polices.'
+      },
+      products: {
+        title: 'Des produits sur votre site',
+        text: 'Écrivez quelques mots ou ajoutez une photo, et Lighty crée le produit avec un nom, une description et une image. Chaque produit a sa page, et une demande à son sujet vous arrive avec le produit.'
+      },
+      leads: {
+        title: 'Demandes et prospects',
+        text: 'Un formulaire avec vos propres questions, pour des devis, des inscriptions ou des rappels. Chaque demande arrive au même endroit, avec son statut.'
+      },
       calendar: {
         title: 'Un agenda qui se remplit tout seul',
-        text: 'Les clients réservent eux-mêmes sur votre site. Un rendez-vous à déplacer ? Faites-le glisser dans l\'agenda et le client reçoit un message.'
+        text: 'Les clients réservent eux-mêmes sur votre site et reçoivent une confirmation et un rappel par SMS ou WhatsApp. Un rendez-vous à déplacer ? Faites-le glisser dans l\'agenda.'
       },
       address: {
         title: 'Votre propre adresse',
         text: 'Le nom dans votre adresse est à vous : choisissez-le et modifiez-le quand vous voulez. Un lien court à partager avec tout le monde, sur un site conçu pour être trouvé sur Google.'
       },
-      reminders: {
-        title: 'Des rappels qui fonctionnent',
-        text: 'Une confirmation à la réservation et un rappel avant, par SMS ou WhatsApp.'
-      },
       alerts: {
-        title: 'Soyez averti de chaque rendez-vous et demande',
+        title: 'Soyez averti de chaque demande et rendez-vous',
         text: 'Une alerte dans l\'app, par e-mail ou WhatsApp - vous choisissez pour quoi.'
       },
       dashboard: {
         title: 'Un seul tableau de bord',
         text: 'Votre site, vos demandes, vos rendez-vous et vos clients - au même endroit, sur téléphone ou ordinateur.'
       },
-      design: {
-        title: 'Le design en un clic',
-        text: 'Cliquez sur un texte, une image ou une section pour les modifier, seul ou avec Lighty. Un large choix de styles, de couleurs et de polices.'
-      },
       customers: {
         title: 'Vos clients',
-        text: 'Qui est venu et quand, leur historique et des notes pour la prochaine fois.'
-      },
-      hours: {
-        title: 'Vos horaires',
-        text: 'Jours et heures, pauses, congés et changements ponctuels.'
-      },
-      content: {
-        title: 'Un site complet',
-        text: 'Services, produits et tarifs, galerie, FAQ et avis - tout sur votre site.'
+        text: 'Qui a pris contact et qui est venu, leur historique et des notes pour la prochaine fois.'
       },
       languages: {
         title: 'Cinq langues',
@@ -149,17 +145,28 @@ export default {
       names: ['Léa', 'Emma', 'Chloé', 'Hugo', 'Inès'],
       moved: 'Rendez-vous déplacé',
       business: 'Studio Ora',
-      confirmed: 'Votre rendez-vous est fixé à lundi, 10:00',
-      reminder: 'Rappel : votre rendez-vous est aujourd\'hui à 10:00',
       alerts: {
-        booking: { title: 'Nouveau rendez-vous', text: 'Léa, demain à 10:00' },
-        lead: { title: 'Nouvelle demande', text: 'Hugo, depuis votre site' },
-        summary: { title: 'Résumé du matin', text: '6 rendez-vous aujourd\'hui' }
+        lead: { title: 'Nouvelle demande', text: 'Léa, depuis votre site' },
+        productLead: { title: 'Demande sur un produit', text: 'Hugo, à propos du bol bleu' },
+        booking: { title: 'Nouveau rendez-vous', text: 'Léa, demain à 10:00' }
       },
-      customer: 'Chloé Martin',
-      visits: 'Visites',
-      noteLabel: 'Note privée',
-      note: 'Préfère les rendez-vous du matin',
+      siteHeadline: 'Céramique faite main',
+      productHint: 'Quelques mots sur le produit',
+      productWords: 'Bol en céramique bleu, 35',
+      productName: 'Bol bleu',
+      productPrice: '35 €',
+      products: [
+        { name: 'Tasse à espresso', price: '12 €' },
+        { name: 'Plat de service', price: '25 €' }
+      ],
+      leadName: 'Léa Martin',
+      leadMessage: 'J\'aimerais des infos sur l\'atelier',
+      namePlaceholder: 'Nom',
+      messagePlaceholder: 'Message',
+      send: 'Envoyer',
+      sent: 'Envoyé',
+      status: { new: 'Nouveau', contacted: 'Contacté', closed: 'Clos' },
+      olderLead: { name: 'Hugo', text: 'Un devis pour un événement' },
       live: 'Votre site est en ligne'
     },
     seo: {

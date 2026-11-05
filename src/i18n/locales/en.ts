@@ -100,41 +100,37 @@ export default {
     eyebrow: 'Features',
     title: 'Everything your site needs',
     items: {
+      site: {
+        title: 'A complete site, in your style',
+        text: 'A page about who you are, a gallery, FAQ and testimonials. Click any text, picture or section to change it, yourself or with Lighty, with a wide choice of styles, colors and fonts.'
+      },
+      products: {
+        title: 'Products on your site',
+        text: 'Write a few words or upload a picture, and Lighty makes the product with a name, a description and a picture. Every product has its own page, and an inquiry about it reaches you with the product.'
+      },
+      leads: {
+        title: 'Inquiries and leads',
+        text: 'A form with your own questions, for quotes, sign-ups or call-backs. Every inquiry lands in one place, each with its status.'
+      },
       calendar: {
         title: 'A calendar that fills itself',
-        text: 'Customers book on your site themselves. Need to move one? Drag it in the calendar and the customer gets a message.'
+        text: 'Customers book on your site themselves and get a confirmation and a reminder by text or WhatsApp. Need to move one? Drag it in the calendar.'
       },
       address: {
         title: 'Your own address',
         text: 'The name in your address is yours: pick it and edit it whenever you like. A short link to share with everyone, on a site built to be found on Google.'
       },
-      reminders: {
-        title: 'Reminders that work',
-        text: 'A confirmation when they book and a reminder before, by text or WhatsApp.'
-      },
       alerts: {
-        title: 'Hear about every booking and inquiry',
+        title: 'Hear about every inquiry and booking',
         text: 'An alert in the app, by email or on WhatsApp - you choose what for.'
       },
       dashboard: {
         title: 'One dashboard',
         text: 'Your site, inquiries, bookings and customers - in one place, on your phone or computer.'
       },
-      design: {
-        title: 'Design in a click',
-        text: 'Click any text, picture or section and change it, yourself or with Lighty. A wide choice of styles, colors and fonts.'
-      },
       customers: {
         title: 'Your customers',
-        text: 'Who came and when, their history, and notes for next time.'
-      },
-      hours: {
-        title: 'Your hours',
-        text: 'Days and hours, breaks, holidays and one-off changes.'
-      },
-      content: {
-        title: 'A complete site',
-        text: 'Services, products and prices, a gallery, FAQ and reviews - all on your site.'
+        text: 'Who got in touch and who came, their history, and notes for next time.'
       },
       languages: {
         title: 'Five languages',
@@ -149,17 +145,28 @@ export default {
       names: ['Noa', 'Dana', 'Maya', 'Ron', 'Yael'],
       moved: 'Booking moved',
       business: 'Studio Ora',
-      confirmed: 'Your booking is set for Monday at 10:00',
-      reminder: 'Reminder: your booking is today at 10:00',
       alerts: {
-        booking: { title: 'New booking', text: 'Noa, tomorrow at 10:00' },
-        lead: { title: 'New inquiry', text: 'Ron, from your site' },
-        summary: { title: 'Morning summary', text: '6 bookings today' }
+        lead: { title: 'New inquiry', text: 'Dana, from your site' },
+        productLead: { title: 'Inquiry about a product', text: 'Ron, about the blue bowl' },
+        booking: { title: 'New booking', text: 'Noa, tomorrow at 10:00' }
       },
-      customer: 'Maya Carmi',
-      visits: 'Visits',
-      noteLabel: 'Private note',
-      note: 'Prefers morning bookings',
+      siteHeadline: 'Handmade ceramics',
+      productHint: 'A few words about the product',
+      productWords: 'Blue ceramic bowl, 35',
+      productName: 'Blue bowl',
+      productPrice: '$35',
+      products: [
+        { name: 'Espresso cup', price: '$14' },
+        { name: 'Serving plate', price: '$28' }
+      ],
+      leadName: 'Dana Levi',
+      leadMessage: 'I\'d love details on the workshop',
+      namePlaceholder: 'Name',
+      messagePlaceholder: 'Message',
+      send: 'Send',
+      sent: 'Sent',
+      status: { new: 'New', contacted: 'Contacted', closed: 'Closed' },
+      olderLead: { name: 'Ron', text: 'A quote for an event' },
       live: 'Your site is live'
     },
     seo: {

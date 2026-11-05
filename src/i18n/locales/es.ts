@@ -100,41 +100,37 @@ export default {
     eyebrow: 'Funciones',
     title: 'Todo lo que tu sitio necesita',
     items: {
+      site: {
+        title: 'Un sitio completo, a tu estilo',
+        text: 'Una página sobre quién eres, una galería, preguntas frecuentes y reseñas. Haz clic en un texto, una imagen o una sección para cambiarlos, solo o con Lighty, con una amplia selección de estilos, colores y fuentes.'
+      },
+      products: {
+        title: 'Productos en tu sitio',
+        text: 'Escribe unas palabras o sube una foto, y Lighty crea el producto con nombre, descripción e imagen. Cada producto tiene su propia página, y una consulta sobre él te llega con el producto.'
+      },
+      leads: {
+        title: 'Consultas y clientes potenciales',
+        text: 'Un formulario con tus propias preguntas, para presupuestos, inscripciones o llamadas. Cada consulta llega a un solo lugar, con su estado.'
+      },
       calendar: {
         title: 'Una agenda que se llena sola',
-        text: 'Tus clientes reservan solos en tu sitio. ¿Hay que mover una cita? Arrástrala en la agenda y el cliente recibe un mensaje.'
+        text: 'Tus clientes reservan solos en tu sitio y reciben una confirmación y un recordatorio por SMS o WhatsApp. ¿Hay que mover una cita? Arrástrala en la agenda.'
       },
       address: {
         title: 'Tu propia dirección',
         text: 'El nombre de tu dirección es tuyo: elígelo y edítalo cuando quieras. Un enlace corto para compartir con todos, en un sitio hecho para encontrarse en Google.'
       },
-      reminders: {
-        title: 'Recordatorios que funcionan',
-        text: 'Una confirmación al reservar y un recordatorio antes, por SMS o WhatsApp.'
-      },
       alerts: {
-        title: 'Entérate de cada reserva y consulta',
+        title: 'Entérate de cada consulta y reserva',
         text: 'Un aviso en la app, por correo o WhatsApp - tú eliges de qué.'
       },
       dashboard: {
         title: 'Un solo panel',
         text: 'Tu sitio, consultas, reservas y clientes - en un solo lugar, en el móvil o el ordenador.'
       },
-      design: {
-        title: 'Diseño con un clic',
-        text: 'Haz clic en un texto, una imagen o una sección para cambiarlos, solo o con Lighty. Una amplia selección de estilos, colores y fuentes.'
-      },
       customers: {
         title: 'Tus clientes',
-        text: 'Quién vino y cuándo, su historial y notas para la próxima vez.'
-      },
-      hours: {
-        title: 'Tu horario',
-        text: 'Días y horas, descansos, vacaciones y cambios puntuales.'
-      },
-      content: {
-        title: 'Un sitio completo',
-        text: 'Servicios, productos y precios, galería, preguntas frecuentes y reseñas - todo en tu sitio.'
+        text: 'Quién escribió y quién vino, su historial y notas para la próxima vez.'
       },
       languages: {
         title: 'Cinco idiomas',
@@ -149,17 +145,28 @@ export default {
       names: ['Lucía', 'Ana', 'Sofía', 'Diego', 'Marta'],
       moved: 'Cita movida',
       business: 'Studio Ora',
-      confirmed: 'Tu cita es el lunes a las 10:00',
-      reminder: 'Recordatorio: tu cita es hoy a las 10:00',
       alerts: {
-        booking: { title: 'Nueva cita', text: 'Lucía, mañana a las 10:00' },
-        lead: { title: 'Nueva consulta', text: 'Diego, desde tu sitio' },
-        summary: { title: 'Resumen de la mañana', text: '6 citas hoy' }
+        lead: { title: 'Nueva consulta', text: 'Lucía, desde tu sitio' },
+        productLead: { title: 'Consulta sobre un producto', text: 'Diego, sobre el cuenco azul' },
+        booking: { title: 'Nueva cita', text: 'Lucía, mañana a las 10:00' }
       },
-      customer: 'Sofía Ruiz',
-      visits: 'Visitas',
-      noteLabel: 'Nota privada',
-      note: 'Prefiere citas por la mañana',
+      siteHeadline: 'Cerámica hecha a mano',
+      productHint: 'Unas palabras sobre el producto',
+      productWords: 'Cuenco de cerámica azul, 35',
+      productName: 'Cuenco azul',
+      productPrice: '35 €',
+      products: [
+        { name: 'Taza de espresso', price: '12 €' },
+        { name: 'Fuente para servir', price: '25 €' }
+      ],
+      leadName: 'Lucía Pérez',
+      leadMessage: 'Quiero información del taller',
+      namePlaceholder: 'Nombre',
+      messagePlaceholder: 'Mensaje',
+      send: 'Enviar',
+      sent: 'Enviado',
+      status: { new: 'Nueva', contacted: 'Contactada', closed: 'Cerrada' },
+      olderLead: { name: 'Diego', text: 'Un presupuesto para un evento' },
       live: 'Tu sitio está en línea'
     },
     seo: {
