@@ -91,8 +91,8 @@ export default {
     },
     ask: {
       title: 'Répond à partir de vos propres données',
-      text: 'Posez vos questions simplement sur vos rendez-vous, vos demandes et vos clients - et Lighty répond.',
-      examples: ['Qu\'est-ce que j\'ai demain ?', 'Résume ma semaine', 'Des demandes sans réponse ?']
+      text: 'Posez vos questions simplement sur votre site, vos produits, vos demandes et vos rendez-vous - Lighty répond et, si besoin, propose de faire le changement pour vous.',
+      examples: ['Ajoute un nouveau produit', 'Résume mon mois', 'Des demandes sans réponse ?']
     },
     imageAlt: 'Lighty en train de créer un site'
   },
@@ -110,7 +110,7 @@ export default {
       },
       leads: {
         title: 'Demandes et prospects',
-        text: 'Un formulaire avec vos propres questions, pour des devis, des inscriptions ou des rappels. Chaque demande arrive au même endroit, avec son statut.'
+        text: 'Un formulaire avec vos propres questions, pour des devis, des inscriptions ou des rappels. Chaque demande arrive au même endroit, avec son statut, et vous êtes averti.'
       },
       calendar: {
         title: 'Un agenda qui se remplit tout seul',
@@ -120,17 +120,21 @@ export default {
         title: 'Votre propre adresse',
         text: 'Le nom dans votre adresse est à vous : choisissez-le et modifiez-le quand vous voulez. Un lien court à partager avec tout le monde, sur un site conçu pour être trouvé sur Google.'
       },
-      alerts: {
-        title: 'Soyez averti de chaque demande et rendez-vous',
-        text: 'Une alerte dans l\'app, par e-mail ou WhatsApp - vous choisissez pour quoi.'
+      visitors: {
+        title: 'Lighty répond à vos visiteurs',
+        text: 'Les visiteurs posent leurs questions sur votre site et Lighty répond aussitôt, à partir de ce qu\'il contient : produits et prix, services, horaires et questions fréquentes. Même en pleine nuit.'
       },
       dashboard: {
         title: 'Un seul tableau de bord',
-        text: 'Votre site, vos demandes, vos rendez-vous et vos clients - au même endroit, sur téléphone ou ordinateur.'
+        text: 'Votre site, vos produits, vos demandes, vos rendez-vous et vos clients - au même endroit.'
       },
-      customers: {
-        title: 'Vos clients',
-        text: 'Qui a pris contact et qui est venu, leur historique et des notes pour la prochaine fois.'
+      pictures: {
+        title: 'Des images avec l\'IA',
+        text: 'Créez une image en quelques mots, ou améliorez l\'une des vôtres et comparez avant et après.'
+      },
+      access: {
+        title: 'Accessibilité intégrée',
+        text: 'Un menu d\'accessibilité et une déclaration d\'accessibilité sur chaque site, sans extension externe.'
       },
       languages: {
         title: 'Cinq langues',
@@ -138,18 +142,14 @@ export default {
       },
       mobile: {
         title: 'Tout sur votre téléphone',
-        text: 'Suivez ce qui se passe et mettez votre site à jour de n\'importe où'
+        text: 'Suivez ce qui se passe, recevez les alertes et mettez votre site à jour de n\'importe où.'
       }
     },
     demo: {
       names: ['Léa', 'Emma', 'Chloé', 'Hugo', 'Inès'],
       moved: 'Rendez-vous déplacé',
       business: 'Studio Ora',
-      alerts: {
-        lead: { title: 'Nouvelle demande', text: 'Léa, depuis votre site' },
-        productLead: { title: 'Demande sur un produit', text: 'Hugo, à propos du bol bleu' },
-        booking: { title: 'Nouveau rendez-vous', text: 'Léa, demain à 10:00' }
-      },
+      visitor: { question: 'Le plat de service est-il encore en stock ?', answer: 'Oui, et il coûte 25 €. Voulez-vous poser la question au studio ?', link: 'Laisser vos coordonnées' },
       siteHeadline: 'Céramique faite main',
       productHint: 'Quelques mots sur le produit',
       productWords: 'Bol en céramique bleu, 35',
@@ -175,7 +175,7 @@ export default {
       text: 'Chaque site Lightor est conçu pour que les moteurs de recherche et les outils d\'IA comprennent qui vous êtes et ce que vous proposez, et puissent vous montrer et vous recommander - sans payer de publicité.',
       points: [
         'Les moteurs de recherche sont avertis à chaque changement de votre site',
-        'Vos informations, services et horaires - dans un langage que les moteurs de recherche comprennent',
+        'Vos informations, produits, services et horaires - dans un langage que les moteurs de recherche comprennent',
         'Ouvert aux robots des moteurs de recherche IA',
         'Un lien vers votre site depuis la page « Sites réalisés » de Lightor'
       ],

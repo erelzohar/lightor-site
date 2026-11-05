@@ -91,8 +91,8 @@ export default {
     },
     ask: {
       title: 'Answers questions from your own data',
-      text: 'Ask in plain words about your bookings, inquiries and customers - and Lighty answers.',
-      examples: ['What do I have tomorrow?', 'Sum up my week', 'Any inquiries I have not answered?']
+      text: 'Ask in plain words about your site, products, inquiries and bookings - Lighty answers, and when needed offers to make the change for you.',
+      examples: ['Add a new product', 'Sum up my month', 'Any inquiries I have not answered?']
     },
     imageAlt: 'Lighty building a website'
   },
@@ -110,7 +110,7 @@ export default {
       },
       leads: {
         title: 'Inquiries and leads',
-        text: 'A form with your own questions, for quotes, sign-ups or call-backs. Every inquiry lands in one place, each with its status.'
+        text: 'A form with your own questions, for quotes, sign-ups or call-backs. Every inquiry lands in one place, each with its status, and you get an alert.'
       },
       calendar: {
         title: 'A calendar that fills itself',
@@ -120,17 +120,21 @@ export default {
         title: 'Your own address',
         text: 'The name in your address is yours: pick it and edit it whenever you like. A short link to share with everyone, on a site built to be found on Google.'
       },
-      alerts: {
-        title: 'Hear about every inquiry and booking',
-        text: 'An alert in the app, by email or on WhatsApp - you choose what for.'
+      visitors: {
+        title: 'Lighty answers your visitors',
+        text: 'Visitors ask on your site and Lighty answers at once, from what the site says: products and prices, services, hours and FAQs. Even in the middle of the night.'
       },
       dashboard: {
         title: 'One dashboard',
-        text: 'Your site, inquiries, bookings and customers - in one place, on your phone or computer.'
+        text: 'Your site, products, inquiries, bookings and customers - all in one place.'
       },
-      customers: {
-        title: 'Your customers',
-        text: 'Who got in touch and who came, their history, and notes for next time.'
+      pictures: {
+        title: 'Pictures with AI',
+        text: 'Create a picture from a few words, or improve one of your own and see the before and after.'
+      },
+      access: {
+        title: 'Accessibility built in',
+        text: 'An accessibility menu and an accessibility statement on every site, with no outside plugin.'
       },
       languages: {
         title: 'Five languages',
@@ -138,18 +142,14 @@ export default {
       },
       mobile: {
         title: 'All on your phone',
-        text: 'See what\'s happening and update your site from anywhere'
+        text: 'See what\'s happening, get alerts and update your site from anywhere.'
       }
     },
     demo: {
       names: ['Noa', 'Dana', 'Maya', 'Ron', 'Yael'],
       moved: 'Booking moved',
       business: 'Studio Ora',
-      alerts: {
-        lead: { title: 'New inquiry', text: 'Dana, from your site' },
-        productLead: { title: 'Inquiry about a product', text: 'Ron, about the blue bowl' },
-        booking: { title: 'New booking', text: 'Noa, tomorrow at 10:00' }
-      },
+      visitor: { question: 'Is the serving plate still in stock?', answer: 'Yes, and it costs $28. Want to ask the studio about it?', link: 'Leave your details' },
       siteHeadline: 'Handmade ceramics',
       productHint: 'A few words about the product',
       productWords: 'Blue ceramic bowl, 35',
@@ -175,7 +175,7 @@ export default {
       text: 'Every Lightor site is built so search engines and AI tools understand who you are and what you offer, and can show and recommend you - no paying for ads.',
       points: [
         'Search engines are updated on every change to your site',
-        'Your details, services and hours - in a language search engines understand',
+        'Your details, products, services and hours - in a language search engines understand',
         'Open to the crawlers of AI search engines',
         'A link to your site from Lightor\'s "Sites we built" page'
       ],

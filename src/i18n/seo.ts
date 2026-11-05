@@ -79,7 +79,7 @@ interface Summary {
   // LT-565: and products, the fourth kind on the home page.
   can: [string, string, string, string];
   lightyTitle: string;
-  lighty: [string, string, string];
+  lighty: [string, string, string, string];
   promo: string;
   links: {
     build: string;
@@ -110,7 +110,8 @@ export const SUMMARY: Record<Lang, Summary> = {
     lighty: [
       'בונה את האתר מתוך שיחה.',
       'עורכים כל חלק באתר בלחיצה - לבד או עם Lighty.',
-      'עונה על שאלות מתוך הנתונים שלכם: תורים, לקוחות ופניות.',
+      'עונה על שאלות מתוך הנתונים שלכם: האתר, המוצרים, הפניות והתורים, ומציע לעשות את השינוי בשבילכם.',
+      'עונה למבקרים באתר שלכם מתוך מה שכתוב בו: מוצרים ומחירים, שירותים, שעות ושאלות נפוצות.',
     ],
     promo:
       'כל אתר מקודם אורגנית: מנועי החיפוש מתעדכנים בכל שינוי, התוכן מסומן כך שמנועי חיפוש מבינים אותו, וכל אתר מקושר מ-lightor.app/sites. לייטור מתאים לעסקים, לאירועים, לדפי נחיתה ולכל רעיון. מתחילים בחינם, בלי התקנה, בעברית, אנגלית, ערבית, צרפתית וספרדית.',
@@ -141,7 +142,8 @@ export const SUMMARY: Record<Lang, Summary> = {
     lighty: [
       'Builds your site from a conversation.',
       'Edit any part of your site with a click - by hand or with Lighty.',
-      'Answers questions from your own data: bookings, customers and inquiries.',
+      'Answers questions from your own data: your site, products, inquiries and bookings, and offers to make the change for you.',
+      'Answers the visitors on your site from what it says: products and prices, services, hours and FAQs.',
     ],
     promo:
       'Every site is promoted organically: search engines are updated on every change, the content is marked up so search engines understand it, and each site is linked from lightor.app/sites. Lightor works for businesses, events, landing pages and any idea. It is free to start, needs no installation, and is available in Hebrew, English, Arabic, French and Spanish.',
@@ -172,7 +174,8 @@ export const SUMMARY: Record<Lang, Summary> = {
     lighty: [
       'يبني موقعك من محادثة.',
       'عدّل أي جزء من موقعك بنقرة - بنفسك أو مع Lighty.',
-      'يجيب عن الأسئلة من بياناتك: الحجوزات والعملاء والاستفسارات.',
+      'يجيب عن الأسئلة من بياناتك: موقعك ومنتجاتك واستفساراتك وحجوزاتك، ويعرض أن يُجري التغيير بنفسه.',
+      'يجيب زوار موقعك مما هو مكتوب فيه: المنتجات والأسعار والخدمات والساعات والأسئلة الشائعة.',
     ],
     promo:
       'كل موقع يحظى بترويج طبيعي: تُحدَّث محركات البحث مع كل تغيير، ويُوسَم المحتوى بحيث تفهمه محركات البحث، وكل موقع مرتبط من lightor.app/sites. لايتور يناسب الأعمال والأحداث وصفحات الهبوط وأي فكرة. البدء مجاني، بلا تثبيت، ومتوفر بالعبرية والإنجليزية والعربية والفرنسية والإسبانية.',
@@ -203,7 +206,8 @@ export const SUMMARY: Record<Lang, Summary> = {
     lighty: [
       "Crée votre site à partir d'une conversation.",
       "Modifiez n'importe quelle partie de votre site en un clic - vous-même ou avec Lighty.",
-      'Répond aux questions à partir de vos propres données : rendez-vous, clients et demandes.',
+      'Répond aux questions à partir de vos propres données : votre site, vos produits, vos demandes et vos rendez-vous, et propose de faire le changement pour vous.',
+      "Répond aux visiteurs de votre site à partir de ce qu'il contient : produits et prix, services, horaires et questions fréquentes.",
     ],
     promo:
       "Chaque site est promu de façon organique : les moteurs de recherche sont informés de chaque modification, le contenu est balisé pour que les moteurs le comprennent, et chaque site est lié depuis lightor.app/sites. Lightor convient aux entreprises, aux événements, aux pages d'atterrissage et à toute idée. Le démarrage est gratuit, sans installation, en hébreu, anglais, arabe, français et espagnol.",
@@ -234,7 +238,8 @@ export const SUMMARY: Record<Lang, Summary> = {
     lighty: [
       'Crea tu sitio a partir de una conversación.',
       'Edita cualquier parte de tu sitio con un clic - tú mismo o con Lighty.',
-      'Responde preguntas con tus propios datos: reservas, clientes y consultas.',
+      'Responde preguntas con tus propios datos: tu sitio, productos, consultas y reservas, y se ofrece a hacer el cambio por ti.',
+      'Responde a los visitantes de tu sitio con lo que dice: productos y precios, servicios, horario y preguntas frecuentes.',
     ],
     promo:
       'Cada sitio se promociona de forma orgánica: los buscadores se actualizan con cada cambio, el contenido está marcado para que los buscadores lo entiendan, y cada sitio está enlazado desde lightor.app/sites. Lightor sirve para negocios, eventos, landing pages y cualquier idea. Empezar es gratis, sin instalación, en hebreo, inglés, árabe, francés y español.',

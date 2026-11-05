@@ -106,9 +106,10 @@ const LightyArrival = () => {
 /**
  * LT-260: Lighty (LT-237 → LT-259) — he builds the site from a conversation
  * (the register), edits it with a click (the dashboard's site editor) and
- * answers questions about the business from its own data (read-only today:
- * bookings, free time, summaries, customers, inquiries). Nothing here may
- * promise what he cannot do yet — no actions.
+ * answers questions about the business from its own data (the site, products,
+ * inquiries, bookings, customers, visits). LT-585: since his proposals
+ * (lightyActions propose_*) he also offers to make a change, which the owner
+ * confirms - say "offers", never that he does it alone.
  */
 const LightySection = () => {
   const { t } = useTranslation();

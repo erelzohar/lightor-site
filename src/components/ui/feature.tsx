@@ -1,19 +1,7 @@
 import { useEffect, useRef, useState, type ComponentType, type RefObject } from 'react';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import {
-  CalendarCheck,
-  Check,
-  Inbox,
-  Lock,
-  Mail,
-  MessageCircle,
-  MousePointer2,
-  Pencil,
-  ShoppingBag,
-  Smartphone,
-  Sparkles,
-} from 'lucide-react';
+import { Check, Lock, Moon, MousePointer2, Pencil, Sparkles } from 'lucide-react';
 import { useStill } from '../../hooks/useA11yPrefs';
 import { LANGS, NATIVE_NAME, isRtl, type Lang } from '../../i18n/languages';
 
@@ -29,8 +17,11 @@ import { LANGS, NATIVE_NAME, isRtl, type Lang } from '../../i18n/languages';
  * tokens, the card's own type stays Assistant, and its three endless
  * intervals (type, layout, speed) became the languages, site and address
  * scenes. LT-582: the cards fit every kind of site - the site itself first,
- * then products, inquiries and bookings side by side. Everything inside a scene is decoration (aria-hidden): the card's
- * heading and text say the same thing in words.
+ * then products, inquiries and bookings side by side. LT-585: Lighty
+ * answering a site's visitors took the alerts' place, so no card but the
+ * inquiries and bookings ones is about them. Everything inside a scene is
+ * decoration (aria-hidden): the card's heading and text say the same thing
+ * in words.
  * ─────────────────────────────────────────────────────────────── */
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -270,45 +261,6 @@ export const calendarScene: FeatureScene = {
   beats: [250, 220, 220, 220, 220, 450, 300, 450, 700],
 };
 
-/* ── Alerts: an inquiry, one about a product, a booking, each on its channel ── */
-
-// Channels as the product allows them (blog/FACTS.md): a new booking never
-// goes by phone; inquiries may.
-const ALERTS = [
-  { id: 'lead', Icon: Inbox, Channel: Mail },
-  { id: 'productLead', Icon: ShoppingBag, Channel: MessageCircle },
-  { id: 'booking', Icon: CalendarCheck, Channel: Smartphone },
-];
-
-const AlertsScene = ({ step }: { step: number }) => {
-  const { t } = useTranslation();
-
-  return (
-    <div className="mx-auto flex h-full max-w-sm flex-col justify-center gap-2 p-3 sm:gap-2.5 sm:p-4">
-      {ALERTS.map(({ id, Icon, Channel }, i) => (
-        <motion.div
-          key={id}
-          className={`flex items-center gap-3 p-2 sm:p-2.5 ${PANEL}`}
-          initial={false}
-          animate={{ opacity: step > i ? 1 : 0, y: step > i ? 0 : -14 }}
-          transition={{ type: 'spring', stiffness: 320, damping: 24 }}
-        >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-900/50 dark:text-violet-200">
-            <Icon className="h-5 w-5" />
-          </span>
-          <span className="min-w-0 flex-1 leading-tight">
-            <span className="block truncate text-sm font-bold text-gray-950 dark:text-white">{t(`features.demo.alerts.${id}.title`)}</span>
-            <span className="block truncate text-xs text-gray-600 dark:text-gray-400">{t(`features.demo.alerts.${id}.text`)}</span>
-          </span>
-          <Channel className="h-4 w-4 shrink-0 text-pink-600 dark:text-pink-400" />
-        </motion.div>
-      ))}
-    </div>
-  );
-};
-
-export const alertsScene: FeatureScene = { Scene: AlertsScene, beats: [300, 750, 750] };
-
 /* ── The site: it draws itself, a title is rewritten, a new colour ── */
 
 const ACCENTS = [
@@ -476,6 +428,94 @@ const ProductsScene = ({ step }: { step: number }) => {
 };
 
 export const productsScene: FeatureScene = { Scene: ProductsScene, beats: [250, 1150, 450, 750, 450] };
+
+/* ── Site Lighty: a visitor asks late at night, and Lighty answers from the site ── */
+
+const VISIT = { page: 1, open: 2, ask: 3, think: 4, answer: 5, link: 6 };
+
+const VisitorScene = ({ step }: { step: number }) => {
+  const { t } = useTranslation();
+  const visitor = t('features.demo.visitor', { returnObjects: true }) as { question: string; answer: string; link: string };
+  const question = useTyped(visitor.question, step >= VISIT.ask, 35);
+  const answered = step >= VISIT.answer;
+
+  return (
+    <div className="relative flex h-full items-center justify-center p-4 sm:p-6">
+      {/* The site behind: the studio's products. */}
+      <motion.div className={`h-full w-full max-w-lg overflow-hidden ${PANEL}`} initial={false} animate={appear(step >= VISIT.page)} transition={SOFT}>
+        <div className="flex h-9 items-center gap-2 border-b border-gray-100 px-3 dark:border-gray-800">
+          <span className="h-3 w-3 shrink-0 rounded-full bg-violet-600" />
+          <span className="truncate text-xs font-bold text-gray-950 dark:text-white">{t('features.demo.business')}</span>
+        </div>
+        <div className="grid grid-cols-3 gap-2 p-3">
+          {(
+            [
+              ['bowl', 'bg-sky-100'],
+              ['cup', 'bg-amber-50'],
+              ['plate', 'bg-rose-50'],
+            ] as const
+          ).map(([art, tint]) => (
+            <span key={art} className={`flex aspect-square items-center justify-center rounded-lg ${tint}`}>
+              {ART[art]}
+            </span>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Lighty's chat on the site, over its corner. */}
+      <motion.div
+        className={`absolute bottom-3 end-3 flex w-[80%] max-w-[17rem] flex-col gap-1.5 p-2.5 shadow-xl sm:bottom-5 sm:end-5 ${PANEL}`}
+        initial={false}
+        animate={appear(step >= VISIT.open)}
+        transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+      >
+        <div className="flex items-center gap-2">
+          <img src="/lighty-wave.webp" alt="" width={640} height={640} loading="lazy" className="h-7 w-7 shrink-0 rounded-full bg-violet-100 object-contain dark:bg-violet-900/50" />
+          <span className="text-xs font-bold text-gray-950 dark:text-white">Lighty</span>
+          <span className="ms-auto flex items-center gap-1 text-[11px] text-gray-500 dark:text-gray-400" dir="ltr">
+            <Moon className="h-3 w-3" />
+            23:40
+          </span>
+        </div>
+        {/* Each line keeps its full size from the start, so nothing moves as it fills. */}
+        <span className="ms-auto grid max-w-[88%] rounded-2xl rounded-ee-sm bg-gradient-to-br from-violet-600 to-pink-600 px-2.5 py-1.5 text-xs font-medium leading-snug text-white">
+          <span className="invisible [grid-area:1/1]">{visitor.question}</span>
+          <span className="[grid-area:1/1]">{question}</span>
+        </span>
+        <span className="grid max-w-[88%]">
+          <motion.span
+            className="flex items-center gap-1 self-start rounded-2xl rounded-es-sm bg-gray-100 px-3 py-2 [grid-area:1/1] dark:bg-gray-800"
+            initial={false}
+            animate={{ opacity: step === VISIT.think ? 1 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {[0, 1, 2].map((i) => (
+              <span key={i} className={`h-1.5 w-1.5 rounded-full bg-gray-400 ${step === VISIT.think ? 'animate-pulse' : ''}`} style={{ animationDelay: `${i * 150}ms` }} />
+            ))}
+          </motion.span>
+          <motion.span
+            className="rounded-2xl rounded-es-sm bg-gray-100 px-2.5 py-1.5 text-xs leading-snug text-gray-900 [grid-area:1/1] dark:bg-gray-800 dark:text-gray-100"
+            initial={false}
+            animate={{ opacity: answered ? 1 : 0, y: answered ? 0 : 6 }}
+            transition={SOFT}
+          >
+            {visitor.answer}
+          </motion.span>
+        </span>
+        <motion.span
+          className="flex w-fit items-center gap-1 rounded-full border border-violet-200 px-2.5 py-0.5 text-[11px] font-bold text-violet-700 dark:border-violet-800 dark:text-violet-300"
+          initial={false}
+          animate={appear(step >= VISIT.link)}
+          transition={SOFT}
+        >
+          {visitor.link}
+        </motion.span>
+      </motion.div>
+    </div>
+  );
+};
+
+export const visitorScene: FeatureScene = { Scene: VisitorScene, beats: [300, 450, 400, 1600, 800, 500] };
 
 /* ── Leads: the site's form is sent, and the inquiry lands with its status ── */
 

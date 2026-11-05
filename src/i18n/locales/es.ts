@@ -91,8 +91,8 @@ export default {
     },
     ask: {
       title: 'Responde con tus propios datos',
-      text: 'Pregunta con tus palabras por tus reservas, consultas y clientes - y Lighty responde.',
-      examples: ['¿Qué tengo mañana?', 'Resume mi semana', '¿Hay consultas sin responder?']
+      text: 'Pregunta con tus palabras por tu sitio, productos, consultas y reservas - Lighty responde y, si hace falta, se ofrece a hacer el cambio por ti.',
+      examples: ['Añade un producto nuevo', 'Resume mi mes', '¿Hay consultas sin responder?']
     },
     imageAlt: 'Lighty creando un sitio web'
   },
@@ -110,7 +110,7 @@ export default {
       },
       leads: {
         title: 'Consultas y clientes potenciales',
-        text: 'Un formulario con tus propias preguntas, para presupuestos, inscripciones o llamadas. Cada consulta llega a un solo lugar, con su estado.'
+        text: 'Un formulario con tus propias preguntas, para presupuestos, inscripciones o llamadas. Cada consulta llega a un solo lugar, con su estado, y recibes un aviso.'
       },
       calendar: {
         title: 'Una agenda que se llena sola',
@@ -120,17 +120,21 @@ export default {
         title: 'Tu propia dirección',
         text: 'El nombre de tu dirección es tuyo: elígelo y edítalo cuando quieras. Un enlace corto para compartir con todos, en un sitio hecho para encontrarse en Google.'
       },
-      alerts: {
-        title: 'Entérate de cada consulta y reserva',
-        text: 'Un aviso en la app, por correo o WhatsApp - tú eliges de qué.'
+      visitors: {
+        title: 'Lighty responde a tus visitantes',
+        text: 'Los visitantes preguntan en tu sitio y Lighty responde al momento, con lo que dice el sitio: productos y precios, servicios, horario y preguntas frecuentes. Incluso en plena noche.'
       },
       dashboard: {
         title: 'Un solo panel',
-        text: 'Tu sitio, consultas, reservas y clientes - en un solo lugar, en el móvil o el ordenador.'
+        text: 'Tu sitio, productos, consultas, reservas y clientes - todo en un solo lugar.'
       },
-      customers: {
-        title: 'Tus clientes',
-        text: 'Quién escribió y quién vino, su historial y notas para la próxima vez.'
+      pictures: {
+        title: 'Imágenes con IA',
+        text: 'Crea una imagen con unas pocas palabras, o mejora una tuya y compara el antes y el después.'
+      },
+      access: {
+        title: 'Accesibilidad integrada',
+        text: 'Un menú de accesibilidad y una declaración de accesibilidad en cada sitio, sin complementos externos.'
       },
       languages: {
         title: 'Cinco idiomas',
@@ -138,18 +142,14 @@ export default {
       },
       mobile: {
         title: 'Todo en tu móvil',
-        text: 'Mira lo que pasa y actualiza tu sitio desde cualquier lugar'
+        text: 'Mira lo que pasa, recibe avisos y actualiza tu sitio desde cualquier lugar.'
       }
     },
     demo: {
       names: ['Lucía', 'Ana', 'Sofía', 'Diego', 'Marta'],
       moved: 'Cita movida',
       business: 'Studio Ora',
-      alerts: {
-        lead: { title: 'Nueva consulta', text: 'Lucía, desde tu sitio' },
-        productLead: { title: 'Consulta sobre un producto', text: 'Diego, sobre el cuenco azul' },
-        booking: { title: 'Nueva cita', text: 'Lucía, mañana a las 10:00' }
-      },
+      visitor: { question: '¿La fuente para servir sigue disponible?', answer: 'Sí, y cuesta 25 €. ¿Quieres preguntar al estudio por ella?', link: 'Dejar tus datos' },
       siteHeadline: 'Cerámica hecha a mano',
       productHint: 'Unas palabras sobre el producto',
       productWords: 'Cuenco de cerámica azul, 35',
@@ -175,7 +175,7 @@ export default {
       text: 'Cada sitio de Lightor está hecho para que los buscadores y las herramientas de IA entiendan quién eres y qué ofreces, y puedan mostrarte y recomendarte - sin pagar anuncios.',
       points: [
         'Los buscadores reciben un aviso con cada cambio en tu sitio',
-        'Tus datos, servicios y horario - en un lenguaje que los buscadores entienden',
+        'Tus datos, productos, servicios y horario - en un lenguaje que los buscadores entienden',
         'Abierto a los rastreadores de los buscadores con IA',
         'Un enlace a tu sitio desde la página "Sitios que creamos" de Lightor'
       ],
