@@ -5,6 +5,7 @@ import { isRtl } from '../i18n/languages';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
 import { useStill } from '../hooks/useA11yPrefs';
+import { SplashButton } from './ui/splash-button';
 
 const REGISTER_URL = 'https://register.lightor.app';
 const SITES_URL = 'https://lightor.app/sites';
@@ -154,16 +155,13 @@ const Hero = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start"
           >
-            <a
-              href={REGISTER_URL}
-              className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-pink-600 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:shadow-xl hover:shadow-violet-600/30 sm:w-auto"
-            >
+            {/* LT-605: Erel's 3D button, the same one festive's sites have. */}
+            <SplashButton href={REGISTER_URL} icon={<Arrow className="h-5 w-5" aria-hidden="true" />} joined={i18n.language === 'ar'} className="w-full sm:w-auto">
               {t('hero.cta')}
-              <Arrow className="h-5 w-5 transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
-            </a>
+            </SplashButton>
             <a
               href={SITES_URL}
-              className="inline-flex w-full items-center justify-center rounded-full border border-gray-300 bg-white/70 px-7 py-4 text-lg font-semibold text-gray-800 transition hover:border-gray-400 hover:bg-white sm:w-auto dark:border-gray-700 dark:bg-white/5 dark:text-gray-100 dark:hover:bg-white/10"
+              className="relative z-[1] inline-flex w-full items-center justify-center rounded-full border border-gray-300 bg-white/70 px-7 py-4 text-lg font-semibold text-gray-800 transition hover:border-gray-400 hover:bg-white sm:w-auto dark:border-gray-700 dark:bg-white/5 dark:text-gray-100 dark:hover:bg-white/10"
             >
               {t('hero.secondary')}
             </a>

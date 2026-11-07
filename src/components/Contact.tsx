@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { isRtl } from '../i18n/languages';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { SplashButton } from './ui/splash-button';
 
 const REGISTER_URL = 'https://register.lightor.app';
 const DASHBOARD_URL = 'https://dashboard.lightor.app';
@@ -24,16 +25,13 @@ const Contact = () => {
           <h2 id="start-title" className="text-balance text-3xl font-bold tracking-tight sm:text-5xl">{t('contact.title')}</h2>
           <p className="mt-4 text-lg text-white/90 sm:text-xl">{t('contact.subtitle')}</p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row md:justify-start">
-            <a
-              href={REGISTER_URL}
-              className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-violet-700 shadow-lg transition hover:bg-violet-50 sm:w-auto"
-            >
+            {/* LT-605: the hero's 3D button, white on the band. */}
+            <SplashButton href={REGISTER_URL} tone="light" icon={<Arrow className="h-5 w-5" aria-hidden="true" />} joined={i18n.language === 'ar'} className="w-full sm:w-auto">
               {t('contact.cta')}
-              <Arrow className="h-5 w-5" aria-hidden="true" />
-            </a>
+            </SplashButton>
             <a
               href={DASHBOARD_URL}
-              className="inline-flex w-full items-center justify-center rounded-full border border-white/50 px-7 py-4 text-lg font-semibold text-white transition hover:bg-white/10 sm:w-auto"
+              className="relative z-[1] inline-flex w-full items-center justify-center rounded-full border border-white/50 px-7 py-4 text-lg font-semibold text-white transition hover:bg-white/10 sm:w-auto"
             >
               {t('contact.signIn')}
             </a>
