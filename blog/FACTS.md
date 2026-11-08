@@ -4,7 +4,8 @@ Checked against the code on `origin/main` of lightor-back, lightor-front,
 lightor-dashboard, lightor-register and lightor-edge on **2026-10-29**
 (LT-430; first version 2026-10-20), and walked through in the product itself
 the same day for the guides. Products (sites that show products) checked the
-same way on 2026-11-03 (LT-565). An article may only describe what is listed here
+same way on 2026-11-03 (LT-565), the blog on a business's site on 2026-11-08
+(LT-615). An article may only describe what is listed here
 as live. Anything not listed: check the code first (and add it here), or leave
 it out. When a feature ships or changes, update this file in the same mission.
 
@@ -201,6 +202,40 @@ it out. When a feature ships or changes, update this file in the same mission.
   products); never promise buying or payment on the site.
 - The Products page is in the web dashboard; the phone apps get it with their
   next version, so do not promise it in the apps yet.
+
+## The blog on the business's site (בלוג)
+- **Lightor Pro only.** Not in the free plan, Lightor+ or the 60 free days
+  (which are Lightor+). On those the dashboard menu shows "בלוג" locked, and
+  the site has no blog.
+- The dashboard's "בלוג" page: the owner writes a post ("אני כותב") or asks
+  Lighty ("Lighty כותב"). A post is made of blocks: headings, paragraphs,
+  lists, a quote and pictures with a caption; no rich-text editor. It is
+  previewed in the site's own look before publishing.
+- Lighty proposes topics from the business, its services or products and the
+  season, or the owner writes a topic ("נושא שחשבת עליו") and may add their
+  own words. Lighty writes a draft from what the site says and the owner's
+  words: a title, a line for Google and the body (500-900 words). Prices or
+  numbers about the business that the site and the owner did not give are
+  taken out; a health or therapy business's post ends with a line that it is
+  not personal advice. A draft takes up to a minute. **10 Lighty drafts a
+  month** on Pro; a failed one is not counted.
+- Every Lighty draft gets a main picture and two pictures inside. Lighty first
+  looks at the site's own pictures and uses one only when it really shows that
+  part of the post; where none fits it makes one with AI, from the plan's 40
+  AI pictures a month.
+- **Nothing is published on its own**: the owner reads, corrects and
+  publishes. Posts the owner writes are unlimited; up to 30 first
+  publications a month (an anti-spam ceiling).
+- On the site: a blog page (/blog), a page for each post (/blog/<address>)
+  and a "latest posts" section on the home page. In the site editor: three
+  looks for the blog page, three for the home section, two for the post page.
+- Google: each post has its own title, description and sharing picture,
+  structured data (a blog post), and is in the site's sitemap.
+- Moving off Pro hides the posts and never deletes them; they show again with
+  Pro.
+- **Not available**: comments, scheduled publishing, an email newsletter,
+  importing posts from another blog, several authors. Lighty never
+  publishes a post by itself.
 
 ## The owner
 - Dashboard (web, phone or computer): home with the setup checklist, Lighty,
