@@ -46,6 +46,7 @@ itself, every step done in the product and photographed; see blog/README.md).
 - [x] 2026-11-03 · `workshop-registration-form` · טופס הרשמה לסדנה: מה לשאול ואיך מקבלים יותר נרשמים · "טופס הרשמה לסדנה"
 - [x] 2026-11-05 · `cancellation-policy-text` · מדיניות ביטול תורים לעסק קטן: איך מנסחים, עם דוגמאות · "מדיניות ביטול תורים"
 - [x] 2026-11-08 · `brochure-vs-landing-page` · מה ההבדל בין אתר תדמית לדף נחיתה, ומה מתאים לעסק שלכם · "מה ההבדל בין אתר תדמית לדף נחיתה"
+- [x] 2026-11-08 · `guide-blog-with-lighty` · בלוג לאתר העסק: איך Lighty כותב לכם פוסט, מהנושא ועד הפרסום · "בלוג לאתר העסק" · guide
 
 ## Guides ready
 
@@ -55,7 +56,7 @@ today, add it at the bottom of "Published" with "· guide", and delete it here.
 A guide verified more than 21 days ago is not published: report that it needs
 a fresh check in the product.
 
-- `guide-blog-with-lighty` · בלוג לאתר העסק: איך Lighty כותב לכם פוסט, מהנושא ועד הפרסום (verified 2026-11-08, LT-615; the blog is Lightor Pro's)
+None right now (`guide-blog-with-lighty` went live on 2026-11-08, at Erel's ask).
 
 ## Guides to make next
 
