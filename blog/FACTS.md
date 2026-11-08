@@ -88,11 +88,14 @@ it out. When a feature ships or changes, update this file in the same mission.
   The confirmation carries the manage link and says until when it can be used,
   e.g. "לינק לניהול התור עד שעה לפני התור".
 - Reminders to customers:
-  - **07:00 (Israel time) on the day of the appointment**, Lightor+ and the
-    free days, with the manage link. The free plan sends no reminders.
-  - **About an hour before** (45-75 minutes), **Lightor+ only**, between 07:00
-    and 21:45, no link. Not for a booking before noon whose morning reminder
-    went out: one reminder is enough.
+  - **07:00 (Israel time) on the day of the appointment**, Lightor+, Lightor
+    Pro and the free days, with the manage link. The free plan sends no
+    reminders.
+  - **About an hour before** (45-75 minutes), **Lightor Pro only** (LT-504,
+    `hourlyReminder` in lightor-back `src/utils/entitlements.ts`, checked
+    2026-11-08 in LT-619; Lightor+ and the free days get the morning one only),
+    between 07:00 and 21:45, no link. Not for a booking before noon whose
+    morning reminder went out: one reminder is enough.
   - None while a Lightor+ payment has failed.
 - The manage link lets the customer cancel, move the appointment, change the
   service or edit their answers. The owner sets how close to the appointment

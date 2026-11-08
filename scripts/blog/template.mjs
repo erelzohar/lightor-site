@@ -40,13 +40,36 @@ const socialMeta = ({ url, title, description, type, image, imageAlt }) => `
 export const DEFAULT_IMAGE = { url: `${ORIGIN}/og-image.jpg`, width: 1200, height: 630 };
 const DEFAULT_IMAGE_ALT = 'Lighty, הדמות של לייטור, ליד הכותרת: האתר שלך, תוך 60 שניות';
 
+/**
+ * The site's Organization, exactly the node on the home page (LT-619), so the
+ * engines merge the two by its @id. Author and publisher of every post: a
+ * named person is Erel's decision.
+ */
 const PUBLISHER = {
   '@type': 'Organization',
+  '@id': `${ORIGIN}/#organization`,
   name: 'Lightor',
-  alternateName: 'לייטור',
+  alternateName: ['לייטור', 'لايتور'],
   url: `${ORIGIN}/`,
   logo: { '@type': 'ImageObject', url: `${ORIGIN}/lightor192.png`, width: 192, height: 192 },
 };
+
+/**
+ * LT-619: the post's "## שאלות נפוצות", word for word as the page shows it
+ * (build.mjs reads it from the rendered HTML). Honest markup for the answer
+ * engines; Google no longer shows FAQ rich results, and this is not for one.
+ */
+const faqLd = (url, faq) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  url,
+  inLanguage: 'he',
+  mainEntity: faq.map(({ question, answer }) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+});
 
 const crumbsLd = (items) => ({
   '@context': 'https://schema.org',
@@ -105,7 +128,9 @@ export const articleHead = (post) => {
     }
     <meta property="article:published_time" content="${post.date}" />
     <meta property="article:modified_time" content="${post.updated || post.date}" />
-    <script type="application/ld+json">${ld(article)}</script>
+    <script type="application/ld+json">${ld(article)}</script>${
+      post.faq?.length ? `\n    <script type="application/ld+json">${ld(faqLd(url, post.faq))}</script>` : ''
+    }
     <script type="application/ld+json">${ld(crumbsLd([['לייטור', `${ORIGIN}/`], ['בלוג', `${ORIGIN}/blog/`], [post.title, url]]))}</script>`;
 };
 

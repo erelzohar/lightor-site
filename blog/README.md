@@ -18,6 +18,12 @@ script, and then taken over by the browser.
 
    and adds every URL to `dist/sitemap.xml`. `npm run blog` repeats steps 2-3.
 
+An article page shows the byline "צוות לייטור" with its date (and "עודכן
+ב-" when `updated` is set to a later day), and carries BlogPosting, BreadcrumbList and
+FAQPage structured data (`scripts/blog/template.mjs`). The author and the
+publisher are the site's Organization node (`https://lightor.app/#organization`,
+the same one as on the home page); a named person is Erel's call.
+
 After a deploy, the workflow tells Bing and the other IndexNow engines about
 the blog pages dated today (`scripts/blog/indexnow.mjs`); Google reads the
 sitemap.
@@ -39,11 +45,24 @@ image_alt: what the photo shows, in Hebrew, 15-160 characters
 image_credit: Photographer Name / Unsplash
 ---
 
-Opening paragraph (no "# " heading: the title is the page's heading).
+The answer first: two or three short sentences that answer the title's
+question or say what its subject is, with the search phrase in them (no "# "
+heading: the title is the page's heading). A story or a scene comes after it.
 
-## A section
+## A section, asked the way people ask it?
+
+Its first sentence answers the heading on its own.
 ...
 [[cta]]
+...
+
+## שאלות נפוצות
+
+### A question people really search?
+
+A short answer, one to three sentences.
+
+### Two to four more, each with its answer
 ...
 ```
 
@@ -64,7 +83,12 @@ article - pins are Erel's call, the recurring task leaves them alone).
    missing field, a title or description out of range, fewer than 800 or more
    than 1,600 words, an em-dash, a link to an article that does not exist, a
    date in the future, the same title/description as another article, or no
-   photo (or one smaller than 1200x630, or not landscape).
+   photo (or one smaller than 1200x630, or not landscape). It also fails when
+   the text does not open with a paragraph of 15-90 words before any heading,
+   or when its last `##` section is not `## שאלות נפוצות` with 3-5 `###`
+   questions, each ending in "?", not the same as a section heading, and each
+   followed by one answer paragraph of at most 80 words. The build turns that
+   section into the page's FAQPage structured data, word for word.
 5. Look at it: `npm run preview`, then `/blog/<slug>/`.
 6. Mark the topic as used in `blog/topics.md`, commit, push to main.
 
@@ -130,6 +154,9 @@ screenshots carry part of them.
   The clips are made in Remotion from real 2x screenshots and real texts.
 - **When the product changes,** a guide whose steps changed is re-done in the
   product (screenshots too) and gets a new `verified` date, or is taken down.
+- **A guide follows the writing rules too** (the opening answer, question
+  headings where natural, `## שאלות נפוצות`), but its opening and its
+  questions use only what the guide itself shows and `blog/FACTS.md`.
 
 ## Writing rules
 
@@ -139,6 +166,40 @@ screenshots carry part of them.
 - **Be useful first.** Concrete steps, checklists, examples, ready-to-copy
   texts. A reader who never signs up should still leave with something.
   No filler, no generic intros ("in today's digital world").
+- **The answer comes first** (LT-619). The opening paragraph, before any
+  heading, answers the title's question or says what its subject is, directly,
+  in two or three short sentences, with the search phrase (`keyword`) in it
+  where it reads naturally. A story, a scene or "in this guide we will..."
+  comes after it, never before. AI answer engines (Google's AI Overviews,
+  ChatGPT search, Perplexity, Copilot) lift one paragraph; make it this one.
+- **Headings people would ask.** Phrase a `##` heading as the question people
+  search wherever that reads naturally ("מה זה דף נחיתה?", "כמה זמן לפני
+  התור לשלוח תזכורת?"); a step, a list of templates or "לסיכום" stays as it
+  is, do not force it. The first sentence under every heading answers it on
+  its own: a reader who sees only that sentence has the answer. The details,
+  lists and examples follow.
+- **End with `## שאלות נפוצות`**, after the last content section (the
+  `[[cta]]` may come just before it or after it, whichever reads better; the
+  closing box is added by the page). 3-5 questions, each `### question?`
+  followed by one short answer paragraph (1-3 sentences) that makes sense on
+  its own. The questions are what people really search: Google autocomplete,
+  `curl -s "https://suggestqueries.google.com/complete/search?client=firefox&hl=iw&gl=il&q=<url-encoded>"`
+  (try the keyword, the keyword with a space, and "מה", "איך", "כמה", "האם",
+  "מתי" in front of the subject). No invented filler, no question that only
+  repeats a section heading. A question about prices outside Lightor is
+  answered with what the price depends on, never with a number nobody
+  published.
+- **Source outside facts.** When a post states a fact from outside Lightor
+  (a platform's rule or behaviour, a law, a price, a statistic), link the
+  primary source: Google's own help pages, gov.il, the platform's own
+  documentation. Link only a page you fetched and read, and that says what
+  you claim; if no such page can be read, write the claim more carefully or
+  leave it out. Never invent statistics, quotes or sources. Lightor's own
+  facts come from `blog/FACTS.md` only, and need no link.
+- **`updated:` means a real revision**: a fact, a section or the questions
+  changed, never a comma or a new photo, and never to look fresh. The page
+  then shows "עודכן ב-<date>" beside the publish date, and the structured data
+  and the sitemap carry the same date.
 - **Lightor appears naturally**, usually in one section near the end ("how it
   works in Lightor") plus the `[[cta]]` and the closing box. Never claim a
   feature that is not in `blog/FACTS.md`; when in doubt, check the code and

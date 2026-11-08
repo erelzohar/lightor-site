@@ -14,8 +14,9 @@
  * the bare one there), as it does for /en/.
  *
  * It is also the gate: an article with a missing field, a broken link, an
- * em-dash (LT-350), too few words or a duplicate title fails the build, so
- * nothing half-written can deploy. See blog/README.md.
+ * em-dash (LT-350), too few words, a duplicate title, no opening answer or no
+ * "## שאלות נפוצות" (LT-619) fails the build, so nothing half-written can
+ * deploy. See blog/README.md.
  */
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -44,6 +45,12 @@ const MIN_GUIDE_WORDS = 450;
 const TITLE_MAX = 70;
 const DESCRIPTION_RANGE = [70, 165];
 const DASHES = /[—―]/; // em-dash, horizontal bar: never in what a reader sees
+// LT-619: answer-shaped posts. The opening paragraph is the direct answer
+// (two or three short Hebrew sentences); the last section is the questions.
+const LEAD_WORDS = [15, 90];
+const FAQ_TITLE = 'שאלות נפוצות';
+const FAQ_COUNT = [3, 5];
+const FAQ_ANSWER_MAX_WORDS = 80; // one short paragraph, one to three sentences
 
 const errors = [];
 /** Articles waiting to be published (`draft: true`): a link to one shows as plain text until it is live. */
@@ -84,6 +91,86 @@ const textOf = (html) =>
     .replace(/&[a-z#0-9]+;/gi, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
+
+/** What a reader sees of some HTML, as the browser's textContent: tags dropped, entities decoded, spaces collapsed. */
+const plainText = (html) =>
+  html
+    .replace(/<[^>]+>/g, '')
+    .replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e) =>
+      e[0] !== '#' ? ENTITIES[e.toLowerCase()] ?? m : String.fromCodePoint(e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10)),
+    )
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const wordCount = (text) => text.split(' ').filter(Boolean).length;
+
+/**
+ * LT-619: a post answers before it tells a story, and ends with the questions
+ * people search (blog/README.md, "Writing rules"). Checked on the rendered
+ * HTML, so it holds however the Markdown is written:
+ *   - the first block, before any heading, is a paragraph of LEAD_WORDS words;
+ *   - the last "## " section is "## שאלות נפוצות", nothing in it but 3-5
+ *     "### question?" headings, each followed by one answer paragraph (and,
+ *     at its end, a [[cta]] box if the post puts one there).
+ * Returns the questions and answers as a reader sees them, for the FAQPage
+ * structured data.
+ */
+const answerShape = (html, file) => {
+  const firstHeading = html.search(/<h[1-6][\s>]/);
+  const lead = (firstHeading < 0 ? html : html.slice(0, firstHeading)).trim().match(/^<p>([\s\S]*?)<\/p>/);
+  if (!lead) fail(file, 'the text must open with a paragraph, before any heading, picture or box: two or three short sentences that answer the title');
+  else {
+    const n = wordCount(plainText(lead[1]));
+    if (n < LEAD_WORDS[0] || n > LEAD_WORDS[1])
+      fail(file, `the opening paragraph is ${n} words; the direct answer is ${LEAD_WORDS[0]}-${LEAD_WORDS[1]} (two or three short sentences, the story after it)`);
+  }
+
+  const sections = [...html.matchAll(/<h2 id="[^"]*">([\s\S]*?)<\/h2>/g)];
+  const titles = sections.map((m) => plainText(m[1]));
+  const at = titles.indexOf(FAQ_TITLE);
+  if (at < 0) {
+    fail(file, `no "## ${FAQ_TITLE}" section: the post ends with ${FAQ_COUNT[0]}-${FAQ_COUNT[1]} real questions, each "### question?" and a short answer`);
+    return [];
+  }
+  if (titles.lastIndexOf(FAQ_TITLE) !== at) fail(file, `"## ${FAQ_TITLE}" appears more than once`);
+  if (at !== sections.length - 1) fail(file, `"## ${FAQ_TITLE}" must be the last "## " section (it is followed by "## ${titles[at + 1]}")`);
+  const start = sections[at].index + sections[at][0].length;
+  const end = at + 1 < sections.length ? sections[at + 1].index : html.length;
+  const body = html
+    .slice(start, end)
+    .trim()
+    .replace(/<div class="cta-inline">[\s\S]*?<\/div>$/, '')
+    .trim();
+  // A lookahead split yields no empty first piece when the body starts with "<h3".
+  const items = body.split(/(?=<h3[\s>])/).filter(Boolean);
+  const before = items.length && !/^<h3[\s>]/.test(items[0]) ? items.shift() : '';
+  if (before.trim()) fail(file, `"## ${FAQ_TITLE}" starts straight with its first "### question?", nothing before it`);
+  if (items.length < FAQ_COUNT[0] || items.length > FAQ_COUNT[1])
+    fail(file, `"## ${FAQ_TITLE}" has ${items.length} questions; it needs ${FAQ_COUNT[0]}-${FAQ_COUNT[1]}, each a "### " heading`);
+  const bare = (s) => s.replace(/[?\s]+$/, '');
+  const sectionTitles = new Set(titles.map(bare));
+  const faq = [];
+  for (const item of items) {
+    const m = item.trim().match(/^<h3 id="[^"]*">([\s\S]*?)<\/h3>\s*([\s\S]*)$/);
+    const question = plainText(m?.[1] || '');
+    const rest = (m?.[2] || '').trim();
+    const answer = rest.match(/^<p>([\s\S]*?)<\/p>$/);
+    if (!question.endsWith('?')) fail(file, `the question "${question}" must end with "?"`);
+    if (sectionTitles.has(bare(question))) fail(file, `the question "${question}" repeats a section heading; ask something the article does not already answer under a heading`);
+    if (!answer || /<p>/.test(answer[1])) {
+      fail(file, `the question "${question}" needs one answer paragraph right under it (no list, table or second paragraph)`);
+      continue;
+    }
+    const text = plainText(answer[1]);
+    if (!text) fail(file, `the question "${question}" has an empty answer`);
+    else if (wordCount(text) > FAQ_ANSWER_MAX_WORDS)
+      fail(file, `the answer to "${question}" is ${wordCount(text)} words; keep it to one short paragraph, at most ${FAQ_ANSWER_MAX_WORDS}`);
+    faq.push({ question, answer: text });
+  }
+  return faq;
+};
 
 /** A heading's anchor: its words, Hebrew letters kept, joined by "-". */
 const anchor = (text, used) => {
@@ -172,7 +259,8 @@ const render = (body, file, slug) => {
   if (!headings.length) fail(file, 'no "## " section headings');
   if (/\[\[/.test(html)) fail(file, 'an unknown [[...]] marker is left in the text');
   if (/\*\*/.test(textOf(html))) fail(file, 'Markdown bold did not render ("**" left in the text): after a Hebrew prefix letter write ו**מילה**, without quotes inside');
-  return { html, headings };
+  const faq = answerShape(html, file);
+  return { html, headings, faq };
 };
 
 const loadPosts = () => {
@@ -199,7 +287,7 @@ const loadPosts = () => {
     if (meta.date && validDate(meta.date) && meta.date > today) fail(file, `date ${meta.date} is in the future (today is ${today})`);
     if (meta.updated && (!validDate(meta.updated) || meta.updated < (meta.date || ''))) fail(file, `updated "${meta.updated}" must be a YYYY-MM-DD on or after the date`);
     if (DASHES.test(raw)) fail(file, 'contains an em-dash; write a plain "-" (LT-350)');
-    const { html, headings } = render(body, file, slug);
+    const { html, headings, faq } = render(body, file, slug);
     const kind = meta.kind || 'article';
     if (!KINDS.includes(kind)) fail(file, `kind "${kind}" is not one of ${KINDS.join(', ')}`);
     if (kind === 'guide' && (!validDate(meta.verified || '') || meta.verified > today))
@@ -237,6 +325,7 @@ const loadPosts = () => {
       ctaText: meta.cta_text || '',
       html,
       headings,
+      faq,
       words,
       minutes: Math.max(1, Math.round(words / 200)),
     });

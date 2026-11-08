@@ -240,11 +240,15 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
             {post.title}
           </h1>
           <p className="mt-4 text-lg text-gray-600 sm:text-xl dark:text-gray-400">{post.description}</p>
+          {/* LT-619: who wrote it and when. The dates arrive written out by the build, so the browser prints the same text.
+              A revision on the day it came out is not news to the reader; the structured data still carries it. */}
           <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            <span className="font-semibold text-gray-800 dark:text-gray-200">צוות לייטור</span>
+            {' · '}
             <time dateTime={post.date}>{post.dateLabel}</time>
-            {post.updated && (
+            {post.updated && post.updated !== post.date && (
               <>
-                {' · עודכן '}
+                {' · עודכן ב-'}
                 <time dateTime={post.updated}>{post.updatedLabel}</time>
               </>
             )}
