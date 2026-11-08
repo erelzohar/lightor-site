@@ -226,6 +226,10 @@ it out. When a feature ships or changes, update this file in the same mission.
 - **Nothing is published on its own**: the owner reads, corrects and
   publishes. Posts the owner writes are unlimited; up to 30 first
   publications a month (an anti-spam ceiling).
+- A post's address (/blog/<address>, Latin letters) follows its title until
+  the first publication and is fixed from then on, so shared links keep
+  working. After publishing, the editor shows the address with "שיתוף
+  בוואטסאפ", and "הורדה מהאתר" takes a post off the site.
 - On the site: a blog page (/blog), a page for each post (/blog/<address>)
   and a "latest posts" section on the home page. In the site editor: three
   looks for the blog page, three for the home section, two for the post page.
