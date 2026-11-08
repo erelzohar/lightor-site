@@ -290,10 +290,11 @@ it out. When a feature ships or changes, update this file in the same mission.
   since LT-563 tells the free times the booking calendar shows ("מה פנוי
   מחר?"), times only, never who booked. It cannot book. It is on
   automatically for those sites.
-- The phone app is the dashboard with push alerts: **Android in Google Play**
-  (approved 2026-10-29; check the listing is public before linking it), the
-  **iPhone app is in App Store review** - do not promise an App Store
-  download yet. Nothing is bought in the app.
+- The phone app is the dashboard with push alerts, public in both stores
+  (checked 2026-11-08, LT-618): **Google Play**
+  https://play.google.com/store/apps/details?id=app.lightor.dashboard and the
+  **App Store** https://apps.apple.com/app/lightor/id6819305092 (Israel).
+  Nothing is bought in the app.
 - A private calendar link for the owner's own calendar app.
 - Support: "דיווח על בעיה" in the dashboard, support@lightor.app.
 - No Instagram integration: the owner shares the site link (bio, stories,
