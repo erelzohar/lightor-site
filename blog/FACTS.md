@@ -79,7 +79,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   add-to-Google/Apple-calendar.
 - Booking questions: short text, address (with Google suggestions), long note,
   multiple choice, tick-box confirmation. Each can be required and limited to
-  chosen services.
+  chosen services. A question can be marked "להציג בהתראה על תור
+  חדש": its answer then shows in the app alert for every new booking.
 - If the same phone already has a booking that day, after the code the
   customer is offered to book another or update the one they have.
 - Confirmation by SMS or WhatsApp - **the customer chooses** with a switch on
@@ -298,7 +299,12 @@ it out. When a feature ships or changes, update this file in the same mission.
   https://play.google.com/store/apps/details?id=app.lightor.dashboard and the
   **App Store** https://apps.apple.com/app/lightor/id6819305092 (Israel).
   Nothing is bought in the app.
-- A private calendar link for the owner's own calendar app.
+- A private calendar link for the owner's own calendar app (Apple Calendar,
+  Google Calendar or Outlook), and, on every plan, a direct Google Calendar
+  connection (Settings, "תורים", "סנכרון ל-Google Calendar"; LT-045): every
+  booking, change and cancellation goes to the owner's Google Calendar.
+  Checked 2026-11-09 (LT-621) from the card and the code; no real Google
+  account was connected in the guides batch.
 - Support: "דיווח על בעיה" in the dashboard, support@lightor.app.
 - No Instagram integration: the owner shares the site link (bio, stories,
   WhatsApp status, Google business profile). The dashboard's home offers the
