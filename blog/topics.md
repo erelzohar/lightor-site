@@ -55,7 +55,7 @@ today, add it at the bottom of "Published" with "· guide", and delete it here.
 A guide verified more than 21 days ago is not published: report that it needs
 a fresh check in the product.
 
-None right now (all eight guides went live on 2026-10-29, at Erel's ask).
+- `guide-blog-with-lighty` · בלוג לאתר העסק: איך Lighty כותב לכם פוסט, מהנושא ועד הפרסום (verified 2026-11-08, LT-615; the blog is Lightor Pro's)
 
 ## Guides to make next
 
