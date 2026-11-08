@@ -22,7 +22,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      # LT-618: the whole history, so scripts/sitemap-dates.mjs can date each
+      # page by the last commit that changed it (a shallow clone knows one).
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v5
         with:
@@ -73,9 +77,10 @@ jobs:
           HOST: ${{ secrets.DEPLOY_HOST }}
         run: KEY="$HOME/.ssh/deploy_key" ./deploy.sh
 
-      # LT-430: tell Bing and the other IndexNow engines about the blog pages
-      # dated today (Google reads the sitemap). Never fails the deploy.
-      - name: Notify search engines of new blog pages
+      # LT-430, LT-618: tell Bing and the other IndexNow engines about the
+      # pages dated today - a new or revised post, the home pages, pricing
+      # (Google reads the sitemap). Never fails the deploy.
+      - name: Notify search engines of changed pages
         continue-on-error: true
         run: node scripts/blog/indexnow.mjs
 

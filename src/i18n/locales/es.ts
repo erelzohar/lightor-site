@@ -223,6 +223,63 @@ export default {
     note: 'Gratis para empezar, con 60 días de Lightor+ para cada cuenta nueva. Mejora tu plan solo cuando necesites más.',
     imageAlt: 'Lighty celebrando'
   },
+  // LT-618: the questions people ask, each answered in its first sentence; facts from blog/FACTS.md.
+  faq: {
+    eyebrow: "Preguntas frecuentes",
+    title: "Lo que nos preguntan sobre Lightor",
+    subtitle: "Respuestas cortas a las preguntas que más nos hacen.",
+    links: {
+      pricing: "Ver todos los precios",
+      play: "Google Play",
+      appStore: "App Store",
+      mail: "support@lightor.app"
+    },
+    items: [
+      {
+        q: "¿Qué es Lightor?",
+        a: "Lightor te crea un sitio web a partir de una conversación con Lighty, su asistente de IA: un sitio para un negocio, un sitio corporativo, una landing page o un evento, con su propia dirección en lightor.app. El sitio puede recibir reservas en un calendario con disponibilidad real, recoger consultas e inscripciones con un formulario y mostrar productos."
+      },
+      {
+        q: "¿Cuánto cuesta un sitio en Lightor?",
+        a: "Puedes empezar gratis y seguir gratis: el plan gratuito incluye hasta 15 reservas y 15 consultas al mes. Cada cuenta nueva recibe 60 días de Lightor+ sin tarjeta de crédito. Después, Lightor+ cuesta 89 ₪ al mes o 890 ₪ al año, y Lightor Pro 119 ₪ al mes o 1.190 ₪ al año.",
+        links: ["pricing"]
+      },
+      {
+        q: "¿Necesito saber crear sitios web?",
+        a: "No. Cuéntale a Lighty sobre tu negocio, evento o idea con palabras sencillas: escribe los textos, elige un diseño y te muestra el sitio en un minuto aproximadamente. Después cambias cualquier texto, imagen o sección con un clic, tú mismo o con Lighty."
+      },
+      {
+        q: "¿El sitio puede recibir reservas online?",
+        a: "Sí. Los clientes eligen un servicio, un día y una hora libre, confirman con un código que llega a su teléfono y reciben la confirmación por SMS o WhatsApp. Con Lightor+ y en los días gratis también se envía un recordatorio la mañana de la cita. Los pagos y los depósitos en el sitio todavía no están disponibles."
+      },
+      {
+        q: "¿Puedo vender productos en el sitio?",
+        a: "Puedes mostrar productos, cada uno en su propia página con fotos, precio y detalles, y recibir consultas sobre ellos por el formulario o WhatsApp. El sitio no tiene carrito ni pago: una consulta sobre un producto es un mensaje para ti, no un pedido."
+      },
+      {
+        q: "¿En qué idiomas puede estar el sitio?",
+        a: "Hebreo, inglés, árabe, francés y español, incluida la escritura de derecha a izquierda. Tus textos están escritos en un solo idioma, y el idioma que elige el visitante cambia los botones y los pasos de la reserva."
+      },
+      {
+        q: "¿Puedo conectar mi propio dominio?",
+        a: "Todavía no. Cada sitio recibe su propia dirección en lightor.app, por ejemplo studio-dana.lightor.app, y puedes cambiar el nombre en Ajustes cuando quieras. Conectar tu propio dominio aún no está disponible."
+      },
+      {
+        q: "¿El sitio aparecerá en Google y en la búsqueda con IA?",
+        a: "Cada sitio se crea con datos estructurados que los buscadores entienden, su propio mapa del sitio y avisos de cambios a los buscadores, y está abierto a los rastreadores de los buscadores con IA. Nadie puede prometer el primer puesto en Google."
+      },
+      {
+        q: "¿Hay una aplicación para el móvil?",
+        a: "Sí. La aplicación de Lightor está en Google Play y en la App Store: el mismo panel, con avisos de nuevas reservas y consultas.",
+        links: ["play", "appStore"]
+      },
+      {
+        q: "¿Quién está detrás de Lightor?",
+        a: "Lightor lo gestiona EZ Webs, un negocio israelí. Para preguntas y soporte, escríbenos a support@lightor.app.",
+        links: ["mail"]
+      }
+    ]
+  },
   a11y: {
     skip: 'Saltar al contenido',
     menu: {
@@ -250,6 +307,7 @@ export default {
       how: 'Cómo funciona',
       lighty: 'Lighty',
       features: 'Funciones',
+      faq: "Preguntas frecuentes",
       sites: 'Sitios creados con Lightor',
       blog: 'Blog (en hebreo)',
       start: 'Empieza gratis',

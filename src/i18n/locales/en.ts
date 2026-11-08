@@ -223,6 +223,63 @@ export default {
     note: 'Free to start, with 60 days of Lightor+ for every new account. Upgrade only when you need more.',
     imageAlt: 'Lighty cheering'
   },
+  // LT-618: the questions people ask, each answered in its first sentence; facts from blog/FACTS.md.
+  faq: {
+    eyebrow: "Questions",
+    title: "What people ask us about Lightor",
+    subtitle: "Short answers to the questions we hear most.",
+    links: {
+      pricing: "See all prices",
+      play: "Google Play",
+      appStore: "App Store",
+      mail: "support@lightor.app"
+    },
+    items: [
+      {
+        q: "What is Lightor?",
+        a: "Lightor builds you a website from a conversation with Lighty, its AI assistant: a site for a business, a brochure site, a landing page or an event, at its own lightor.app address. The site can take bookings on a calendar with real availability, collect inquiries and sign-ups through a form, and show products."
+      },
+      {
+        q: "How much does a Lightor site cost?",
+        a: "You can start free and stay free: the free plan includes up to 15 bookings and 15 inquiries a month. Every new account gets 60 days of Lightor+ with no credit card. After that, Lightor+ is ₪89 a month or ₪890 a year, and Lightor Pro is ₪119 a month or ₪1,190 a year.",
+        links: ["pricing"]
+      },
+      {
+        q: "Do I need to know how to build websites?",
+        a: "No. Tell Lighty about your business, event or idea in plain words, and it writes the texts, picks a design and shows you the site in about a minute. Then you change any text, picture or section with a click, yourself or with Lighty."
+      },
+      {
+        q: "Can the site take online bookings?",
+        a: "Yes. Customers pick a service, a day and a free time, confirm with a code sent to their phone and get a confirmation by SMS or WhatsApp. On Lightor+ and in the free days a reminder also goes out on the morning of the appointment. Payments and deposits on the site are not available yet."
+      },
+      {
+        q: "Can I sell products on the site?",
+        a: "You can show products, each on its own page with pictures, a price and details, and receive inquiries about them through the form or WhatsApp. There is no cart or checkout on the site: an inquiry about a product is a message to you, not an order."
+      },
+      {
+        q: "Which languages can the site be in?",
+        a: "Hebrew, English, Arabic, French and Spanish, right-to-left included. Your own texts are written in one language, and a visitor’s language choice changes the buttons and the booking steps."
+      },
+      {
+        q: "Can I connect my own domain?",
+        a: "Not yet. Every site gets its own lightor.app address, such as studio-dana.lightor.app, and you can change the name in Settings at any time. Connecting your own domain is not available yet."
+      },
+      {
+        q: "Will the site show up on Google and in AI search?",
+        a: "Every site is built with structured data that search engines understand, its own sitemap and change notices to search engines, and it is open to the crawlers of AI search engines. No one can promise a first place on Google."
+      },
+      {
+        q: "Is there a phone app?",
+        a: "Yes. The Lightor app is on Google Play and the App Store: the same dashboard, with alerts about new bookings and inquiries.",
+        links: ["play", "appStore"]
+      },
+      {
+        q: "Who is behind Lightor?",
+        a: "Lightor is run by EZ Webs, an Israeli business. For questions and support, write to us at support@lightor.app.",
+        links: ["mail"]
+      }
+    ]
+  },
   a11y: {
     skip: 'Skip to content',
     menu: {
@@ -250,6 +307,7 @@ export default {
       how: 'How it works',
       lighty: 'Lighty',
       features: 'Features',
+      faq: "FAQ",
       sites: 'Sites built with Lightor',
       blog: 'Blog (Hebrew)',
       start: 'Start free',

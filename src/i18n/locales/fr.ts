@@ -223,6 +223,63 @@ export default {
     note: 'Gratuit pour commencer, avec 60 jours de Lightor+ pour chaque nouveau compte. Passez à l\'offre supérieure seulement quand vous en avez besoin.',
     imageAlt: 'Lighty qui applaudit'
   },
+  // LT-618: the questions people ask, each answered in its first sentence; facts from blog/FACTS.md.
+  faq: {
+    eyebrow: "Questions fréquentes",
+    title: "Ce qu’on nous demande sur Lightor",
+    subtitle: "Des réponses courtes aux questions qu’on nous pose le plus.",
+    links: {
+      pricing: "Voir tous les tarifs",
+      play: "Google Play",
+      appStore: "App Store",
+      mail: "support@lightor.app"
+    },
+    items: [
+      {
+        q: "Qu’est-ce que Lightor ?",
+        a: "Lightor vous crée un site à partir d’une conversation avec Lighty, son assistant IA : un site pour une entreprise, un site vitrine, une page d’atterrissage ou un événement, à sa propre adresse sur lightor.app. Le site peut prendre des rendez-vous dans un agenda aux disponibilités réelles, recueillir des demandes et des inscriptions par un formulaire, et présenter des produits."
+      },
+      {
+        q: "Combien coûte un site Lightor ?",
+        a: "Vous pouvez commencer gratuitement et rester gratuit : le forfait gratuit comprend jusqu’à 15 rendez-vous et 15 demandes par mois. Chaque nouveau compte reçoit 60 jours de Lightor+ sans carte bancaire. Ensuite, Lightor+ coûte 89 ₪ par mois ou 890 ₪ par an, et Lightor Pro 119 ₪ par mois ou 1 190 ₪ par an.",
+        links: ["pricing"]
+      },
+      {
+        q: "Faut-il savoir créer des sites ?",
+        a: "Non. Décrivez à Lighty votre activité, votre événement ou votre idée avec des mots simples : il rédige les textes, choisit un design et vous montre le site en une minute environ. Ensuite, vous modifiez chaque texte, image ou section d’un clic, vous-même ou avec Lighty."
+      },
+      {
+        q: "Le site peut-il prendre des rendez-vous en ligne ?",
+        a: "Oui. Les clients choisissent une prestation, un jour et un créneau libre, confirment avec un code envoyé sur leur téléphone et reçoivent une confirmation par SMS ou WhatsApp. Avec Lightor+ et pendant les jours gratuits, un rappel part aussi le matin du rendez-vous. Le paiement et les acomptes sur le site ne sont pas encore disponibles."
+      },
+      {
+        q: "Peut-on vendre des produits sur le site ?",
+        a: "Vous pouvez présenter des produits, chacun sur sa propre page avec photos, prix et détails, et recevoir des demandes à leur sujet par le formulaire ou WhatsApp. Le site n’a ni panier ni paiement : une demande sur un produit est un message pour vous, pas une commande."
+      },
+      {
+        q: "Dans quelles langues le site peut-il être ?",
+        a: "Hébreu, anglais, arabe, français et espagnol, écriture de droite à gauche comprise. Vos textes sont écrits dans une seule langue, et le choix de langue du visiteur change les boutons et les étapes de réservation."
+      },
+      {
+        q: "Puis-je connecter mon propre nom de domaine ?",
+        a: "Pas encore. Chaque site reçoit sa propre adresse sur lightor.app, par exemple studio-dana.lightor.app, et vous pouvez changer le nom dans les réglages à tout moment. La connexion de votre propre domaine n’est pas encore disponible."
+      },
+      {
+        q: "Le site apparaîtra-t-il sur Google et dans la recherche IA ?",
+        a: "Chaque site est construit avec des données structurées que les moteurs de recherche comprennent, son propre plan du site et des avis de modification envoyés aux moteurs, et il est ouvert aux robots des moteurs de recherche IA. Personne ne peut promettre la première place sur Google."
+      },
+      {
+        q: "Y a-t-il une application mobile ?",
+        a: "Oui. L’application Lightor est sur Google Play et l’App Store : le même tableau de bord, avec des alertes pour les nouveaux rendez-vous et les nouvelles demandes.",
+        links: ["play", "appStore"]
+      },
+      {
+        q: "Qui est derrière Lightor ?",
+        a: "Lightor est exploité par EZ Webs, une entreprise israélienne. Pour toute question ou assistance, écrivez-nous à support@lightor.app.",
+        links: ["mail"]
+      }
+    ]
+  },
   a11y: {
     skip: 'Aller au contenu',
     menu: {
@@ -250,6 +307,7 @@ export default {
       how: 'Comment ça marche',
       lighty: 'Lighty',
       features: 'Fonctionnalités',
+      faq: "Questions fréquentes",
       sites: 'Sites créés avec Lightor',
       blog: 'Blog (en hébreu)',
       start: 'Commencer gratuitement',

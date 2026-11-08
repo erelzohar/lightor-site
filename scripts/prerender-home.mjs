@@ -18,6 +18,8 @@ const DIST = join(ROOT, 'dist');
 const ENTRY = join(ROOT, 'dist-ssr-home', 'entry-server.js');
 const EMPTY_ROOT = '<div id="root"></div>';
 const DASHES = /[—―]/; // em-dash, horizontal bar: never in what a reader sees
+/** As React writes text into HTML. */
+const esc = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
 
 const fail = (message) => {
   console.error(`✗ home: ${message}`);
@@ -25,7 +27,16 @@ const fail = (message) => {
 };
 
 if (!existsSync(ENTRY)) fail('dist-ssr-home/entry-server.js is missing - run `npm run build`.');
-const { render, LANGS, DEFAULT_LANG } = await import(pathToFileURL(ENTRY).href);
+const { render, faqOf, LANGS, DEFAULT_LANG } = await import(pathToFileURL(ENTRY).href);
+
+/** LT-618: the page's questions as FAQPage data, in the very words it shows. */
+const faqData = (items, url) =>
+  JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    url,
+    mainEntity: items.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+  }).replace(/</g, '\\u003c');
 
 const pages = [];
 for (const lang of LANGS) {
@@ -39,7 +50,13 @@ for (const lang of LANGS) {
   if (DASHES.test(body)) fail(`the ${lang} page contains an em-dash (LT-350)`);
   const words = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().length;
   if (words < 2000) fail(`the ${lang} page has only ${words} characters of text`);
-  pages.push([file, page.replace(EMPTY_ROOT, () => `<div id="root">${body}</div>`), rel, words]);
+  const faq = await faqOf(lang);
+  if (faq.length < 5) fail(`the ${lang} page has only ${faq.length} questions`);
+  for (const { q, a } of faq) if (!body.includes(esc(q)) || !body.includes(esc(a))) fail(`the ${lang} page does not show the question "${q}" as its FAQ data says`);
+  if (page.split('</head>').length !== 2) fail(`dist/${rel} has no single </head>`);
+  const url = `https://lightor.app/${lang === DEFAULT_LANG ? '' : `${lang}/`}`;
+  const withFaq = page.replace('</head>', () => `    <script type="application/ld+json">${faqData(faq, url)}</script>\n  </head>`);
+  pages.push([file, withFaq.replace(EMPTY_ROOT, () => `<div id="root">${body}</div>`), rel, words]);
 }
 for (const [file, html, rel, words] of pages) {
   writeFileSync(file, html);

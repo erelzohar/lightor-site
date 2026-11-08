@@ -5,6 +5,7 @@ const LINKS = {
     { key: 'how', href: '#how' },
     { key: 'lighty', href: '#lighty' },
     { key: 'features', href: '#features' },
+    { key: 'faq', href: '#faq' },
     { key: 'sites', href: 'https://lightor.app/sites' },
     { key: 'blog', href: 'https://lightor.app/blog/' },
   ],

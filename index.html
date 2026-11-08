@@ -12,7 +12,6 @@
 
     <!-- Primary Meta Tags (LT-260) -->
     <meta name="description" content="לייטור בונה לך אתר מתוך שיחה עם Lighty, העוזר החכם - לעסק, לאירוע, דף נחיתה או אתר תדמית, בכתובת משלך. האתר יכול גם לקבל תורים או פניות ולהציג מוצרים, עם תזכורות, התראות ולוח בקרה, ונבנה כדי שימצאו אותו בגוגל ובמנועי AI. Lightor builds you a website from a conversation with Lighty - for a business, an event, a landing page or any idea." />
-    <meta name="keywords" content="בניית אתר, בניית אתר בחינם, בניית אתר עם AI, אתר לעסק, אתר תדמית, דף נחיתה, אתר לאירוע, אתר תורים, קביעת תורים אונליין, טופס פניות, אתר מוצרים, קטלוג מוצרים, Lighty, AI website builder, landing page builder, booking website" />
     <link rel="canonical" href="https://lightor.app/" />
 
     <meta property="og:type" content="website" />
@@ -38,7 +37,9 @@
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
+        "@id": "https://lightor.app/#app",
         "name": "Lightor",
+        "publisher": { "@id": "https://lightor.app/#organization" },
         "alternateName": ["לייטור", "لايتور"],
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
@@ -95,6 +96,34 @@
         ]
       }
     </script>
+    <!-- LT-618: who is behind Lightor, for search and answer engines: the
+         operator (as the terms name it), the logo, the store listings and the
+         way to reach us. The blog's pages carry the same @id as publisher. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://lightor.app/#organization",
+        "name": "Lightor",
+        "alternateName": ["לייטור", "لايتور"],
+        "legalName": "EZ Webs",
+        "url": "https://lightor.app/",
+        "logo": { "@type": "ImageObject", "url": "https://lightor.app/lightor192.png", "width": 192, "height": 192 },
+        "email": "support@lightor.app",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "support@lightor.app",
+          "url": "https://lightor.app/support.html",
+          "availableLanguage": ["he", "en", "ar", "fr", "es"]
+        },
+        "areaServed": "IL",
+        "sameAs": [
+          "https://play.google.com/store/apps/details?id=app.lightor.dashboard",
+          "https://apps.apple.com/app/lightor/id6819305092"
+        ]
+      }
+    </script>
     <!-- LT-349: the site's name for Google, with the brand as written in
          Hebrew and Arabic, so a search for either finds it. -->
     <script type="application/ld+json">
@@ -104,6 +133,7 @@
         "name": "Lightor",
         "alternateName": ["לייטור", "لايتور"],
         "url": "https://lightor.app/",
+        "publisher": { "@id": "https://lightor.app/#organization" },
         "inLanguage": ["he", "en", "ar", "fr", "es"]
       }
     </script>

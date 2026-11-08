@@ -7,6 +7,7 @@ import LightySection from './components/LightySection';
 import Features from './components/Features';
 import HowItWorks from './components/HowItWorks';
 import Showcase from './components/Showcase';
+import Faq from './components/Faq';
 import Contact from './components/Contact';
 import './i18n';
 
@@ -42,6 +43,7 @@ export function Home() {
       <Features />
       <HowItWorks />
       <Showcase />
+      <Faq />
       <Contact />
     </SiteShell>
   );

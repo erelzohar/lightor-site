@@ -1,7 +1,9 @@
 /**
  * LT-430: after a deploy, tell Bing and the other IndexNow engines about the
- * blog pages whose sitemap date is today (Israel time): a new article, the
- * blog index it joined, an updated article. Google does not take IndexNow; it
+ * pages whose sitemap date is today (Israel time): a new article, the blog
+ * index it joined, an updated article, and since LT-618 any page of the site
+ * (the home pages, pricing, the legal pages) whose files changed today, as
+ * scripts/sitemap-dates.mjs dates them. Google does not take IndexNow; it
  * reads the sitemap.
  *
  * The tenant sites already notify through the API (LT-221) with the same
@@ -23,13 +25,13 @@ const fromSitemap = () => {
   const xml = readFileSync(join(ROOT, 'dist', 'sitemap.xml'), 'utf8');
   const today = todayIL();
   return [...xml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)]
-    .filter(([, loc, lastmod]) => loc.startsWith(`https://${HOST}/blog/`) && lastmod === today)
+    .filter(([, loc, lastmod]) => loc.startsWith(`https://${HOST}/`) && lastmod === today)
     .map(([, loc]) => loc);
 };
 
 const main = async () => {
   const urls = process.argv.length > 2 ? process.argv.slice(2) : fromSitemap();
-  if (!urls.length) return console.log('IndexNow: no blog page dated today, nothing to send');
+  if (!urls.length) return console.log('IndexNow: no page dated today, nothing to send');
 
   const keyLocation = `https://${HOST}/${KEY}.txt`;
   const served = await fetch(keyLocation).then((r) => (r.ok ? r.text() : ''), () => '');

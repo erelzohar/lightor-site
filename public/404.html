@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- LT-618: what nginx answers, with status 404, for an address that is no page of lightor.app. -->
+    <meta name="robots" content="noindex" />
+    <title>הדף לא נמצא | Lightor</title>
+    <link rel="icon" type="image/svg+xml" href="/lightor.svg" />
+    <style>
+      :root { color-scheme: light dark; --bg: #ffffff; --text: #0b0b12; --muted: #4b5563; --line: #e5e7eb; --link: #6d28d9; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #000000; --text: #ffffff; --muted: #9ca3af; --line: #1f2937; --link: #c4b5fd; } }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg); color: var(--text); font-family: Assistant, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; padding: 32px 16px; }
+      main { max-width: 34rem; width: 100%; text-align: center; }
+      img { width: 140px; height: auto; }
+      h1 { margin: 16px 0 8px; font-size: 2rem; line-height: 1.25; }
+      p { margin: 0 0 12px; color: var(--muted); font-size: 1.125rem; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 24px 0 32px; }
+      .button { display: inline-block; padding: 12px 24px; border-radius: 999px; font-weight: 700; text-decoration: none; background: linear-gradient(135deg, #7c3aed, #db2777); color: #ffffff; }
+      .button.secondary { background: transparent; color: var(--link); border: 1px solid var(--line); }
+      .langs { border-top: 1px solid var(--line); padding-top: 20px; font-size: 1rem; }
+      .langs p { font-size: 1rem; }
+      a { color: var(--link); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/lighty-wave.webp" alt="" width="140" height="140" />
+      <h1>הדף לא נמצא</h1>
+      <p>אולי הקישור השתנה או שנפלה בו טעות. אפשר לחזור לדף הבית, לבלוג או לאתרים שנבנו עם לייטור.</p>
+      <div class="actions">
+        <a class="button" href="/">לדף הבית</a>
+        <a class="button secondary" href="/blog/">לבלוג</a>
+        <a class="button secondary" href="/sites">אתרים שנבנו עם לייטור</a>
+      </div>
+      <div class="langs">
+        <p lang="en" dir="ltr">Page not found. <a href="/en/">Lightor in English</a></p>
+        <p lang="ar" dir="rtl">الصفحة غير موجودة. <a href="/ar/">لايتور بالعربية</a></p>
+        <p lang="fr" dir="ltr">Page introuvable. <a href="/fr/">Lightor en français</a></p>
+        <p lang="es" dir="ltr">Página no encontrada. <a href="/es/">Lightor en español</a></p>
+      </div>
+    </main>
+  </body>
+</html>
