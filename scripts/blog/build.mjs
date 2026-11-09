@@ -365,6 +365,29 @@ const checkLinks = (posts) => {
     }
 };
 
+// LT-635 (LT-631): a post is text the blog task writes, so its HTML carries no
+// script and its links and pictures no scheme but https (and mailto for a link).
+// Marked passes raw HTML and any link through; a slip fails the build here
+// instead of reaching lightor.app.
+const UNSAFE_HTML = /<\s*(?:script|iframe|object|embed|style|form|input|button|link|meta|base|frame|frameset)\b|\son[a-z]+\s*=|\ssrcdoc\s*=/i;
+const SCHEME = /^\s*([a-z][a-z0-9+.-]*):/i;
+const checkSafeHtml = (posts) => {
+  for (const p of posts) {
+    const bad = p.html.match(UNSAFE_HTML);
+    if (bad) fail(p.file, `a post holds no "${bad[0].trim()}"`);
+    for (const [, href] of p.html.matchAll(/\shref="([^"]*)"/gi)) {
+      const scheme = (href.match(SCHEME) || [])[1]?.toLowerCase();
+      if (scheme && scheme !== 'https' && scheme !== 'mailto' && !(scheme === 'http' && /^http:\/\/(?:www\.)?lightor\.app\/?$/.test(href))) {
+        fail(p.file, `link ${href}: only https, mailto, a path or an anchor`);
+      }
+    }
+    for (const [, src] of p.html.matchAll(/\ssrc="([^"]*)"/gi)) {
+      const scheme = (src.match(SCHEME) || [])[1]?.toLowerCase();
+      if (scheme && scheme !== 'https') fail(p.file, `picture ${src}: only https or a path`);
+    }
+  }
+};
+
 const sitemapEntries = (posts) => {
   if (!posts.length) return '';
   const newest = posts.reduce((m, p) => ((p.updated || p.date) > m ? p.updated || p.date : m), '');
@@ -515,6 +538,7 @@ const main = async () => {
 
   const posts = loadPosts();
   checkLinks(posts);
+  checkSafeHtml(posts);
   const photoJobs = await preparePhotos(posts);
   const videoJobs = await prepareVideos(posts);
   // A link to an article that is not out yet keeps its words and loses the link.

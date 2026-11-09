@@ -46,11 +46,13 @@ jobs:
       - name: Authorise the runner against the server
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          # Through env, not spliced into the script (LT-635).
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
           set -euo pipefail
           host="${DEPLOY_HOST#*@}"
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          printf "%s\n" "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          printf "%s\n" "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
           # A private key is multi-line. Pasted into a secret by hand it can
@@ -66,11 +68,22 @@ jobs:
           fi
 
           # Pin the host key so a hijacked DNS/IP cannot silently receive a deploy.
-          if ! ssh-keyscan -T 10 -H "$host" >> ~/.ssh/known_hosts; then
+          # The box's own ed25519 key is written here (LT-635, LT-631): a scan on
+          # every run took whatever answered on the address. If the box is ever
+          # rebuilt, put its new key here (`ssh-keyscan -t ed25519 <host>`,
+          # checked against the server itself).
+          PINNED="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKdrSjClezr61TMIHwB42Ed139fAOyT0lEvK3FKdUUQ9"
+          seen=$(ssh-keyscan -T 10 -t ed25519 "$host" 2>/dev/null | grep -v '^#' | awk '{print $2" "$3}' || true)
+          if [ -z "$seen" ]; then
             echo "✗ cannot reach $host:22 from this runner."
             echo "  The server firewall is open, so this is the security group."
             exit 1
           fi
+          if [ "$seen" != "$PINNED" ]; then
+            echo "✗ $host answers with a host key that is not the pinned one. Not deploying."
+            exit 1
+          fi
+          echo "$host $PINNED" >> ~/.ssh/known_hosts
 
       - name: Deploy
         env:
