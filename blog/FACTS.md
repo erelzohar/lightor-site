@@ -65,6 +65,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   fixed weekly times (day + hour, as many as needed); booking stops when full,
   one seat per phone per session, and a class time takes that time in the
   calendar for other services too.
+  A cancelled class booking frees its place, and a session that falls inside
+  a vacation is not offered (lightor-back `appointmentController.ts`, checked
+  2026-11-10).
 - Hours ("לוח זמנים וחופשות"): per weekday on/off and start-end, breaks
   ("הוסף הפסקה"), special hours for one date ("שעות מיוחדות"), vacations with a
   title and start/end date and hour ("ניהול חופשות"). Changes to the hours
