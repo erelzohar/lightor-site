@@ -300,6 +300,8 @@ export default {
   },
   footer: {
     tagline: 'אתר לעסק, לאירוע או לכל רעיון - בשיחה עם Lighty.',
+    profiles: "הפרופילים של לייטור",
+    profile: "לייטור ב-{{network}}",
     product: 'המוצר',
     account: 'חשבון',
     legal: 'מידע',

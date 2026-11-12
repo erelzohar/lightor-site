@@ -1,4 +1,13 @@
 import { useTranslation } from 'react-i18next';
+import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok } from 'react-icons/fa6';
+
+/** LT-652: Lightor's own profiles; the same list as the Organization's sameAs in index.html and the blog's. */
+export const PROFILES = [
+  { name: 'Instagram', href: 'https://www.instagram.com/lightor.ai/', Icon: FaInstagram },
+  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61590494095586', Icon: FaFacebook },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/lightor/', Icon: FaLinkedin },
+  { name: 'TikTok', href: 'https://www.tiktok.com/@lightor.ai', Icon: FaTiktok },
+] as const;
 
 const LINKS = {
   product: [
@@ -37,6 +46,21 @@ const Footer = ({ home = '' }: { home?: string }) => {
               <span className="text-xl font-bold">Lightor</span>
             </a>
             <p className="mt-4 max-w-xs text-gray-400">{t('footer.tagline')}</p>
+            <ul className="mt-5 flex gap-3" aria-label={t('footer.profiles')}>
+              {PROFILES.map(({ name, href, Icon }) => (
+                <li key={name}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="me noopener noreferrer"
+                    aria-label={t('footer.profile', { network: name })}
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-gray-300 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  >
+                    <Icon aria-hidden="true" className="h-5 w-5" />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
           {(Object.keys(LINKS) as (keyof typeof LINKS)[]).map((group) => (
             <nav key={group} aria-label={t(`footer.${group}`)}>

@@ -52,6 +52,15 @@ const PUBLISHER = {
   alternateName: ['לייטור', 'لايتور'],
   url: `${ORIGIN}/`,
   logo: { '@type': 'ImageObject', url: `${ORIGIN}/lightor192.png`, width: 192, height: 192 },
+  // LT-652: the same profiles as the home's Organization (index.html) and the footer.
+  sameAs: [
+    'https://www.instagram.com/lightor.ai/',
+    'https://www.facebook.com/profile.php?id=61590494095586',
+    'https://www.linkedin.com/company/lightor/',
+    'https://www.tiktok.com/@lightor.ai',
+    'https://play.google.com/store/apps/details?id=app.lightor.dashboard',
+    'https://apps.apple.com/app/lightor/id6819305092',
+  ],
 };
 
 /**

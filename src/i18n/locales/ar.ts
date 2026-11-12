@@ -300,6 +300,8 @@ export default {
   },
   footer: {
     tagline: 'موقع لعملك أو لحدثك أو لأي فكرة - من محادثة مع Lighty.',
+    profiles: "حسابات لايتور",
+    profile: "لايتور على {{network}}",
     product: 'المنتج',
     account: 'الحساب',
     legal: 'معلومات',

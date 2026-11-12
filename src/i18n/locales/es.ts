@@ -300,6 +300,8 @@ export default {
   },
   footer: {
     tagline: 'Un sitio para tu negocio, tu evento o cualquier idea - a partir de una conversación con Lighty.',
+    profiles: "Los perfiles de Lightor",
+    profile: "Lightor en {{network}}",
     product: 'Producto',
     account: 'Cuenta',
     legal: 'Información',
