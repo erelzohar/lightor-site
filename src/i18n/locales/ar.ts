@@ -280,6 +280,14 @@ export default {
       }
     ]
   },
+  // LT-656: the store buttons.
+  stores: {
+    label: "تطبيق لايتور",
+    appStore: "حمّله من",
+    googlePlay: "احصل عليه من",
+    cta: "وأيضًا في التطبيق، لإدارة كل شيء من هاتفك:",
+    footer: "التطبيق"
+  },
   a11y: {
     skip: 'تخطَّ إلى المحتوى',
     menu: {

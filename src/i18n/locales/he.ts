@@ -280,6 +280,14 @@ export default {
       }
     ]
   },
+  // LT-656: the store buttons.
+  stores: {
+    label: "האפליקציה של לייטור",
+    appStore: "להורדה מ-",
+    googlePlay: "זמין ב-",
+    cta: "וגם באפליקציה, לניהול מהטלפון:",
+    footer: "האפליקציה"
+  },
   a11y: {
     skip: 'דילוג לתוכן',
     menu: {

@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok } from 'react-icons/fa6';
+import StoreLinks from './StoreLinks';
 
 /** LT-652: Lightor's own profiles; the same list as the Organization's sameAs in index.html and the blog's. */
 export const PROFILES = [
@@ -61,6 +62,9 @@ const Footer = ({ home = '' }: { home?: string }) => {
                 </li>
               ))}
             </ul>
+            {/* LT-656: the apps, under the profiles. */}
+            <p className="mt-6 text-sm font-semibold text-gray-300">{t('stores.footer')}</p>
+            <StoreLinks tone="dark" className="mt-3" />
           </div>
           {(Object.keys(LINKS) as (keyof typeof LINKS)[]).map((group) => (
             <nav key={group} aria-label={t(`footer.${group}`)}>

@@ -5,7 +5,7 @@ import { ChevronDown } from 'lucide-react';
 export const FAQ_LINKS = {
   pricing: '/pricing.html',
   play: 'https://play.google.com/store/apps/details?id=app.lightor.dashboard',
-  appStore: 'https://apps.apple.com/app/lightor/id6819305092',
+  appStore: 'https://apps.apple.com/il/app/lightor/id6819305092',
   mail: 'mailto:support@lightor.app',
 } as const;
 

@@ -280,6 +280,14 @@ export default {
       }
     ]
   },
+  // LT-656: the store buttons.
+  stores: {
+    label: "Lightor's app",
+    appStore: "Download on the",
+    googlePlay: "Get it on",
+    cta: "Also in the app, to run it from your phone:",
+    footer: "The app"
+  },
   a11y: {
     skip: 'Skip to content',
     menu: {

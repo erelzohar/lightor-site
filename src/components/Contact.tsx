@@ -3,6 +3,7 @@ import { isRtl } from '../i18n/languages';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { SplashButton } from './ui/splash-button';
+import StoreLinks from './StoreLinks';
 
 const REGISTER_URL = 'https://register.lightor.app';
 const DASHBOARD_URL = 'https://dashboard.lightor.app';
@@ -37,6 +38,9 @@ const Contact = () => {
             </a>
           </div>
           <p className="mt-6 text-sm text-white/85">{t('contact.note')}</p>
+          {/* LT-656: the apps, for running the site from the phone. */}
+          <p className="mt-6 text-sm font-semibold text-white">{t('stores.cta')}</p>
+          <StoreLinks tone="light" className="mt-3 justify-center md:justify-start" />
         </div>
         <img
           src="/lighty-cheer.webp"

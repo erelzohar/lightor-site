@@ -280,6 +280,14 @@ export default {
       }
     ]
   },
+  // LT-656: the store buttons.
+  stores: {
+    label: "La app de Lightor",
+    appStore: "Descárgala en",
+    googlePlay: "Disponible en",
+    cta: "También en la app, para gestionarlo todo desde tu móvil:",
+    footer: "La app"
+  },
   a11y: {
     skip: 'Saltar al contenido',
     menu: {
