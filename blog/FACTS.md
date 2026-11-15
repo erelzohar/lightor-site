@@ -264,6 +264,15 @@ it out. When a feature ships or changes, update this file in the same mission.
   working and forwards to the domain.
 - **One domain per site.** Booking-management links in text messages stay on
   the lightor.app address.
+- While connecting, the card shows the record to add with copy buttons, checks
+  again by itself every few seconds ("בדיקה עכשיו" checks at once), and names
+  a date: a domain not connected by then (3 days) is released and can be
+  connected again.
+- Once connected, the dashboard's own links carry the domain: the note under
+  "הלינק שלך" (Settings, "כללי"), the share buttons and the QR code.
+- **Disconnecting** is a button on the same card, on any plan: the site stops
+  answering on the domain and stays on its lightor.app address. The domain can
+  be connected again.
 - No extra charge for the connection itself; the domain's own price is
   between the owner and the registrar.
 - Down to the free plan: the domain is **paused, not deleted**, and the site

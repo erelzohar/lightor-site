@@ -58,7 +58,7 @@ today, add it at the bottom of "Published" with "· guide", and delete it here.
 A guide verified more than 21 days ago is not published: report that it needs
 a fresh check in the product.
 
-None right now (`guide-blog-with-lighty` went live on 2026-11-08, at Erel's ask).
+- `guide-connect-domain` · חיבור דומיין לאתר בלייטור: מדריך מצולם, צעד אחר צעד · "חיבור דומיין לאתר" · verified 2026-11-15 (LT-661; shot on the local stack with a stand-in for Cloudflare and the demo domain studio-ora.co.il, which is not registered)
 
 ## Guides to make next
 
