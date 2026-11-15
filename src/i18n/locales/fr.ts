@@ -262,7 +262,8 @@ export default {
       },
       {
         q: "Puis-je connecter mon propre nom de domaine ?",
-        a: "Pas encore. Chaque site reçoit sa propre adresse sur lightor.app, par exemple studio-dana.lightor.app, et vous pouvez changer le nom dans les réglages à tout moment. La connexion de votre propre domaine n’est pas encore disponible."
+        a: "Oui, avec Lightor+ et Lightor Pro, y compris pendant les jours gratuits d’un nouveau compte. Vous achetez le nom de domaine vous-même auprès du bureau d’enregistrement de votre choix et vous le connectez dans les réglages du site ; la connexion elle-même est sans frais supplémentaires. Avec le forfait gratuit, le site a sa propre adresse sur lightor.app, par exemple studio-dana.lightor.app.",
+        links: ["pricing"]
       },
       {
         q: "Le site apparaîtra-t-il sur Google et dans la recherche IA ?",

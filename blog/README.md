@@ -204,7 +204,8 @@ screenshots carry part of them.
   works in Lightor") plus the `[[cta]]` and the closing box. Never claim a
   feature that is not in `blog/FACTS.md`; when in doubt, check the code and
   update FACTS.md, or leave it out. Say plainly what Lightor does not do when
-  the reader would otherwise assume it does (deposits, own domain).
+  the reader would otherwise assume it does (deposits, a domain on the free
+  plan).
 - **Never promise results**: no "first page on Google", no "zero
   cancellations". No invented statistics or quotes. No medical claims.
 - **Hebrew, plural address** ("אתם", "לכם"), short sentences, plain words.

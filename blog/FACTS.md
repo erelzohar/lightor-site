@@ -5,7 +5,8 @@ lightor-dashboard, lightor-register and lightor-edge on **2026-10-29**
 (LT-430; first version 2026-10-20), and walked through in the product itself
 the same day for the guides. Products (sites that show products) checked the
 same way on 2026-11-03 (LT-565), the blog on a business's site on 2026-11-08
-(LT-615). An article may only describe what is listed here
+(LT-615), an own domain for a site on 2026-11-15 (LT-661). An article may only
+describe what is listed here
 as live. Anything not listed: check the code first (and add it here), or leave
 it out. When a feature ships or changes, update this file in the same mission.
 
@@ -29,12 +30,12 @@ it out. When a feature ships or changes, update this file in the same mission.
   bookings (calendar plus a contact form) or collects inquiries (form only),
   and any site can also show products. A products site (the build's
   "אתר מוצרים") is an inquiries site whose products sit high on the page.
-- Address: `<name>.lightor.app` only. **Connecting an own domain is NOT
-  available** ("coming soon" in the dashboard: never promise it). Lighty picks
-  the name from the business name; the owner can change it at any time in
-  Settings ("הלינק שלך"): 2 to 20 English letters, digits and hyphens, with a
-  live availability check. The previous link stops working, and Settings warns
-  about that first.
+- Address: every site gets `<name>.lightor.app`. Lighty picks the name from
+  the business name; the owner can change it at any time in Settings
+  ("הלינק שלך"): 2 to 20 English letters, digits and hyphens, with a live
+  availability check. The previous link stops working, and Settings warns
+  about that first. On Lightor+ and Lightor Pro the owner can also connect an
+  own domain (see "An own domain").
 - Editing (dashboard, "עיצוב האתר"): click any text, picture or section and
   change it, by hand or with Lighty; add sections, reorder them, choose one of
   ten styles, the main colour, fonts, buttons and corners; save and publish in
@@ -248,6 +249,30 @@ it out. When a feature ships or changes, update this file in the same mission.
   importing posts from another blog, several authors. Lighty never
   publishes a post by itself.
 
+## An own domain (דומיין משלך)
+- **Lightor+ and Lightor Pro only** (LT-661, live 2026-11-15), the 60 free
+  days included (they are Lightor+). **Not on the free plan.**
+- **The owner buys the domain** at any registrar and renews it there. Lightor
+  does not sell, register or renew domains.
+- Connecting (dashboard, Settings, the "האתר" tab, the own-domain card): the
+  owner types the domain, adds **one record** at the registrar (a CNAME for
+  `www` pointing to `sites.lightor.app`), and forwards the bare domain
+  (without www) to the `www` address, also at the registrar.
+- The security certificate (HTTPS) is issued and renewed automatically.
+  Usually minutes, sometimes a few hours: never promise "at once".
+- The site lives at `www.<domain>`. The `<name>.lightor.app` address keeps
+  working and forwards to the domain.
+- **One domain per site.** Booking-management links in text messages stay on
+  the lightor.app address.
+- No extra charge for the connection itself; the domain's own price is
+  between the owner and the registrar.
+- Down to the free plan: the domain is **paused, not deleted**, and the site
+  goes back to its lightor.app address. Upgrading again brings it back; after
+  30 paused days it has to be connected again.
+- **Not available**: buying a domain through Lightor, mailboxes on the domain
+  (mail that already runs on the domain is not touched), more than one domain
+  for a site, a domain on the free plan.
+
 ## The owner
 - Dashboard (web, phone or computer): home with the setup checklist, Lighty,
   site design, calendar, customers, leads, hours and vacations, services,
@@ -325,7 +350,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   a month for the site build and products made from a few words (none from the
   editor), WhatsApp alerts for the
   owner's morning summary only,
-  the "Built with Lightor" badge, the booking confirmation only (no reminders). At the limit
+  the "Built with Lightor" badge, the booking confirmation only (no reminders),
+  no own domain. At the limit
   the site shows call/WhatsApp buttons. AI editing and the dashboard Lighty run
   on a basic AI model; the free days and the paid plans on a more advanced one
   (the build is the same model on every plan). Never name the models.
@@ -333,7 +359,7 @@ it out. When a feature ships or changes, update this file in the same mission.
   bookings close until the next period; no extras. Unlimited services, 15
   products, **up to 200 inquiries a month**, then the form gives way to call and WhatsApp buttons
   until next month. The morning reminder only, 20 rebuilds a month, 10 AI pictures,
-  insights + CSV, no badge, priority support, site Lighty.
+  insights + CSV, no badge, priority support, site Lighty, an own domain.
 - History (bookings and inquiries) shown: 2 months on free, 1 year on Lightor+,
   2 years on Lightor Pro. Older is hidden, and an upgrade brings it back; past
   2 years it is deleted on every plan. Customers stay.
@@ -343,7 +369,7 @@ it out. When a feature ships or changes, update this file in the same mission.
   "automatic charge for extra bookings" (off by default): then ₪0.35 each.
   Unlimited services and inquiries, 100 products, the hour-before reminder,
   20 rebuilds a month, 40 AI pictures, insights + CSV, no badge, priority support, site
-  Lighty. A failed payment keeps the site live but closes bookings, inquiries
+  Lighty, an own domain. A failed payment keeps the site live but closes bookings, inquiries
   and reminders.
 - Every new account: 60 days of Lightor+ free, no credit card, no commitment,
   up to 200 bookings in each 30-day month. Joining Lightor Pro in the free days
