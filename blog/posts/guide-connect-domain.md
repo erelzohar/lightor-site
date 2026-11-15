@@ -9,7 +9,6 @@ tags: דומיין, הגדרות
 related: guide-site-settings, guide-build-a-site-with-lighty, how-to-build-a-website
 image_alt: צילום מסך מלייטור: לשונית האתר בהגדרות, עם הדומיין www.studio-ora.co.il והתווית מחובר
 image_credit: מסך מתוך Lightor
-draft: true
 ---
 
 חיבור דומיין לאתר בלייטור נעשה בעמוד "הגדרות", בלשונית "האתר": כותבים את הדומיין שקניתם, מוסיפים אצל רשם הדומיינים רשומת CNAME אחת ומפנים את הכתובת בלי www. אחרי שהרשומה נקלטת ותעודת האבטחה מונפקת, האתר עולה בכתובת www של הדומיין. החיבור כלול ב-Lightor+ וב-Lightor Pro.

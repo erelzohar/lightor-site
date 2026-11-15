@@ -49,6 +49,7 @@ itself, every step done in the product and photographed; see blog/README.md).
 - [x] 2026-11-08 · `guide-blog-with-lighty` · בלוג לאתר העסק: איך Lighty כותב לכם פוסט, מהנושא ועד הפרסום · "בלוג לאתר העסק" · guide
 - [x] 2026-11-10 · `pilates-studio-class-booking` · מערכת לניהול סטודיו לפילאטיס: הרשמה לשיעורים בלי הודעות · "מערכת לניהול סטודיו לפילאטיס"
 - [x] 2026-11-15 · `google-reviews` · ביקורות גוגל: איך מקבלים יותר ביקורות בלי לקנות אף אחת · "ביקורות גוגל"
+- [x] 2026-11-15 · `guide-connect-domain` · חיבור דומיין לאתר בלייטור: מדריך מצולם, צעד אחר צעד · "חיבור דומיין לאתר" · guide
 
 ## Guides ready
 
@@ -58,7 +59,7 @@ today, add it at the bottom of "Published" with "· guide", and delete it here.
 A guide verified more than 21 days ago is not published: report that it needs
 a fresh check in the product.
 
-- `guide-connect-domain` · חיבור דומיין לאתר בלייטור: מדריך מצולם, צעד אחר צעד · "חיבור דומיין לאתר" · verified 2026-11-15 (LT-661; shot on the local stack with a stand-in for Cloudflare and the demo domain studio-ora.co.il, which is not registered)
+None right now (`guide-connect-domain` went live on 2026-11-15, at Erel's ask).
 
 ## Guides to make next
 
