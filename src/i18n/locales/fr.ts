@@ -36,17 +36,17 @@ export default {
     title: 'Tout ce que vous voulez promouvoir, sur un site à lui',
     uses: ['Une entreprise', 'Un site vitrine', 'Un catalogue de produits', 'Une page d\'atterrissage', 'Un événement', 'Un atelier ou un cours', 'Un projet personnel'],
     site: {
-      title: 'Dans chaque site',
+      title: 'Chaque site',
       lead: 'Tout ce qu\'il faut pour vous présenter',
       points: [
         'Une page qui dit qui vous êtes et ce que vous proposez',
         'Une galerie, des avis et une FAQ',
         'WhatsApp et téléphone en un geste',
-        'Votre propre adresse, visible sur Google'
+        'Votre propre adresse, visible sur Google, et vous pouvez aussi connecter votre propre domaine'
       ]
     },
     booking: {
-      title: 'Vous voulez prendre des rendez-vous ?',
+      title: 'Prise de rendez-vous',
       lead: 'Pour les rendez-vous, les soins et les cours',
       points: [
         'Un agenda avec de vraies disponibilités, selon vos horaires',
@@ -56,7 +56,7 @@ export default {
       ]
     },
     leads: {
-      title: 'Vous voulez recevoir des leads ?',
+      title: 'Gestion des leads',
       lead: 'Pour les devis, les inscriptions et les rappels',
       points: [
         'Un formulaire avec vos propres questions',
@@ -66,7 +66,7 @@ export default {
       ]
     },
     products: {
-      title: 'Vous voulez présenter des produits ?',
+      title: 'Boutique en ligne',
       lead: 'Pour un seul produit ou tout un catalogue',
       points: [
         'Une page par produit, avec photos, prix et description',

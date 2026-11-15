@@ -36,17 +36,17 @@ export default {
     title: 'Whatever you want to promote, on a site of its own',
     uses: ['A business', 'A brochure site', 'A product catalog', 'A landing page', 'An event', 'A workshop or course', 'A personal project'],
     site: {
-      title: 'In every site',
+      title: 'Every site',
       lead: 'Everything you need to present yourself',
       points: [
         'A page that tells who you are and what you offer',
         'A gallery, reviews and FAQ',
         'WhatsApp and phone in one tap',
-        'Your own address, found on Google'
+        'Your own address, found on Google, and you can connect your own domain too'
       ]
     },
     booking: {
-      title: 'Want to take bookings?',
+      title: 'Booking system',
       lead: 'For meetings, treatments and classes',
       points: [
         'A calendar with real availability, from your own hours',
@@ -56,7 +56,7 @@ export default {
       ]
     },
     leads: {
-      title: 'Want to get leads?',
+      title: 'Lead management',
       lead: 'For quotes, sign-ups and call-backs',
       points: [
         'A form with your own questions',
@@ -66,7 +66,7 @@ export default {
       ]
     },
     products: {
-      title: 'Want to show products?',
+      title: 'Online store',
       lead: 'For one product or a whole catalog',
       points: [
         'A page for every product, with pictures, a price and a description',

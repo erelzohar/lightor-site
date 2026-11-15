@@ -36,17 +36,17 @@ export default {
     title: 'Todo lo que quieras promocionar, en un sitio propio',
     uses: ['Un negocio', 'Un sitio institucional', 'Un catálogo de productos', 'Una landing page', 'Un evento', 'Un taller o curso', 'Un proyecto personal'],
     site: {
-      title: 'En cada sitio',
+      title: 'Cada sitio',
       lead: 'Todo lo que necesitas para presentarte',
       points: [
         'Una página que cuenta quién eres y qué ofreces',
         'Galería, reseñas y preguntas frecuentes',
         'WhatsApp y teléfono con un toque',
-        'Tu propia dirección, visible en Google'
+        'Tu propia dirección, visible en Google, y también puedes conectar tu propio dominio'
       ]
     },
     booking: {
-      title: '¿Quieres recibir reservas?',
+      title: 'Sistema de reservas',
       lead: 'Para citas, tratamientos y clases',
       points: [
         'Un calendario con disponibilidad real, según tu horario',
@@ -56,7 +56,7 @@ export default {
       ]
     },
     leads: {
-      title: '¿Quieres recibir leads?',
+      title: 'Gestión de leads',
       lead: 'Para presupuestos, inscripciones y llamadas',
       points: [
         'Un formulario con tus propias preguntas',
@@ -66,7 +66,7 @@ export default {
       ]
     },
     products: {
-      title: '¿Quieres mostrar productos?',
+      title: 'Tienda online',
       lead: 'Para un solo producto o un catálogo entero',
       points: [
         'Una página para cada producto, con fotos, precio y descripción',
