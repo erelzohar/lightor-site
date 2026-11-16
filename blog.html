@@ -14,6 +14,8 @@
     <link rel="manifest" href="/manifest.json" />
     <!-- LT-357: a stored accessibility choice is on <html> before the first paint. -->
     <script>try{var j=JSON.parse(localStorage.getItem('lt-a11y')||'null');if(j){var c=document.documentElement.classList;if([1,2,3].indexOf(j.text)>-1)c.add('a11y-text-'+j.text);['contrast','links','font','spacing','still'].forEach(function(k){if(j[k]===true)c.add('a11y-'+k)})}}catch(e){}</script>
+    <!-- LT-674: Meta's pixel, a page view only (public/meta-pixel.js). -->
+    <script src="/meta-pixel.js" defer></script>
     <!--lt-blog-head-->
   </head>
   <body>
