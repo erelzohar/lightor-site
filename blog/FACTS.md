@@ -15,8 +15,12 @@ it out. When a feature ships or changes, update this file in the same mission.
   in plain words (register.lightor.app), or taps a starting chip (מספרה,
   ציפורניים וקוסמטיקה, כושר ואימונים, טיפול וייעוץ, אוכל ומסעדות, אירוע).
   Lighty writes the texts, picks a design and shows the site in about a
-  minute, with "what I understood" chips (kind of site, bookings or inquiries,
-  language, city) that can be changed, and ten style cards to try the site on.
+  minute, with "what I understood" chips (the kind of business, the language
+  and the address) that can be changed, and an "עיצוב מחדש" button that tries
+  the site in another of the ten designs (LT-659, LT-671). Bookings,
+  inquiries or products are asked of Lighty in the chat, not chosen on a chip.
+  Without an account a visitor builds one site and changes it once (a chat
+  edit, a chip or a redesign); signing up is free and opens the rest (LT-664).
   It can also create the services, class places and a booking question from
   the description, and on a products site up to 5 sample products (see
   Products). No technical knowledge, no installation.
@@ -25,6 +29,12 @@ it out. When a feature ships or changes, update this file in the same mission.
   (name, phone, address, hours, services, logo), Lighty's page tours, and a
   reminder to verify the email (the dashboard locks 2 days after signup until
   it is verified; the site stays live).
+- A site's sections: the opening, an introduction, highlights, a gallery,
+  services and prices, products, a blog (Pro), questions and answers, opening
+  hours, the address, a contact form and social links. **No countdown**, no
+  forum or comments, no members' area, no newsletter, no ticket sales or store
+  checkout (lightor-back `aiController.ts`, the build's and the editor's
+  instructions, checked 2026-11-17).
 - Any kind of site: a business, a brochure site (אתר תדמית), a landing page, an
   event, a workshop or course, a personal project. A site either takes
   bookings (calendar plus a contact form) or collects inquiries (form only),
@@ -150,6 +160,11 @@ it out. When a feature ships or changes, update this file in the same mission.
   is built and changes only by asking Lighty (LT-556): there is no switch for
   the owner. The main button's text is the owner's to write there ("טקסט
   הכפתור הראשי").
+- The person who sends the form gets **no text or email from Lightor**: only
+  the owner is told. A form has **no number of places**: it closes only at the
+  plan's monthly limit (lightor-back `messagingController.ts`,
+  `sendContactMessage`/`announceLead`, checked 2026-11-17). Places exist only
+  in a group class (see Bookings).
 - An inquiry about a product carries the product: the lead names it and
   links to its page.
 - The site's main button can say what the owner wants ("להרשמה", "לקבלת
