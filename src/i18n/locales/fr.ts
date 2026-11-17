@@ -267,7 +267,7 @@ export default {
       },
       {
         q: "Le site apparaîtra-t-il sur Google et dans la recherche IA ?",
-        a: "Chaque site est construit avec des données structurées que les moteurs de recherche comprennent, son propre plan du site et des avis de modification envoyés aux moteurs, et il est ouvert aux robots des moteurs de recherche IA. Personne ne peut promettre la première place sur Google."
+        a: "Chaque site est construit avec des données structurées que les moteurs de recherche comprennent, son propre plan du site et des avis de modification envoyés aux moteurs, et il est ouvert aux robots des moteurs de recherche IA."
       },
       {
         q: "Y a-t-il une application mobile ?",

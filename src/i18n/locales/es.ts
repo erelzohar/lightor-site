@@ -267,7 +267,7 @@ export default {
       },
       {
         q: "¿El sitio aparecerá en Google y en la búsqueda con IA?",
-        a: "Cada sitio se crea con datos estructurados que los buscadores entienden, su propio mapa del sitio y avisos de cambios a los buscadores, y está abierto a los rastreadores de los buscadores con IA. Nadie puede prometer el primer puesto en Google."
+        a: "Cada sitio se crea con datos estructurados que los buscadores entienden, su propio mapa del sitio y avisos de cambios a los buscadores, y está abierto a los rastreadores de los buscadores con IA."
       },
       {
         q: "¿Hay una aplicación para el móvil?",

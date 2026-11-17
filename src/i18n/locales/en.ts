@@ -267,7 +267,7 @@ export default {
       },
       {
         q: "Will the site show up on Google and in AI search?",
-        a: "Every site is built with structured data that search engines understand, its own sitemap and change notices to search engines, and it is open to the crawlers of AI search engines. No one can promise a first place on Google."
+        a: "Every site is built with structured data that search engines understand, its own sitemap and change notices to search engines, and it is open to the crawlers of AI search engines."
       },
       {
         q: "Is there a phone app?",
