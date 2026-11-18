@@ -97,6 +97,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   חדש": its answer then shows in the app alert for every new booking.
 - If the same phone already has a booking that day, after the code the
   customer is offered to book another or update the one they have.
+- Every text to the customer names the business: the confirmation ("נקבע לך
+  תור ל<עסק>"), the morning and hour-before reminders, a move and a cancel
+  by the owner (lightor-back `notificationService.ts`, checked 2026-11-18).
 - Confirmation by SMS or WhatsApp - **the customer chooses** with a switch on
   the form (SMS preselected). A failed WhatsApp is resent by SMS. Texts in
   Hebrew and English only, written by Lightor (the owner does not edit them).
