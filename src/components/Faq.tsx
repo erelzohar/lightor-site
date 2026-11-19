@@ -1,5 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
+import { useLocalPrices } from '../hooks/useLocalPrices';
+import { faqItems } from '../lib/faqItems';
+import { priceWords } from '../lib/localPrices';
 
 /** LT-618: where an answer can point. Public pages and store listings, nothing secret. */
 export const FAQ_LINKS = {
@@ -25,8 +28,11 @@ export interface FaqItem {
  * same words as FAQPage data.
  */
 const Faq = () => {
-  const { t } = useTranslation();
-  const items = t('faq.items', { returnObjects: true }) as FaqItem[];
+  const { t, i18n } = useTranslation();
+  // LT-695: drawn with the shekel prices; a visitor whose country has its own
+  // gets them once the API answered (null until then, and for everyone else).
+  const local = useLocalPrices();
+  const items = faqItems(t, local && priceWords(local, i18n.language));
 
   return (
     <section id="faq" className="bg-gray-50 py-20 sm:py-28 dark:bg-gray-950" aria-labelledby="faq-title">

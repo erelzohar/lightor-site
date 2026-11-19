@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server';
 import i18n from './i18n';
 import { Home } from './App';
 import type { Lang } from './i18n/languages';
-import type { FaqItem } from './components/Faq';
+import { faqItems } from './lib/faqItems';
 
 export { LANGS, DEFAULT_LANG } from './i18n/languages';
 
@@ -26,5 +26,5 @@ export const render = async (lang: Lang): Promise<string> => {
 /** LT-618: the home's questions in a language, as the page shows them, for its FAQPage data. */
 export const faqOf = async (lang: Lang): Promise<{ q: string; a: string }[]> => {
   await i18n.changeLanguage(lang);
-  return (i18n.t('faq.items', { returnObjects: true }) as FaqItem[]).map(({ q, a }) => ({ q, a }));
+  return faqItems(i18n.t).map(({ q, a }) => ({ q, a }));
 };

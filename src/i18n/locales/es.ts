@@ -234,6 +234,15 @@ export default {
       appStore: "App Store",
       mail: "support@lightor.app"
     },
+    // LT-695: the plan prices as this language writes them, in shekels: what the
+    // {{...}} in the answers below print. A visitor whose country has prices of
+    // its own gets those instead, from the API (src/lib/localPrices.ts).
+    prices: {
+      plusMonth: "89 ₪",
+      plusYear: "890 ₪",
+      proMonth: "119 ₪",
+      proYear: "1.190 ₪"
+    },
     items: [
       {
         q: "¿Qué es Lightor?",
@@ -241,7 +250,7 @@ export default {
       },
       {
         q: "¿Cuánto cuesta un sitio en Lightor?",
-        a: "Puedes empezar gratis y seguir gratis: el plan gratuito incluye hasta 15 reservas y 15 consultas al mes. Cada cuenta nueva recibe 60 días de Lightor+ sin tarjeta de crédito. Después, Lightor+ cuesta 89 ₪ al mes o 890 ₪ al año, y Lightor Pro 119 ₪ al mes o 1.190 ₪ al año.",
+        a: "Puedes empezar gratis y seguir gratis: el plan gratuito incluye hasta 15 reservas y 15 consultas al mes. Cada cuenta nueva recibe 60 días de Lightor+ sin tarjeta de crédito. Después, Lightor+ cuesta {{plusMonth}} al mes o {{plusYear}} al año, y Lightor Pro {{proMonth}} al mes o {{proYear}} al año.",
         links: ["pricing"]
       },
       {

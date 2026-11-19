@@ -398,6 +398,16 @@ it out. When a feature ships or changes, update this file in the same mission.
   20 rebuilds a month, 40 AI pictures, insights + CSV, no badge, priority support, site
   Lighty, an own domain. A failed payment keeps the site live but closes bookings, inquiries
   and reminders.
+- Outside Israel the prices follow the visitor's country (LT-695, 2026-11-19).
+  The shekel prices above are Israel's, and what lightor.app and its pricing
+  page are written in. A visitor from a country that has prices of its own
+  reads those instead, in that country's currency: in the home's answer about
+  prices and in every plan price on pricing.html. The United States, as Erel
+  decided on 2026-11-15: Lightor+ $29 a month or $290 a year, Lightor Pro $49
+  a month or $490 a year; in the stores, a pack of 100 bookings is $16.99.
+  **Live only once these prices are set in Paddle**: until then every visitor
+  reads shekels, so check before quoting a dollar price as live. Articles in
+  Hebrew, for Israel, keep the shekel prices.
 - Every new account: 60 days of Lightor+ free, no credit card, no commitment,
   up to 200 bookings in each 30-day month. Joining Lightor Pro in the free days
   is paid at once and opens all of it at once; the free days left end (LT-589,

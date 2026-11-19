@@ -234,6 +234,15 @@ export default {
       appStore: "App Store",
       mail: "support@lightor.app"
     },
+    // LT-695: the plan prices as this language writes them, in shekels: what the
+    // {{...}} in the answers below print. A visitor whose country has prices of
+    // its own gets those instead, from the API (src/lib/localPrices.ts).
+    prices: {
+      plusMonth: "₪89",
+      plusYear: "₪890",
+      proMonth: "₪119",
+      proYear: "₪1,190"
+    },
     items: [
       {
         q: "מה זה לייטור?",
@@ -241,7 +250,7 @@ export default {
       },
       {
         q: "כמה עולה אתר בלייטור?",
-        a: "אפשר להתחיל בחינם ולהישאר בחינם: התוכנית החינמית כוללת עד 15 תורים ו-15 פניות בחודש. כל חשבון חדש מקבל 60 יום של Lightor+ בלי כרטיס אשראי. אחר כך Lightor+ עולה ₪89 לחודש או ₪890 לשנה, ו-Lightor Pro עולה ₪119 לחודש או ₪1,190 לשנה.",
+        a: "אפשר להתחיל בחינם ולהישאר בחינם: התוכנית החינמית כוללת עד 15 תורים ו-15 פניות בחודש. כל חשבון חדש מקבל 60 יום של Lightor+ בלי כרטיס אשראי. אחר כך Lightor+ עולה {{plusMonth}} לחודש או {{plusYear}} לשנה, ו-Lightor Pro עולה {{proMonth}} לחודש או {{proYear}} לשנה.",
         links: ["pricing"]
       },
       {

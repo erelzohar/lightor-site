@@ -9,6 +9,7 @@
     "home": "vite build --ssr src/entry-server.tsx --outDir dist-ssr-home && node scripts/prerender-home.mjs",
     "blog": "vite build --ssr src/blog/entry-server.tsx --outDir dist-ssr && node scripts/blog/build.mjs",
     "lint": "eslint .",
+    "test": "node scripts/test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

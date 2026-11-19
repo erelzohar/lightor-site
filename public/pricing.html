@@ -145,5 +145,88 @@
     </footer>
   </section>
 </div>
+<!-- LT-695: the page is written in shekels, and that is what a reader that runs
+     no script gets. A visitor whose country has prices of its own (the API says
+     so) reads those in place of the plan prices below; with any other answer, a
+     slow one or none, nothing changes. The same rules and the same kept answer
+     as src/lib/localPrices.ts; no amount of another currency is written here.
+     When a shekel price on this page changes, change it in PRICES too
+     (tests/local-prices.test.mjs fails otherwise). -->
+<script>
+  (function () {
+    var KEY = 'lightor:local-prices';
+    // The plan prices as this page prints them, and which price each one is.
+    var PRICES = { '₪0': 'free', '₪89': 'plusMonth', '₪890': 'plusYear', '₪119': 'proMonth', '₪1,190': 'proYear', '₪0.35': 'extraBooking' };
+    var api = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:3000' : 'https://api.lightor.app';
+    if (/bot|crawl|spider/i.test(navigator.userAgent) || !window.fetch || !window.Intl || !window.AbortController) return;
+
+    function isMoney(money) {
+      return !!money && typeof money.amount === 'number' && isFinite(money.amount) && money.amount >= 0 && /^[A-Z]{3}$/.test(money.currency);
+    }
+    // The country's own prices, or null: the shekel prices stay.
+    function read(data) {
+      if (!data || data.local !== true || !data.plans || !data.plans.plus || !data.plans.pro) return null;
+      var extra = data.extraBooking;
+      var all = [data.plans.plus.month, data.plans.plus.year, data.plans.pro.month, data.plans.pro.year, extra];
+      for (var i = 0; i < all.length; i++) if (!isMoney(all[i]) || all[i].currency !== extra.currency) return null;
+      return {
+        free: { amount: 0, currency: extra.currency },
+        plusMonth: all[0], plusYear: all[1], proMonth: all[2], proYear: all[3], extraBooking: extra
+      };
+    }
+    // The sign first and no ".00" on a whole amount; dollars the American way.
+    function format(money, lang) {
+      var digits = new Intl.NumberFormat('en', { style: 'currency', currency: money.currency }).resolvedOptions().maximumFractionDigits;
+      var value = money.amount / Math.pow(10, digits);
+      return new Intl.NumberFormat(money.currency === 'USD' ? 'en-US' : lang, {
+        style: 'currency', currency: money.currency, currencyDisplay: 'narrowSymbol',
+        minimumFractionDigits: value % 1 === 0 ? 0 : digits, maximumFractionDigits: digits
+      }).format(value);
+    }
+    function show(prices) {
+      if (!prices) return;
+      var changes = [];
+      try {
+        var sections = document.querySelectorAll('section[lang]');
+        for (var i = 0; i < sections.length; i++) {
+          var lang = sections[i].lang;
+          var texts = document.createTreeWalker(sections[i], 4 /* text only */);
+          for (var node = texts.nextNode(); node; node = texts.nextNode()) {
+            var text = node.nodeValue.replace(/₪[\d,.]*\d/g, function (shekels) {
+              var money = prices[PRICES[shekels]];
+              if (!money) return shekels;
+              // In Hebrew the price is isolated as left-to-right, so the sign stays before the number.
+              return lang === 'he' ? '\u2066' + format(money, lang) + '\u2069' : format(money, lang);
+            });
+            if (text !== node.nodeValue) changes.push([node, text]);
+          }
+        }
+      } catch (e) {
+        return; // a currency this browser cannot write: nothing changes
+      }
+      for (var j = 0; j < changes.length; j++) changes[j][0].nodeValue = changes[j][1];
+    }
+    function keep(data) {
+      try { sessionStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { /* nowhere to keep it */ }
+    }
+
+    try {
+      var kept = sessionStorage.getItem(KEY);
+      if (kept) return show(read(JSON.parse(kept)));
+    } catch (e) { /* an unreadable note: ask again */ }
+
+    var abort = new AbortController();
+    var timer = setTimeout(function () { abort.abort(); }, 4000);
+    fetch(api + '/api/paddle/prices', { signal: abort.signal })
+      .then(function (response) { return response.ok ? response.json() : null; })
+      .then(function (body) {
+        clearTimeout(timer);
+        var prices = read(body && body.data);
+        keep(prices ? body.data : { local: false });
+        show(prices);
+      })
+      .catch(function () { clearTimeout(timer); keep({ local: false }); });
+  })();
+</script>
 </body>
 </html>
