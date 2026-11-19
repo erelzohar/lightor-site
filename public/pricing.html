@@ -156,7 +156,7 @@
   (function () {
     var KEY = 'lightor:local-prices';
     // The plan prices as this page prints them, and which price each one is.
-    var PRICES = { '₪0': 'free', '₪89': 'plusMonth', '₪890': 'plusYear', '₪119': 'proMonth', '₪1,190': 'proYear', '₪0.35': 'extraBooking' };
+    var PRICES = { '₪0': 'free', '₪89': 'plusMonth', '₪890': 'plusYear', '₪119': 'proMonth', '₪1,190': 'proYear', '₪0.35': 'extraBooking', '₪10': 'extraFloor' };
     var api = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:3000' : 'https://api.lightor.app';
     if (/bot|crawl|spider/i.test(navigator.userAgent) || !window.fetch || !window.Intl || !window.AbortController) return;
 
@@ -169,9 +169,11 @@
       var extra = data.extraBooking;
       var all = [data.plans.plus.month, data.plans.plus.year, data.plans.pro.month, data.plans.pro.year, extra];
       for (var i = 0; i < all.length; i++) if (!isMoney(all[i]) || all[i].currency !== extra.currency) return null;
+      // The smallest extras total charged; an API from before it leaves that one amount as written.
+      var floor = isMoney(data.extraBookingFloor) && data.extraBookingFloor.currency === extra.currency ? data.extraBookingFloor : null;
       return {
         free: { amount: 0, currency: extra.currency },
-        plusMonth: all[0], plusYear: all[1], proMonth: all[2], proYear: all[3], extraBooking: extra
+        plusMonth: all[0], plusYear: all[1], proMonth: all[2], proYear: all[3], extraBooking: extra, extraFloor: floor
       };
     }
     // The sign first and no ".00" on a whole amount; dollars the American way.

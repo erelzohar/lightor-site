@@ -19,6 +19,8 @@ export interface LocalPrices {
   local: true;
   plans: { plus: { month: Money; year: Money }; pro: { month: Money; year: Money } };
   extraBooking: Money;
+  /** The smallest extras total charged (a smaller one moves on to the next month); absent from an older API. */
+  extraBookingFloor?: Money;
 }
 
 /** The prices a page prints, as words ready for its text. */
@@ -48,7 +50,9 @@ export const readLocalPrices = (data: unknown): LocalPrices | null => {
   const all = [plans?.plus?.month, plans?.plus?.year, plans?.pro?.month, plans?.pro?.year, extraBooking];
   if (!all.every(isMoney)) return null;
   if (all.some((money) => money.currency !== extraBooking!.currency)) return null;
-  return { local: true, plans: plans!, extraBooking: extraBooking! };
+  const floor = (found as { extraBookingFloor?: unknown }).extraBookingFloor;
+  const kept = isMoney(floor) && floor.currency === extraBooking!.currency ? { extraBookingFloor: floor } : {};
+  return { local: true, plans: plans!, extraBooking: extraBooking!, ...kept };
 };
 
 /**

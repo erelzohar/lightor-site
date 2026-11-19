@@ -40,6 +40,7 @@ const US = {
   local: true,
   plans: { plus: { month: usd(2900), year: usd(29000) }, pro: { month: usd(4900), year: usd(49000) } },
   extraBooking: usd(17),
+  extraBookingFloor: usd(300),
   included: 500,
   plusIncluded: 200,
 };
@@ -58,7 +59,7 @@ const priceAnswer = async (lang, prices) => {
 };
 
 test('the answer is read as local prices only when the country has its own', () => {
-  assert.deepEqual(readLocalPrices(US), { local: true, plans: US.plans, extraBooking: US.extraBooking });
+  assert.deepEqual(readLocalPrices(US), { local: true, plans: US.plans, extraBooking: US.extraBooking, extraBookingFloor: US.extraBookingFloor });
   assert.equal(readLocalPrices(ISRAEL), null);
   assert.equal(readLocalPrices(NO_PLANS), null);
   assert.equal(readLocalPrices({ ...US, extraBooking: null }), null);
@@ -185,7 +186,7 @@ test('a crawler is told apart from a visitor', () => {
 
 const PRICING = readFileSync('public/pricing.html', 'utf8');
 /** What the page's script swaps for what, in the page's English and (isolated) in its Hebrew. */
-const PRICING_US = { '₪0': '$0', '₪89': '$29', '₪890': '$290', '₪119': '$49', '₪1,190': '$490', '₪0.35': '$0.17' };
+const PRICING_US = { '₪0': '$0', '₪89': '$29', '₪890': '$290', '₪119': '$49', '₪1,190': '$490', '₪0.35': '$0.17', '₪10': '$3' };
 const SHEKEL_PRICE = /₪[\d,.]*\d/g;
 
 /** The page's two sections (Hebrew, then English) as the text a browser would hold. */
@@ -238,9 +239,9 @@ const assertPricingInDollars = ({ sections }) => {
   assert.equal(textOf(sections[0]), swap(textOf(hebrew), true));
   assert.equal(textOf(sections[1]), swap(textOf(english), false));
   for (const section of sections) {
-    // The one shekel amount left is the ₪10 threshold of the extra-bookings charge: the API has no such amount.
-    assert.deepEqual(textOf(section).match(SHEKEL_PRICE), ['₪10']);
-    assert.deepEqual(textOf(section).match(/\$[\d,.]*\d/g), ['$0', '$29', '$290', '$49', '$490', '$0.17', '$29', '$290', '$49', '$490', '$0.17']);
+    // No shekel amount is left: the smallest extras charge (₪10) comes in the answer too.
+    assert.equal(textOf(section).match(SHEKEL_PRICE), null);
+    assert.deepEqual(textOf(section).match(/\$[\d,.]*\d/g), ['$0', '$29', '$290', '$49', '$490', '$0.17', '$29', '$290', '$49', '$490', '$0.17', '$3']);
   }
 };
 const assertPricingUnchanged = ({ sections }, name) => {
