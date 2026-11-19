@@ -15,7 +15,7 @@ export default {
     language: 'שפה'
   },
   hero: {
-    badge: 'חדש: Lighty, העוזר החכם שלך',
+    badge: 'בניית אתר עם AI, בעברית',
     title: 'האתר שלך,',
     titleHighlight: 'תוך 60 שניות',
     subtitle: 'מספרים ל-Lighty מה רוצים, והוא בונה את האתר.',
@@ -43,7 +43,9 @@ export default {
         'גלריה, ביקורות ושאלות נפוצות',
         'וואטסאפ וטלפון בלחיצה',
         'כתובת משלכם שמופיעה בגוגל, ואפשר לחבר גם דומיין משלכם'
-      ]
+      ],
+      // LT-698: Hebrew only; the other languages have no such page, so no link.
+      more: 'בניית אתר בחינם עם AI'
     },
     booking: {
       title: 'מערכת תורים',
@@ -53,7 +55,8 @@ export default {
         'שיעורים וקבוצות עם מספר מקומות',
         'שאלות משלכם בטופס ההזמנה',
         'אישור ותזכורת ב-SMS או בוואטסאפ'
-      ]
+      ],
+      more: 'עוד על מערכת התורים'
     },
     leads: {
       title: 'מערכת לידים',
@@ -330,6 +333,9 @@ export default {
       faq: "שאלות נפוצות",
       sites: 'אתרים שנבנו עם לייטור',
       blog: 'בלוג',
+      // LT-698: Hebrew only, like the pages they open.
+      freeSite: 'בניית אתר בחינם',
+      bookingSystem: 'מערכת תורים לעסק',
       start: 'התחלה בחינם',
       signIn: 'כניסה',
       pricing: 'מחירים',

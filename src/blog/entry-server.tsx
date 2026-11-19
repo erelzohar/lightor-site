@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server';
 import '../i18n';
 import BlogApp from './BlogApp';
 import type { BlogData } from './types';
+import { SITES } from '../components/showcaseSites';
 
 /**
  * LT-430: built by `vite build --ssr` into dist-ssr/ and called by
@@ -15,3 +16,9 @@ export const render = (data: BlogData, html: string): string =>
       <BlogApp data={data} html={html} />
     </StrictMode>
   );
+
+/**
+ * LT-698: the Hebrew showcase sites a landing page may show (its `shots`),
+ * so scripts/blog/build.mjs refuses one the page could not draw.
+ */
+export const showcaseSites = (): { sub: string; name: string }[] => SITES.he.map(({ sub, name }) => ({ sub, name }));

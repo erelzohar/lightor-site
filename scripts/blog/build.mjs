@@ -7,6 +7,11 @@
  *   dist/blog/index.html          https://lightor.app/blog/
  *   dist/blog/<slug>/index.html   https://lightor.app/blog/<slug>/
  *
+ * and, since LT-698, the landing pages in blog/pages/ (one subject people
+ * search for, such as a booking system), at the site's root:
+ *
+ *   dist/<slug>/index.html        https://lightor.app/<slug>/
+ *
  * Each page is the site's own navbar, article and footer rendered to HTML, so
  * a search engine reads it without running a script, plus the JSON the
  * browser needs to take it over. They are added to dist/sitemap.xml. nginx
@@ -18,16 +23,17 @@
  * "## שאלות נפוצות" (LT-619) fails the build, so nothing half-written can
  * deploy. See blog/README.md.
  */
-import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { Marked } from 'marked';
 import sharp from 'sharp';
-import { ORIGIN, articleHead, esc, heDate, indexHead, inlineCta } from './template.mjs';
+import { ORIGIN, articleHead, esc, heDate, indexHead, inlineCta, landingHead } from './template.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const POSTS_DIR = join(ROOT, 'blog', 'posts');
+const PAGES_DIR = join(ROOT, 'blog', 'pages');
 const IMAGES_DIR = join(ROOT, 'blog', 'images');
 const SHOTS_DIR = join(ROOT, 'blog', 'shots');
 const VIDEOS_DIR = join(ROOT, 'blog', 'videos');
@@ -42,6 +48,18 @@ const MARKS = ['<!--lt-blog-head-->', '<!--lt-blog-app-->', '<!--lt-blog-data-->
 const MIN_WORDS = 800; // Hebrew is compact: 800 words read like 1,100 in English
 const MAX_WORDS = 1600;
 const MIN_GUIDE_WORDS = 450;
+// LT-698: a landing page answers one search and sends the reader on; shorter than an article.
+const PAGE_WORDS = [600, 1400];
+const PAGE_SHOTS = [2, 3];
+const PAGE_RELATED = [1, 3];
+const EYEBROW_MAX = 40;
+/**
+ * Names at the site's root a landing page may never take: what the build
+ * writes there later (blog), what another part of lightor.app answers on
+ * (sites: the edge Worker; the language folders) and the language codes the
+ * site reads from the path. Anything else already in dist/ is checked too.
+ */
+const RESERVED_ROOT = new Set(['blog', 'sites', 'he', 'en', 'ar', 'fr', 'es', 'assets', 'showcase', 'api', 'app-updates']);
 const TITLE_MAX = 70;
 const DESCRIPTION_RANGE = [70, 165];
 const DASHES = /[—―]/; // em-dash, horizontal bar: never in what a reader sees
@@ -333,6 +351,92 @@ const loadPosts = () => {
   return posts.sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
 };
 
+/**
+ * LT-698: the landing pages, blog/pages/<slug>.md, served at /<slug>/. The
+ * same front matter and the same gates as a post (the opening answer, the
+ * questions at the end, no em-dash, safe HTML, links that exist), plus their
+ * own fields: `eyebrow`, the showcase phones they show (`shots`, from the
+ * Hebrew list in src/components/showcaseSites.ts) and the posts they send the
+ * reader to (`related`). No photo: the phones are the page's pictures.
+ */
+const loadPages = (showcase) => {
+  if (!existsSync(PAGES_DIR)) return [];
+  const today = todayIL();
+  const known = new Set(showcase.map((s) => s.sub));
+  const pages = [];
+  for (const name of readdirSync(PAGES_DIR).filter((f) => f.endsWith('.md')).sort()) {
+    const file = `blog/pages/${name}`;
+    const raw = readFileSync(join(PAGES_DIR, name), 'utf8').replace(/\r\n/g, '\n');
+    const { meta, body } = parseFrontMatter(raw, file);
+    const slug = name.replace(/\.md$/, '');
+    if (meta.draft === 'true') continue;
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) fail(file, 'the file name (the URL) must be lowercase English words joined by "-"');
+    for (const key of ['title', 'description', 'date', 'keyword', 'eyebrow', 'shots', 'related']) if (!meta[key]) fail(file, `"${key}" is missing`);
+    if (meta.title && meta.title.length > TITLE_MAX) fail(file, `title is ${meta.title.length} characters, at most ${TITLE_MAX}`);
+    const d = meta.description || '';
+    if (d && (d.length < DESCRIPTION_RANGE[0] || d.length > DESCRIPTION_RANGE[1]))
+      fail(file, `description is ${d.length} characters, keep it ${DESCRIPTION_RANGE[0]}-${DESCRIPTION_RANGE[1]}`);
+    if (meta.eyebrow && meta.eyebrow.length > EYEBROW_MAX) fail(file, `eyebrow is ${meta.eyebrow.length} characters, keep it to a few words (at most ${EYEBROW_MAX})`);
+    if (meta.date && !validDate(meta.date)) fail(file, `date "${meta.date}" is not YYYY-MM-DD`);
+    if (meta.date && validDate(meta.date) && meta.date > today) fail(file, `date ${meta.date} is in the future (today is ${today})`);
+    if (meta.updated && (!validDate(meta.updated) || meta.updated < (meta.date || ''))) fail(file, `updated "${meta.updated}" must be a YYYY-MM-DD on or after the date`);
+    if (DASHES.test(raw)) fail(file, 'contains an em-dash; write a plain "-" (LT-350)');
+    const shots = list(meta.shots);
+    if (meta.shots && (shots.length < PAGE_SHOTS[0] || shots.length > PAGE_SHOTS[1])) fail(file, `${shots.length} shots; a landing page shows ${PAGE_SHOTS[0]}-${PAGE_SHOTS[1]} phones`);
+    if (new Set(shots).size !== shots.length) fail(file, 'the same shot appears twice');
+    for (const sub of shots) {
+      if (!known.has(sub)) fail(file, `shot "${sub}" is not a Hebrew showcase site (src/components/showcaseSites.ts)`);
+      else if (!existsSync(join(ROOT, 'public', 'showcase', `${sub}.webp`))) fail(file, `no public/showcase/${sub}.webp for shot "${sub}"`);
+    }
+    const relatedSlugs = list(meta.related);
+    if (meta.related && (relatedSlugs.length < PAGE_RELATED[0] || relatedSlugs.length > PAGE_RELATED[1]))
+      fail(file, `${relatedSlugs.length} related posts; a landing page names ${PAGE_RELATED[0]}-${PAGE_RELATED[1]}`);
+    const { html, headings, faq } = render(body, file, slug);
+    const words = textOf(html).split(' ').filter(Boolean).length;
+    if (words < PAGE_WORDS[0] || words > PAGE_WORDS[1]) fail(file, `${words} words; a landing page is ${PAGE_WORDS[0]}-${PAGE_WORDS[1]}`);
+    pages.push({
+      file,
+      slug,
+      path: `/${slug}/`,
+      title: meta.title || slug,
+      description: d,
+      date: meta.date || today,
+      updated: meta.updated || '',
+      keyword: meta.keyword || '',
+      eyebrow: meta.eyebrow || '',
+      shots,
+      relatedSlugs,
+      ctaTitle: meta.cta_title || '',
+      ctaText: meta.cta_text || '',
+      html,
+      headings,
+      faq,
+      words,
+    });
+  }
+  return pages;
+};
+
+/** A folder at dist's root that an earlier run of this script wrote for a landing page (`npm run blog` runs again). */
+const ownLanding = (slug) => {
+  const dir = join(DIST, slug);
+  try {
+    return statSync(dir).isDirectory() && readdirSync(dir).join() === 'index.html' && readFileSync(join(dir, 'index.html'), 'utf8').includes('"kind":"landing"');
+  } catch {
+    return false;
+  }
+};
+
+/** LT-698: a landing page lives at the site's root, so it must not take a name something else answers on. */
+const checkRoot = (pages) => {
+  const top = new Set(readdirSync(DIST));
+  for (const p of pages) {
+    if (RESERVED_ROOT.has(p.slug)) fail(p.file, `/${p.slug}/ is taken at the site's root (${[...RESERVED_ROOT].join(', ')}); choose another file name`);
+    else if (top.has(p.slug) && !ownLanding(p.slug)) fail(p.file, `/${p.slug}/ collides with dist/${p.slug}, already at the site's root; choose another file name`);
+    if (top.has(`${p.slug}.html`)) fail(p.file, `/${p.slug}/ would sit beside dist/${p.slug}.html; choose another file name`);
+  }
+};
+
 /** Up to three: the ones the article names, then those sharing most tags, then the newest. */
 const relatedFor = (post, posts) => {
   const bySlug = new Map(posts.map((p) => [p.slug, p]));
@@ -345,19 +449,28 @@ const relatedFor = (post, posts) => {
   return [...picked, ...rest].slice(0, 3);
 };
 
-const checkLinks = (posts) => {
+/** LT-698: a link to a folder at the site's root (`/<name>/`) other than these must be a landing page. */
+const ROOT_FOLDERS = new Set(['blog', 'en', 'ar', 'fr', 'es']);
+
+const checkLinks = (posts, pages = []) => {
   const slugs = new Set(posts.map((p) => p.slug));
-  for (const p of posts) {
-    for (const s of p.relatedSlugs) if (!slugs.has(s) && !drafts.has(s)) fail(p.file, `related "${s}" is not an article`);
+  const landing = new Set(pages.map((p) => p.slug));
+  for (const p of posts) for (const s of p.relatedSlugs) if (!slugs.has(s) && !drafts.has(s)) fail(p.file, `related "${s}" is not an article`);
+  // A landing page shows its related posts as cards, so each must be out.
+  for (const p of pages) for (const s of p.relatedSlugs) if (!slugs.has(s)) fail(p.file, `related "${s}" is not a published article`);
+  for (const p of [...posts, ...pages]) {
     for (const [, href] of p.html.matchAll(/href="([^"]+)"/g)) {
       const blog = href.match(/^(?:https:\/\/lightor\.app)?\/blog\/([^/#?]*)\/?(?:[#?].*)?$/);
       if (blog && blog[1] && !slugs.has(blog[1]) && !drafts.has(blog[1])) fail(p.file, `links to ${href}, which is not an article`);
       if (blog && blog[1] && !/\/blog\/[^/#?]+\/(?:[#?]|$)/.test(href)) fail(p.file, `link ${href} needs the trailing "/" (the article's URL)`);
       if (/^https?:\/\/(?:www\.)?lightor\.app\/?$/.test(href) === false && /^http:\/\//.test(href)) fail(p.file, `link ${href} is http, use https`);
+      const root = href.match(/^(?:https:\/\/lightor\.app)?\/([a-z0-9-]+)(\/?)(?:[#?].*)?$/);
+      if (root && root[2] && !ROOT_FOLDERS.has(root[1]) && !landing.has(root[1])) fail(p.file, `links to ${href}, which is not a landing page (blog/pages/)`);
+      if (root && !root[2] && landing.has(root[1])) fail(p.file, `link ${href} needs the trailing "/" (the landing page's URL)`);
     }
   }
   const seen = new Map();
-  for (const p of posts)
+  for (const p of [...posts, ...pages])
     for (const key of ['title', 'description']) {
       const k = `${key}:${p[key]}`;
       if (seen.has(k)) fail(p.file, `same ${key} as ${seen.get(k)}`);
@@ -388,16 +501,19 @@ const checkSafeHtml = (posts) => {
   }
 };
 
-const sitemapEntries = (posts) => {
-  if (!posts.length) return '';
-  const newest = posts.reduce((m, p) => ((p.updated || p.date) > m ? p.updated || p.date : m), '');
+const sitemapEntries = (posts, pages = []) => {
+  if (!posts.length && !pages.length) return '';
   const url = (loc, lastmod, priority) =>
     `  <url>\n    <loc>${esc(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority}</priority>\n  </url>\n`;
-  return (
-    `  <!-- LT-430: the blog, generated by scripts/blog/build.mjs -->\n` +
-    url(`${ORIGIN}/blog/`, newest, '0.7') +
-    posts.map((p) => url(`${ORIGIN}${p.path}`, p.updated || p.date, '0.6')).join('')
-  );
+  let out = `  <!-- LT-430: the blog, generated by scripts/blog/build.mjs -->\n`;
+  if (posts.length) {
+    const newest = posts.reduce((m, p) => ((p.updated || p.date) > m ? p.updated || p.date : m), '');
+    out += url(`${ORIGIN}/blog/`, newest, '0.7') + posts.map((p) => url(`${ORIGIN}${p.path}`, p.updated || p.date, '0.6')).join('');
+  }
+  // LT-698: the landing pages, dated by their front matter like the posts (so
+  // scripts/blog/indexnow.mjs sends one on the day it is dated).
+  if (pages.length) out += `  <!-- LT-698: the landing pages (blog/pages) -->\n` + pages.map((p) => url(`${ORIGIN}${p.path}`, p.updated || p.date, '0.8')).join('');
+  return out;
 };
 
 const write = (rel, content) => {
@@ -500,6 +616,25 @@ const card = (p) => ({
   ...(p.tags[0] ? { tag: p.tags[0] } : {}),
 });
 
+/** LT-698: what a landing page's React code gets: its own fields and its related posts as cards. */
+const landingData = (lp, posts) => {
+  const bySlug = new Map(posts.map((p) => [p.slug, p]));
+  return {
+    kind: 'landing',
+    page: {
+      slug: lp.slug,
+      path: lp.path,
+      title: lp.title,
+      description: lp.description,
+      eyebrow: lp.eyebrow,
+      shots: lp.shots,
+      ...(lp.ctaTitle ? { ctaTitle: lp.ctaTitle } : {}),
+      ...(lp.ctaText ? { ctaText: lp.ctaText } : {}),
+    },
+    related: lp.relatedSlugs.map((s) => bySlug.get(s)).filter(Boolean).map(card),
+  };
+};
+
 const articleData = (post, related) => ({
   kind: 'article',
   post: {
@@ -534,15 +669,17 @@ const main = async () => {
   }
   const shell = readFileSync(SHELL_COPY, 'utf8');
   for (const mark of MARKS) if (!shell.includes(mark)) fail('blog.html', `the built shell lost its ${mark} marker`);
-  const { render } = await import(pathToFileURL(entry).href);
+  const { render, showcaseSites } = await import(pathToFileURL(entry).href);
 
   const posts = loadPosts();
-  checkLinks(posts);
-  checkSafeHtml(posts);
+  const landing = loadPages(typeof showcaseSites === 'function' ? showcaseSites() : []);
+  checkLinks(posts, landing);
+  checkSafeHtml([...posts, ...landing]);
+  checkRoot(landing);
   const photoJobs = await preparePhotos(posts);
   const videoJobs = await prepareVideos(posts);
   // A link to an article that is not out yet keeps its words and loses the link.
-  for (const p of posts)
+  for (const p of [...posts, ...landing])
     p.html = p.html.replace(/<a href="\/blog\/([a-z0-9-]+)\/[^"]*"[^>]*>([\s\S]*?)<\/a>/g, (m, slug, text) => (drafts.has(slug) ? text : m));
 
   const page = (head, data, html) =>
@@ -555,16 +692,18 @@ const main = async () => {
   if (!errors.length) {
     for (const post of posts) pages.push([`blog/${post.slug}/index.html`, page(articleHead(post), articleData(post, relatedFor(post, posts)), post.html)]);
     if (posts.length) pages.push(['blog/index.html', page(indexHead(posts), { kind: 'index', posts: posts.map(card) }, '')]);
+    for (const lp of landing) pages.push([`${lp.slug}/index.html`, page(landingHead(lp), landingData(lp, posts), lp.html)]);
   }
 
   for (const [rel, html] of pages) {
     if (DASHES.test(html)) fail(rel, 'the built page contains an em-dash (LT-350)');
     if (!html.includes('id="main-content"') || !html.includes('<nav')) fail(rel, 'the rendered page has no navbar or main content');
   }
-  for (const post of posts) {
-    const built = pages.find(([rel]) => rel === `blog/${post.slug}/index.html`)?.[1] || '';
+  for (const post of [...posts, ...landing]) {
+    const rel = landing.includes(post) ? `${post.slug}/index.html` : `blog/${post.slug}/index.html`;
+    const built = pages.find(([r]) => r === rel)?.[1] || '';
     const firstWords = textOf(post.html).split(' ').slice(0, 8).join(' ');
-    if (built && !textOf(built).includes(firstWords)) fail(post.file, 'the article text is missing from its built page');
+    if (built && !textOf(built).includes(firstWords)) fail(post.file, 'the text is missing from its built page');
   }
 
   const sitemapPath = join(DIST, 'sitemap.xml');
@@ -572,7 +711,7 @@ const main = async () => {
   // A second run (`npm run blog`) replaces the blog's entries, never doubles them.
   sitemap = sitemap.replace(/ {2}<!-- LT-430:[\s\S]*?(?=<\/urlset>)/, '');
   if (!sitemap.includes('</urlset>')) fail('dist/sitemap.xml', 'missing or has no </urlset> (public/sitemap.xml is the base)');
-  else sitemap = sitemap.replace('</urlset>', `${sitemapEntries(posts)}</urlset>`);
+  else sitemap = sitemap.replace('</urlset>', `${sitemapEntries(posts, landing)}</urlset>`);
 
   if (errors.length) {
     console.error(`✗ blog: ${errors.length} problem(s), nothing written:\n  - ${errors.join('\n  - ')}`);
@@ -583,12 +722,13 @@ const main = async () => {
   await writeVideos(videoJobs);
   for (const [rel, html] of pages) write(rel, html);
   writeFileSync(sitemapPath, sitemap);
-  for (const p of posts) if (!sitemap.includes(`<loc>${ORIGIN}${p.path}</loc>`)) fail('sitemap', `${p.path} is not in it`);
+  for (const p of [...posts, ...landing]) if (!sitemap.includes(`<loc>${ORIGIN}${p.path}</loc>`)) fail('sitemap', `${p.path} is not in it`);
   if (errors.length) {
     console.error(`✗ blog: ${errors.join('; ')}`);
     process.exit(1);
   }
-  console.log(`✓ blog: ${posts.length} article(s) + index, sitemap updated`);
+  console.log(`✓ blog: ${posts.length} article(s) + index, ${landing.length} landing page(s), sitemap updated`);
+  for (const p of landing) console.log(`   ${p.path}  ${p.words} words  ${p.date}  (landing page)`);
   for (const p of posts) console.log(`   ${p.path}  ${p.words} words  ${p.date}`);
 };
 

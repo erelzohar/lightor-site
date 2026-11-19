@@ -1,5 +1,6 @@
 /**
- * LT-430: what scripts/blog/build.mjs hands a blog page. It is rendered on
+ * LT-430: what scripts/blog/build.mjs hands a blog page (and, since LT-698,
+ * a landing page at the site's root). It is rendered on
  * the build machine (entry-server) and embedded in the page as JSON, so the
  * browser (entry-client) takes over the same page without fetching anything.
  * Dates arrive already written out in Hebrew, so the server and the browser
@@ -58,9 +59,28 @@ export interface ArticlePost extends PostCard {
   ctaText?: string;
 }
 
+/**
+ * LT-698: a landing page at the site's root (blog/pages/<slug>.md served at
+ * /<slug>/): one subject people search for, with the phones of sites built
+ * with Lightor. No byline, date, photo or table of contents.
+ */
+export interface LandingPage {
+  slug: string;
+  path: string;
+  title: string;
+  description: string;
+  /** The short line above the heading. */
+  eyebrow: string;
+  /** Showcase sites (src/components/showcaseSites, Hebrew) whose phones it shows. */
+  shots: string[];
+  ctaTitle?: string;
+  ctaText?: string;
+}
+
 export type BlogData =
   | { kind: 'article'; post: ArticlePost; related: PostCard[] }
-  | { kind: 'index'; posts: PostCard[] };
+  | { kind: 'index'; posts: PostCard[] }
+  | { kind: 'landing'; page: LandingPage; related: PostCard[] };
 
 /** The element that holds an article's text, read back by the browser before it takes over. */
 export const BODY_ATTR = 'data-blog-body';

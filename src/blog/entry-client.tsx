@@ -13,7 +13,8 @@ applyA11yPrefs();
 /**
  * LT-430: the page arrives already drawn (scripts/blog/build.mjs). React takes
  * it over in place: the page's facts come from the JSON beside it, and the
- * article's text from the page itself, so it is never sent twice.
+ * article's text from the page itself, so it is never sent twice. The same
+ * holds for a landing page at the site's root (LT-698, `kind: 'landing'`).
  */
 const data = JSON.parse(document.getElementById(DATA_ID)?.textContent || '{}') as BlogData;
 const html = document.querySelector(`[${BODY_ATTR}]`)?.innerHTML ?? '';

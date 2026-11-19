@@ -10,12 +10,20 @@ export const PROFILES = [
   { name: 'TikTok', href: 'https://www.tiktok.com/@lightor.ai', Icon: FaTiktok },
 ] as const;
 
-const LINKS = {
+/**
+ * `own`: shown only in a language that has its text (LT-698: the landing
+ * pages are in Hebrew, so the other languages show no link to them).
+ */
+type FooterLink = { key: string; href: string; own?: boolean };
+
+const LINKS: Record<'product' | 'account' | 'legal', readonly FooterLink[]> = {
   product: [
     { key: 'how', href: '#how' },
     { key: 'lighty', href: '#lighty' },
     { key: 'features', href: '#features' },
     { key: 'faq', href: '#faq' },
+    { key: 'freeSite', href: 'https://lightor.app/free-website-builder/', own: true },
+    { key: 'bookingSystem', href: 'https://lightor.app/booking-system/', own: true },
     { key: 'sites', href: 'https://lightor.app/sites' },
     { key: 'blog', href: 'https://lightor.app/blog/' },
   ],
@@ -31,11 +39,12 @@ const LINKS = {
     { key: 'refund', href: 'https://lightor.app/refund.html' },
     { key: 'accessibility', href: 'https://lightor.app/accessibility.html' },
   ],
-} as const;
+};
 
 /** LT-430: `home` is "" on the home page and "/" elsewhere, before its section anchors. */
 const Footer = ({ home = '' }: { home?: string }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const shown = ({ key, own }: FooterLink) => !own || !!i18n.getResource(i18n.language, 'translation', `footer.links.${key}`);
 
   return (
     <footer className="bg-black text-white" role="contentinfo">
@@ -70,7 +79,7 @@ const Footer = ({ home = '' }: { home?: string }) => {
             <nav key={group} aria-label={t(`footer.${group}`)}>
               <h3 className="font-semibold">{t(`footer.${group}`)}</h3>
               <ul className="mt-4 space-y-2.5">
-                {LINKS[group].map(({ key, href }) => (
+                {LINKS[group].filter(shown).map(({ key, href }) => (
                   <li key={key}>
                     <a href={href.startsWith('#') ? `${home}${href}` : href} className="text-gray-400 transition-colors hover:text-white">
                       {t(`footer.links.${key}`)}

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Pause, Play, RotateCcw } from 'lucide-react';
 import SiteShell from '../components/SiteShell';
-import { BODY_ATTR, type ArticlePost, type BlogData, type BlogImage, type BlogVideo, type PostCard } from './types';
+import { SITES, shotSrc, type ShowcaseSite } from '../components/showcaseSites';
+import { BODY_ATTR, type ArticlePost, type BlogData, type BlogImage, type BlogVideo, type LandingPage as Landing, type PostCard } from './types';
 
 /**
  * LT-430: the blog, inside the same frame as the home page (navbar, footer,
@@ -10,10 +11,12 @@ import { BODY_ATTR, type ArticlePost, type BlogData, type BlogImage, type BlogVi
  * without running a script; the browser then takes the page over.
  *
  * The blog is written in Hebrew only, so its own words live here rather than
- * in the five locales.
+ * in the five locales. LT-698: so are the landing pages at the site's root
+ * (/booking-system/, /free-website-builder/), built by the same script.
  */
 
 const REGISTER_URL = 'https://register.lightor.app';
+const SITES_URL = 'https://lightor.app/sites';
 
 /**
  * The home page's two soft glows (Hero.tsx): radial gradients, never blur
@@ -223,6 +226,17 @@ const Cta = ({ title, text }: { title?: string; text?: string }) => (
   </aside>
 );
 
+/** Cards for other posts under a page: an article's "more in the blog", a landing page's reading list. */
+const Related = ({ posts, title, className = 'pb-20 pt-12' }: { posts: PostCard[]; title: string; className?: string }) =>
+  posts.length > 0 ? (
+    <section aria-labelledby="related-title" className={`mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>
+      <h2 id="related-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">{title}</h2>
+      <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map((p) => <Card key={p.slug} post={p} />)}
+      </ul>
+    </section>
+  ) : null;
+
 const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard[]; html: string }) => (
   <>
     <article>
@@ -290,14 +304,83 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
         <Cta title={post.ctaTitle} text={post.ctaText} />
       </div>
     </article>
-    {related.length > 0 && (
-      <section aria-labelledby="related-title" className="mx-auto max-w-6xl px-4 pb-20 pt-12 sm:px-6 lg:px-8">
-        <h2 id="related-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">עוד בבלוג</h2>
-        <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {related.map((p) => <Card key={p.slug} post={p} />)}
-        </ul>
-      </section>
-    )}
+    <Related posts={related} title="עוד בבלוג" />
+  </>
+);
+
+/**
+ * LT-698: a landing page's phones, the showcase's own screenshots in the
+ * showcase's phone frame (src/components/Showcase.tsx). Each opens its site.
+ */
+const Phones = ({ shots }: { shots: string[] }) => {
+  const sites = shots.map((sub) => SITES.he.find((s) => s.sub === sub)).filter((s): s is ShowcaseSite => !!s);
+  return (
+    <ul aria-label="אתרים שנבנו עם לייטור" className="mx-auto mt-12 flex max-w-3xl items-start justify-center gap-3 px-4 sm:mt-16 sm:gap-8 sm:px-6">
+      {sites.map((site, i) => (
+        <li key={site.sub} className={`w-1/3 max-w-[11rem] ${sites.length === 3 && i !== 1 ? 'mt-6 sm:mt-10' : ''}`}>
+          <a href={`https://${site.sub}.lightor.app`} className="group block text-center">
+            <span className="block rounded-[1.25rem] bg-gray-900 p-1 shadow-xl shadow-violet-900/25 sm:rounded-[1.6rem] sm:p-[5px] dark:bg-gray-800">
+              <img
+                src={shotSrc(site.sub)}
+                width={520}
+                height={1125}
+                alt={`האתר של ${site.name} בטלפון`}
+                decoding="async"
+                className="block h-auto w-full rounded-[1rem] bg-white sm:rounded-[1.3rem]"
+              />
+            </span>
+            <span className="mt-3 block text-sm font-semibold text-gray-800 group-hover:text-violet-700 group-hover:underline dark:text-gray-200 dark:group-hover:text-violet-300">
+              {site.name}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+/**
+ * LT-698: a landing page at the site's root: one subject (a booking system,
+ * a free site built with AI), answered first, with the phones of real sites,
+ * the posts to read next and the blog's closing box.
+ */
+const LandingPage = ({ page, related, html }: { page: Landing; related: PostCard[]; html: string }) => (
+  <>
+    <article>
+      <header className="relative isolate pt-28 sm:pt-36">
+        <Glows />
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+          <p className="text-sm font-bold tracking-wide text-violet-600 dark:text-violet-400">{page.eyebrow}</p>
+          <h1 className="text-balance mt-4 text-3xl font-bold leading-tight tracking-tight text-gray-950 sm:text-5xl sm:leading-tight dark:text-white">
+            {page.title}
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg text-gray-600 sm:text-xl dark:text-gray-400">{page.description}</p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+              href={REGISTER_URL}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-pink-600 px-7 py-3.5 text-lg font-bold text-white shadow-lg shadow-violet-600/25 transition hover:shadow-xl sm:w-auto"
+            >
+              לבניית האתר שלי - בחינם
+              <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+            </a>
+            <a
+              href={SITES_URL}
+              className="inline-flex w-full items-center justify-center rounded-full border border-gray-300 bg-white/70 px-7 py-3.5 text-lg font-semibold text-gray-800 transition hover:border-gray-400 hover:bg-white sm:w-auto dark:border-gray-700 dark:bg-white/5 dark:text-gray-100 dark:hover:bg-white/10"
+            >
+              לראות אתרים שנבנו
+            </a>
+          </div>
+        </div>
+        <Phones shots={page.shots} />
+      </header>
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <div className="blog-prose mt-14 sm:mt-16" {...{ [BODY_ATTR]: '' }} dangerouslySetInnerHTML={{ __html: html }} />
+      </div>
+    </article>
+    <Related posts={related} title="כתבות שכדאי לקרוא" className="pt-12" />
+    <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
+      <Cta title={page.ctaTitle} text={page.ctaText} />
+    </div>
   </>
 );
 
@@ -368,8 +451,15 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
 };
 
 const BlogApp = ({ data, html }: { data: BlogData; html: string }) => (
-  <SiteShell home="/" current="blog">
-    {data.kind === 'article' ? <Article post={data.post} related={data.related} html={html} /> : <Index posts={data.posts} />}
+  // A landing page is not part of the blog: the navbar marks no page as current.
+  <SiteShell home="/" current={data.kind === 'landing' ? undefined : 'blog'}>
+    {data.kind === 'article' ? (
+      <Article post={data.post} related={data.related} html={html} />
+    ) : data.kind === 'landing' ? (
+      <LandingPage page={data.page} related={data.related} html={html} />
+    ) : (
+      <Index posts={data.posts} />
+    )}
   </SiteShell>
 );
 

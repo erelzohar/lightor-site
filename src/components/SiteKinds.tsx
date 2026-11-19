@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { CalendarCheck, Check, Inbox, LayoutTemplate, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CalendarCheck, Check, Inbox, LayoutTemplate, ShoppingBag } from 'lucide-react';
+import { isRtl } from '../i18n/languages';
 
 const CARDS = [
   { id: 'site', Icon: LayoutTemplate },
@@ -8,6 +9,16 @@ const CARDS = [
   { id: 'leads', Icon: Inbox },
   { id: 'products', Icon: ShoppingBag },
 ] as const;
+
+/**
+ * LT-698: a card's page about itself, linked under it as `kinds.<id>.more`.
+ * The pages are in Hebrew, so only a language that has the text shows it:
+ * read without the Hebrew fallback.
+ */
+const MORE: Partial<Record<(typeof CARDS)[number]['id'], string>> = {
+  site: '/free-website-builder/',
+  booking: '/booking-system/',
+};
 
 /**
  * LT-260, LT-276: a site for anything - a business, a brochure site, a
@@ -18,8 +29,9 @@ const CARDS = [
  * spans the row, and the three choices sit side by side under it.
  */
 const SiteKinds = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const uses = t('kinds.uses', { returnObjects: true }) as string[];
+  const Arrow = isRtl(i18n.language) ? ArrowLeft : ArrowRight;
 
   return (
     <section id="kinds" className="bg-white py-20 sm:py-28 dark:bg-black" aria-labelledby="kinds-title">
@@ -53,6 +65,7 @@ const SiteKinds = () => {
             // On two columns the last choice would stand alone: it takes the row.
             const last = i === CARDS.length - 1;
             const points = t(`kinds.${id}.points`, { returnObjects: true }) as string[];
+            const more = MORE[id] && (i18n.getResource(i18n.language, 'translation', `kinds.${id}.more`) as string | undefined);
             return (
               <motion.article
                 key={id}
@@ -82,6 +95,17 @@ const SiteKinds = () => {
                     </li>
                   ))}
                 </ul>
+                {more && (
+                  <a
+                    href={MORE[id]}
+                    className={`mt-6 inline-flex items-center gap-1.5 text-sm font-semibold underline-offset-4 hover:underline ${
+                      lead ? 'text-white' : 'text-violet-700 dark:text-violet-300'
+                    }`}
+                  >
+                    {more}
+                    <Arrow className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                )}
               </motion.article>
             );
           })}

@@ -1,7 +1,8 @@
 /**
  * LT-430: what goes into a blog page's <head> (title, description, canonical,
- * share card, structured data) and the `[[cta]]` box inside an article. The
- * page itself (navbar, article, footer) is the site's React code, rendered by
+ * share card, structured data) and the `[[cta]]` box inside an article; since
+ * LT-698 also a landing page's head (`landingHead`). The page itself (navbar,
+ * article, footer) is the site's React code, rendered by
  * src/blog/entry-server.tsx.
  *
  * Plain "-" only, never an em-dash, in anything a reader sees (LT-350).
@@ -141,6 +142,35 @@ export const articleHead = (post) => {
       post.faq?.length ? `\n    <script type="application/ld+json">${ld(faqLd(url, post.faq))}</script>` : ''
     }
     <script type="application/ld+json">${ld(crumbsLd([['לייטור', `${ORIGIN}/`], ['בלוג', `${ORIGIN}/blog/`], [post.title, url]]))}</script>`;
+};
+
+/**
+ * LT-698: a landing page's <head> lines (/booking-system/, /free-website-builder/):
+ * a WebPage published by the site's Organization, its place under the home
+ * page, and its questions word for word. Hebrew only, so no hreflang.
+ */
+export const landingHead = (page) => {
+  const url = `${ORIGIN}${page.path}`;
+  const webPage = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': url,
+    url,
+    name: page.title,
+    description: page.description,
+    inLanguage: 'he',
+    datePublished: page.date,
+    dateModified: page.updated || page.date,
+    ...(page.keyword ? { keywords: page.keyword } : {}),
+    isPartOf: { '@type': 'WebSite', name: 'Lightor', url: `${ORIGIN}/` },
+    publisher: PUBLISHER,
+  };
+  return `<title>${esc(page.title)} | לייטור</title>
+    <meta name="description" content="${esc(page.description)}" />${socialMeta({ url, title: page.title, description: page.description, type: 'website', image: DEFAULT_IMAGE, imageAlt: DEFAULT_IMAGE_ALT })}
+    <script type="application/ld+json">${ld(webPage)}</script>${
+      page.faq?.length ? `\n    <script type="application/ld+json">${ld(faqLd(url, page.faq))}</script>` : ''
+    }
+    <script type="application/ld+json">${ld(crumbsLd([['לייטור', `${ORIGIN}/`], [page.title, url]]))}</script>`;
 };
 
 export const INDEX_TITLE = 'הבלוג של לייטור - מדריכים לבניית אתר, תורים ולידים';

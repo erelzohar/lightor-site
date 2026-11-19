@@ -158,6 +158,49 @@ screenshots carry part of them.
   headings where natural, `## שאלות נפוצות`), but its opening and its
   questions use only what the guide itself shows and `blog/FACTS.md`.
 
+## Landing pages (LT-698)
+
+A landing page answers one search a business owner types ("מערכת תורים
+לעסק", "בניית אתר בחינם") and sits at the site's root, not under /blog/:
+`blog/pages/<slug>.md` becomes `https://lightor.app/<slug>/` (with the
+slash; nginx 301s the bare URL to it). The same script builds it, from the
+same front matter as a post:
+
+```markdown
+---
+title: The H1 and the <title>, at most 70 characters
+description: 70-165 characters, the subtitle under the heading
+keyword: the search phrase the page answers
+date: 2026-11-19
+eyebrow: a few words above the heading
+shots: hakise-barbershop, noga-nails, neshima-yoga
+related: booking-system-for-cosmetician, appointment-reminder-message
+cta_title: optional, the closing box's heading
+cta_text: optional, its sentence
+---
+```
+
+- `shots`: 2-3 Hebrew showcase sites (`src/components/showcaseSites.ts`),
+  shown as phones under the heading from `public/showcase/<sub>.webp`.
+- `related`: 1-3 published posts, shown as cards under the text.
+- No photo, byline, date or table of contents. The page shows the heading,
+  two buttons (sign up, the sites built), the phones, the text, the related
+  posts and the blog's closing box.
+- The same gates as a post (the opening answer, `## שאלות נפוצות` with 3-5
+  questions, no em-dash, safe HTML, links that exist), with 600-1,400 words.
+  A link to `/<name>/` must be a landing page; a slug may not take a name
+  already at the site's root (blog, sites, the language folders, anything
+  in `dist/`).
+- Its head: canonical, share card (`og-image.jpg`), WebPage, BreadcrumbList
+  (לייטור > the page) and FAQPage; no hreflang (Hebrew only). It goes into
+  the sitemap at priority 0.8, dated by `date` (or `updated`), so IndexNow
+  sends it on that day.
+- The home page links the two pages from its Hebrew cards and footer only
+  (`kinds.<id>.more`, `footer.links.freeSite` and `bookingSystem` in
+  `he.ts`); a language without the text shows no link.
+- One page per search phrase: a post must not chase a landing page's
+  keyword; it links to the page instead.
+
 ## Writing rules
 
 - **Answer one real search.** Use the phrasing people type (Google

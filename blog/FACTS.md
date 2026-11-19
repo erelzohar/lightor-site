@@ -20,7 +20,8 @@ it out. When a feature ships or changes, update this file in the same mission.
   the site in another of the ten designs (LT-659, LT-671). Bookings,
   inquiries or products are asked of Lighty in the chat, not chosen on a chip.
   Without an account a visitor builds one site and changes it once (a chat
-  edit, a chip or a redesign); signing up is free and opens the rest (LT-664).
+  edit or a chip); the "עיצוב מחדש" button has its own three tries a day
+  (LT-679). Signing up is free and opens the rest (LT-664).
   It can also create the services, class places and a booking question from
   the description, and on a products site up to 5 sample products (see
   Products). No technical knowledge, no installation.
