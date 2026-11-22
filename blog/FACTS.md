@@ -183,6 +183,14 @@ it out. When a feature ships or changes, update this file in the same mission.
   none, no price is shown), up to 6 pictures and short details (bullet
   points); it is shown or a draft, and can be marked sold out ("אזל
   מהמלאי"). The owner drags them into order.
+- Colours and sizes (LT-587/588, 2026-11-05): on the product's form the owner
+  adds colours ("צבעים": a name and a swatch, up to 12) and sizes ("מידות":
+  short words, up to 16). The product page shows them to pick; the visitor's
+  pick goes with the "מעוניין/ת" inquiry (the lead shows it beside the
+  product's name) and into the ready WhatsApp message. A pick is not an order,
+  and there is no stock count per colour or size (lightor-dashboard
+  `ProductOptionsField.tsx`, lightor-front `ProductParts.tsx` `ProductOptions`,
+  lightor-back `messagingController.ts` `pickedOptions`, checked 2026-11-23).
 - Adding them: one by one, "כמה תמונות בבת אחת" (a draft product for each
   picture), "לייטי ימלא מהתמונה" (Lighty writes the name, summary,
   description and category from the first picture - never the price), and a
@@ -222,7 +230,7 @@ it out. When a feature ships or changes, update this file in the same mission.
   the site like any other and are marked "דוגמה, כדאי להחליף" in the
   dashboard until the owner edits them.
 - **Not available**: buying on the site (no cart, checkout or online
-  payment), orders, delivery, sizes and colours, coupons, stock counts,
+  payment), orders, delivery, coupons, stock counts,
   importing from Instagram or a file, a Google Shopping feed, product
   reviews. An inquiry or a WhatsApp tap is a message to the owner, never an
   order. The home page says "חנות שלמה בכמה שניות" (a store that shows the

@@ -54,6 +54,7 @@ itself, every step done in the product and photographed; see blog/README.md).
 - [x] 2026-11-18 · `therapist-website` · אתר למטפלים: מה לכתוב, מה לא, ואיך קובעים פגישה ראשונה · "אתר למטפלים"
 - [x] 2026-11-19 · `website-cost-small-business` · כמה עולה לבנות אתר לעסק: כל העלויות, כולל הנסתרות · "כמה עולה לבנות אתר לעסק"
 - [x] 2026-11-22 · `health-declaration-cosmetics` · הצהרת בריאות לפני טיפול קוסמטי: מה לשאול ואיך שומרים על פרטיות · "הצהרת בריאות לפני טיפול"
+- [x] 2026-11-23 · `open-online-store` · איך פותחים חנות אונליין: מדריך לעסק קטן, צעד אחר צעד · "איך פותחים חנות אונליין" · outside the queue, at Erel's ask
 
 ## Guides ready
 
