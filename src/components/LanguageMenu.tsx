@@ -2,12 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Check, Globe } from 'lucide-react';
 import { LANGS, NATIVE_NAME, pathFor, type Lang } from '../i18n/languages';
+import { rememberLanguage } from '../lib/crossLinks';
 
 /**
  * LT-349: the language switcher. Each language is its own address, so the
  * choices are plain links (hreflang, each named in its own language): a
  * crawler follows them to the other versions, and a person lands on a page
- * that is already in their language.
+ * that is already in their language. LT-710: a click also remembers the
+ * pick (the cookie `lt_lang`) before the browser follows the link, so the
+ * wizard, the dashboard and the edge's root redirect follow it too.
  */
 const linkClass = (active: boolean) =>
   `flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
@@ -63,7 +66,7 @@ export const LanguageMenu = ({ buttonClass }: { buttonClass: string }) => {
       >
         {LANGS.map((l) => (
           <li key={l}>
-            <a href={pathFor(l)} hrefLang={l} lang={l} aria-current={l === current ? 'true' : undefined} className={linkClass(l === current)}>
+            <a href={pathFor(l)} onClick={() => rememberLanguage(l)} hrefLang={l} lang={l} aria-current={l === current ? 'true' : undefined} className={linkClass(l === current)}>
               <span>{NATIVE_NAME[l]}</span>
               {l === current && <Check className="h-4 w-4" aria-hidden="true" />}
             </a>
@@ -89,6 +92,7 @@ export const LanguageLinks = () => {
           <li key={l}>
             <a
               href={pathFor(l)}
+              onClick={() => rememberLanguage(l)}
               hrefLang={l}
               lang={l}
               aria-current={l === current ? 'true' : undefined}

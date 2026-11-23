@@ -3,6 +3,8 @@ import { ChevronDown } from 'lucide-react';
 import { useLocalPrices } from '../hooks/useLocalPrices';
 import { faqItems } from '../lib/faqItems';
 import { priceWords } from '../lib/localPrices';
+import { legalUrl } from '../lib/crossLinks';
+import type { Lang } from '../i18n/languages';
 
 /** LT-618: where an answer can point. Public pages and store listings, nothing secret. */
 export const FAQ_LINKS = {
@@ -62,7 +64,7 @@ const Faq = () => {
                     {item.links.map((key) => (
                       <a
                         key={key}
-                        href={FAQ_LINKS[key]}
+                        href={key === 'pricing' ? legalUrl(FAQ_LINKS[key], i18n.language as Lang) : FAQ_LINKS[key]}
                         className="font-semibold text-violet-700 underline-offset-4 hover:underline dark:text-violet-300"
                         {...(key === 'play' || key === 'appStore' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                       >

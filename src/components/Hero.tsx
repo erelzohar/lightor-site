@@ -1,13 +1,13 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ComponentProps, type ComponentType } from 'react';
 import Poof from './Poof';
 import { useTranslation } from 'react-i18next';
-import { isRtl } from '../i18n/languages';
+import { isRtl, type Lang } from '../i18n/languages';
+import { registerUrl } from '../lib/crossLinks';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
 import { useStill } from '../hooks/useA11yPrefs';
 import { SplashButton } from './ui/splash-button';
 
-const REGISTER_URL = 'https://register.lightor.app';
 const SITES_URL = 'https://lightor.app/sites';
 
 // three.js and the model load in their own chunk, after the page is up.
@@ -156,7 +156,7 @@ const Hero = () => {
             className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start"
           >
             {/* LT-605: Erel's 3D button, the same one festive's sites have. */}
-            <SplashButton href={REGISTER_URL} icon={<Arrow className="h-5 w-5" aria-hidden="true" />} joined={i18n.language === 'ar'} className="w-full sm:w-auto">
+            <SplashButton href={registerUrl(i18n.language as Lang)} icon={<Arrow className="h-5 w-5" aria-hidden="true" />} joined={i18n.language === 'ar'} className="w-full sm:w-auto">
               {t('hero.cta')}
             </SplashButton>
             <a

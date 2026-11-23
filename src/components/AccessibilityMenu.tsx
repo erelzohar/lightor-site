@@ -4,6 +4,8 @@ import { Accessibility, Check, Contrast, Link2, Minus, PauseCircle, Plus, Rotate
 import type { LucideIcon } from 'lucide-react';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { useA11yPrefs } from '../hooks/useA11yPrefs';
+import { legalUrl } from '../lib/crossLinks';
+import type { Lang } from '../i18n/languages';
 import { getA11yPrefs, isCustomised, resetA11yPrefs, setA11yPrefs, TEXT_SCALE, type A11yPrefs, type TextStep } from '../services/a11yPrefs';
 
 type ToggleKey = Exclude<keyof A11yPrefs, 'text'>;
@@ -31,7 +33,7 @@ export const STATEMENT_URL = '/accessibility.html';
  * covered the main call to action.
  */
 const AccessibilityMenu = ({ buttonClass }: { buttonClass: string }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const prefs = useA11yPrefs();
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -134,7 +136,7 @@ const AccessibilityMenu = ({ buttonClass }: { buttonClass: string }) => {
           </div>
 
           <a
-            href={STATEMENT_URL}
+            href={legalUrl(STATEMENT_URL, i18n.language as Lang)}
             className="block py-1 text-center text-sm text-violet-700 underline underline-offset-2 dark:text-violet-300"
           >
             {t('a11y.menu.statement')}

@@ -9,7 +9,8 @@
  */
 
 export const ORIGIN = 'https://lightor.app';
-export const REGISTER_URL = 'https://register.lightor.app';
+// LT-710: the blog and the landing pages are Hebrew, so the wizard opens in Hebrew.
+export const REGISTER_URL = 'https://register.lightor.app/?lang=he';
 export const BLOG_NAME = 'הבלוג של לייטור';
 
 export const esc = (s) =>

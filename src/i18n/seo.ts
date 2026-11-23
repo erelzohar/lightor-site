@@ -1,4 +1,5 @@
 import { LANGS, DEFAULT_LANG, NATIVE_NAME, isRtl, pathFor, type Lang } from './languages';
+import { dashboardUrl, legalUrl, registerUrl } from '../lib/crossLinks';
 
 /**
  * LT-349: what each language's HTML carries before any script runs: the
@@ -274,15 +275,17 @@ export const summaryHtml = (lang: Lang): string => {
   const sum = SUMMARY[lang];
   const li = (items: readonly string[]) => items.map((item) => `<li>${esc(item)}</li>`).join('\n          ');
   const links: [string, string][] = [
-    ['https://register.lightor.app', sum.links.build],
+    // LT-710: the wizard and the dashboard in the page's language, the
+    // two-language pages at their English part for every language but Hebrew.
+    [registerUrl(lang), sum.links.build],
     [`${ORIGIN}/sites`, sum.links.sites],
     [`${ORIGIN}/blog/`, sum.links.blog],
-    ['https://dashboard.lightor.app', sum.links.signIn],
-    [`${ORIGIN}/pricing.html`, sum.links.pricing],
-    [`${ORIGIN}/support.html`, sum.links.support],
-    [`${ORIGIN}/privacy.html`, sum.links.privacy],
-    [`${ORIGIN}/terms.html`, sum.links.terms],
-    [`${ORIGIN}/refund.html`, sum.links.refund],
+    [dashboardUrl(lang), sum.links.signIn],
+    [legalUrl(`${ORIGIN}/pricing.html`, lang), sum.links.pricing],
+    [legalUrl(`${ORIGIN}/support.html`, lang), sum.links.support],
+    [legalUrl(`${ORIGIN}/privacy.html`, lang), sum.links.privacy],
+    [legalUrl(`${ORIGIN}/terms.html`, lang), sum.links.terms],
+    [legalUrl(`${ORIGIN}/refund.html`, lang), sum.links.refund],
   ];
   const others = LANGS.filter((l) => l !== lang).map(
     (l) => `<a href="${ORIGIN}${pathFor(l)}" hreflang="${l}" lang="${l}">${esc(NATIVE_NAME[l])}</a>`,

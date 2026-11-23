@@ -15,7 +15,8 @@ import { BODY_ATTR, type ArticlePost, type BlogData, type BlogImage, type BlogVi
  * (/booking-system/, /free-website-builder/), built by the same script.
  */
 
-const REGISTER_URL = 'https://register.lightor.app';
+// LT-710: the blog is Hebrew, so the wizard opens in Hebrew.
+const REGISTER_URL = 'https://register.lightor.app/?lang=he';
 const SITES_URL = 'https://lightor.app/sites';
 
 /**

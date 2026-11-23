@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok } from 'react-icons/fa6';
 import StoreLinks from './StoreLinks';
+import type { Lang } from '../i18n/languages';
+import { dashboardUrl, legalUrl, registerUrl } from '../lib/crossLinks';
 
 /** LT-652: Lightor's own profiles; the same list as the Organization's sameAs in index.html and the blog's. */
 export const PROFILES = [
@@ -28,6 +30,7 @@ const LINKS: Record<'product' | 'account' | 'legal', readonly FooterLink[]> = {
     { key: 'blog', href: 'https://lightor.app/blog/' },
   ],
   account: [
+    // LT-710: these two and the legal row take the page's language (`hrefFor`).
     { key: 'start', href: 'https://register.lightor.app' },
     { key: 'signIn', href: 'https://dashboard.lightor.app' },
   ],
@@ -45,6 +48,13 @@ const LINKS: Record<'product' | 'account' | 'legal', readonly FooterLink[]> = {
 const Footer = ({ home = '' }: { home?: string }) => {
   const { t, i18n } = useTranslation();
   const shown = ({ key, own }: FooterLink) => !own || !!i18n.getResource(i18n.language, 'translation', `footer.links.${key}`);
+  const lang = i18n.language as Lang;
+  const hrefFor = (group: keyof typeof LINKS, { key, href }: FooterLink): string => {
+    if (href.startsWith('#')) return `${home}${href}`;
+    if (key === 'start') return registerUrl(lang);
+    if (key === 'signIn') return dashboardUrl(lang);
+    return group === 'legal' ? legalUrl(href, lang) : href;
+  };
 
   return (
     <footer className="bg-black text-white" role="contentinfo">
@@ -79,10 +89,10 @@ const Footer = ({ home = '' }: { home?: string }) => {
             <nav key={group} aria-label={t(`footer.${group}`)}>
               <h3 className="font-semibold">{t(`footer.${group}`)}</h3>
               <ul className="mt-4 space-y-2.5">
-                {LINKS[group].filter(shown).map(({ key, href }) => (
-                  <li key={key}>
-                    <a href={href.startsWith('#') ? `${home}${href}` : href} className="text-gray-400 transition-colors hover:text-white">
-                      {t(`footer.links.${key}`)}
+                {LINKS[group].filter(shown).map((link) => (
+                  <li key={link.key}>
+                    <a href={hrefFor(group, link)} className="text-gray-400 transition-colors hover:text-white">
+                      {t(`footer.links.${link.key}`)}
                     </a>
                   </li>
                 ))}

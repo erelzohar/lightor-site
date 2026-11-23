@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Menu, Moon, Sun, X } from 'lucide-react';
 import { LanguageLinks, LanguageMenu } from './LanguageMenu';
 import AccessibilityMenu from './AccessibilityMenu';
+import { dashboardUrl, registerUrl } from '../lib/crossLinks';
+import type { Lang } from '../i18n/languages';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -12,11 +14,11 @@ interface NavbarProps {
   current?: 'blog';
 }
 
-const REGISTER_URL = 'https://register.lightor.app';
-const DASHBOARD_URL = 'https://dashboard.lightor.app';
-
 const Navbar = ({ darkMode, toggleDarkMode, home = '', current }: NavbarProps) => {
   const { t, i18n } = useTranslation();
+  // LT-710: the wizard and the dashboard open in the page's language.
+  const REGISTER_URL = registerUrl(i18n.language as Lang);
+  const DASHBOARD_URL = dashboardUrl(i18n.language as Lang);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
