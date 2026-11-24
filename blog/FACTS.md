@@ -5,7 +5,9 @@ lightor-dashboard, lightor-register and lightor-edge on **2026-10-29**
 (LT-430; first version 2026-10-20), and walked through in the product itself
 the same day for the guides. Products (sites that show products) checked the
 same way on 2026-11-03 (LT-565), the blog on a business's site on 2026-11-08
-(LT-615), an own domain for a site on 2026-11-15 (LT-661). An article may only
+(LT-615), an own domain for a site on 2026-11-15 (LT-661), the United States
+and the customer texts' languages on 2026-11-24 (LT-715, "The United States"
+below). An article may only
 describe what is listed here
 as live. Anything not listed: check the code first (and add it here), or leave
 it out. When a feature ships or changes, update this file in the same mission.
@@ -104,6 +106,16 @@ it out. When a feature ships or changes, update this file in the same mission.
 - Confirmation by SMS or WhatsApp - **the customer chooses** with a switch on
   the form (SMS preselected). A failed WhatsApp is resent by SMS. Texts in
   Hebrew and English only, written by Lightor (the owner does not edit them).
+- **The customer texts' language is the owner's** (LT-715, checked 2026-11-24
+  on lightor-back `notificationService.ts`: `user.defaultLanguage`, Hebrew when
+  none; a language without the text falls back to English). The confirmation,
+  the reminders, a move and a cancel exist in Hebrew and English only, so **an
+  owner who runs Lightor in Arabic (or French or Spanish) has customers who get
+  English**. The WhatsApp template is asked for in the owner's language
+  (`lightor_cust_book_ar` ...); a template Meta refuses goes out as the same
+  English text by SMS to an Israeli number (LT-215). **An Arabic article never
+  promises Arabic texts to customers**; the dashboard, the site's buttons and
+  the booking flow are in Arabic.
   The confirmation carries the manage link and says until when it can be used,
   e.g. "לינק לניהול התור עד שעה לפני התור".
 - Reminders to customers:
@@ -380,6 +392,77 @@ it out. When a feature ships or changes, update this file in the same mission.
   Google), is open to AI search crawlers, and is linked from lightor.app/sites.
 - Never promise a ranking or "first page on Google".
 
+## The United States (LT-715)
+Checked on 2026-11-24 against `origin/main` of lightor-back (`65f156a`),
+lightor-front (`3847224`), lightor-dashboard (`1617f2f`) and lightor-register
+(`2e95d71`), and against the live API where it says so. An English article for
+a US business may rely on this section, and on the rest of this file where it
+is not about Israel only (shekel prices, the 07:00 Israel time, Israeli
+numbers).
+
+- **Open countries**: a phone number from outside Israel is accepted only for
+  a country the server names (`FIREBASE_PHONE_CODE_REGIONS`, back
+  `phoneHelper.ts` `isOpenAbroadPhone`). Live: the United States only
+  (`GET https://api.lightor.app/api/messaging/phone-countries` answered
+  `{"home":"IL","abroad":["US"]}`). An owner, a business phone and a customer
+  may have a US number; the phone fields of the signup, the dashboard and the
+  sites' booking and contact forms offer the country (LT-677: register
+  `usePhoneCountries.ts`, dashboard and front `services/phoneCountries.ts`).
+  A business's country is its business phone's country.
+- **Phone codes to a US number** (LT-673, LT-676): the 6-digit code is sent by
+  Google's Firebase phone sign-in, not by Lightor's Israeli SMS provider; the
+  server checks Firebase's answer (back `POST /api/messaging/otp/firebase`)
+  and a gate limits the sends (`/otp/firebase/gate`: never an Israeli number,
+  a wait between sends, a daily cap per number).
+- **Prices** (LT-695, back `billingMoney.ts` `planPricesFor`, site
+  `pricing.html` and `src/lib/localPrices.ts`): a US business is offered
+  Lightor+ at **$29 a month or $290 a year** and Lightor Pro at **$49 a month
+  or $490 a year**; lightor.app's pricing page and the home's answer about
+  prices show a US visitor these. Live on 2026-11-24 (`/api/paddle/prices?country=US`:
+  `local: true`, 2900 / 29000 / 4900 / 49000 cents, `included` 500,
+  `plusIncluded` 200, an extra booking 17 cents with a $3 smallest charge).
+  The plans hold the same as in Israel (Plans, above): 200 bookings a period
+  on Lightor+, 500 on Pro. The 60 free days of Lightor+ are for every new
+  account. Sales tax at checkout was not checked in the code: do not state it.
+- **Customer messages for a US customer today** (LT-694, back
+  `notificationService.ts` `sendMessage`): the confirmation, the morning
+  reminder, the hour-before reminder (Pro), a move and a cancel go **on
+  WhatsApp only**. Lightor has **no SMS sender for the United States yet**: a
+  customer who leaves the booking form's switch on SMS (preselected, front
+  `Schedule.tsx`) gets the 6-digit code by text and **no confirmation or
+  reminder**; a WhatsApp that Meta refuses is not resent by SMS abroad. With
+  WhatsApp chosen, the switch reads "Code by SMS, updates via WhatsApp"
+  (front `schedule.channel.whatsappAbroad`). A booking the owner makes by hand
+  for a US number is stored as WhatsApp (back `appointmentController.ts`).
+  **Never promise a US customer text-message confirmations or reminders**
+  until this section says otherwise.
+- **The texts' language and formats**: the owner's language, Hebrew or English
+  (see Bookings); a US business's customer messages write the date and time
+  the American way, "Dec 2" and "3:00 PM" (back `notificationService.ts`
+  `momentFor`).
+- **Consent line** (LT-687, front `TextConsent.tsx`): under the booking form's
+  button, for a US number, a short line that the customer agrees to get
+  appointment texts from Lightor, with "Msg & data rates may apply", "Reply
+  STOP" and links to the text-message sections of Lightor's terms and
+  privacy (`#en-sms`). Replies such as STOP are not handled yet (no US sender).
+- **Reminders by the business's own clock** (LT-692, back
+  `reminderDelivery.ts`): the morning reminder leaves at **07:00 on the
+  business's clock**, the hour-before one only between 07:00 and 21:59 there.
+- **Time zone by address** (LT-692, back `zoneByAddress.ts`): a US business's
+  time zone follows the state in its address (a state field, "Austin, TX", a
+  large city's name, a ZIP prefix or town for a split state), set when the
+  site is made and again whenever a save changes the address or the business
+  phone; an address that names no state leaves the zone as it was (at first,
+  the signing-up device's). The owner has **no time-zone setting**.
+- **American formats** (LT-702, live 2026-11-23; back
+  `utils/businessFormats.ts`, dashboard `utils/businessFormats.ts`, front
+  `utils/siteFormats.ts`, all `usesAmericanFormats`): a US business reads the
+  12-hour clock and the month before the day in its dashboard, on its site and
+  in the owner's own texts. Display only.
+- **Not checked**: whether the phone apps are in the US App Store and Google
+  Play, sales tax, a real US number receiving a real code. Do not promise
+  them.
+
 ## Plans (lightor.app/pricing.html)
 - Free forever: 15 bookings a month (cancelled ones and the owner's own count),
   3 services, 5 products, 15 inquiries a month, 3 AI site rebuilds a month, 5 AI pictures
@@ -414,9 +497,10 @@ it out. When a feature ships or changes, update this file in the same mission.
   prices and in every plan price on pricing.html. The United States, as Erel
   decided on 2026-11-15: Lightor+ $29 a month or $290 a year, Lightor Pro $49
   a month or $490 a year; in the stores, a pack of 100 bookings is $16.99.
-  **Live only once these prices are set in Paddle**: until then every visitor
-  reads shekels, so check before quoting a dollar price as live. Articles in
-  Hebrew, for Israel, keep the shekel prices.
+  Live: on 2026-11-24 `GET https://api.lightor.app/api/paddle/prices?country=US`
+  answered `local: true` with these four amounts (see "The United States").
+  Articles in Hebrew and Arabic, for Israel, keep the shekel prices; English
+  articles for the United States use the dollar ones.
 - Every new account: 60 days of Lightor+ free, no credit card, no commitment,
   up to 200 bookings in each 30-day month. Joining Lightor Pro in the free days
   is paid at once and opens all of it at once; the free days left end (LT-589,
