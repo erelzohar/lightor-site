@@ -220,7 +220,7 @@ language has its own posts, written for its own searches, never translated:
   3-5 questions (an Arabic question ends with "؟").
 - **The page follows the language**: `<html lang dir>` (Arabic right to left),
   the dates written by `Intl` in the language (`en-US`, Arabic with Western
-  digits), `og:locale` (`en_US`, `ar_IL`), `inLanguage`, the breadcrumbs, the
+  digits), `og:locale` (`en_US`, `ar_AR` since LT-717), `inLanguage`, the breadcrumbs, the
   `[[cta]]` box and the register links (`?lang=en`, `?lang=ar`). The head's
   words are in `scripts/blog/languages.mjs`, the page's own words in
   `src/blog/words.ts`.
@@ -238,10 +238,13 @@ language has its own posts, written for its own searches, never translated:
 - **Facts**: `blog/FACTS.md` as for Hebrew. English articles use its section
   "The United States" and dollar prices; Arabic ones shekels and Israeli
   towns, and the dashboard's own Arabic words (lightor-dashboard
-  `src/i18n/locales/ar.json`). **Customer texts exist in Hebrew and English
-  only**: an Arabic article never promises them in Arabic, and an English one
-  never promises a US customer text-message reminders while FACTS says they go
-  on WhatsApp only.
+  `src/i18n/locales/ar.json`). **Customer texts exist in Hebrew, English and
+  Arabic** (LT-719): an Arabic article may say an owner who uses Lightor in
+  Arabic has customers who get the confirmation and reminders in Arabic, never
+  that they come on WhatsApp in Arabic until FACTS says Meta approved those
+  templates; French and Spanish owners' customers still get English. An
+  English article never promises a US customer text-message reminders while
+  FACTS says they go on WhatsApp only.
 - **Autocomplete** for the questions: `hl=en&gl=us` for English,
   `hl=ar&gl=il` for Arabic (the Arabic results mix in Egypt, Jordan and Syria:
   keep the questions a business in Israel would ask).

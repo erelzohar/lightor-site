@@ -7,7 +7,7 @@ the same day for the guides. Products (sites that show products) checked the
 same way on 2026-11-03 (LT-565), the blog on a business's site on 2026-11-08
 (LT-615), an own domain for a site on 2026-11-15 (LT-661), the United States
 and the customer texts' languages on 2026-11-24 (LT-715, "The United States"
-below). An article may only
+below; Arabic customer texts, LT-719, the same day). An article may only
 describe what is listed here
 as live. Anything not listed: check the code first (and add it here), or leave
 it out. When a feature ships or changes, update this file in the same mission.
@@ -107,17 +107,24 @@ it out. When a feature ships or changes, update this file in the same mission.
   the form (SMS preselected) for an Israeli number; a US number has no switch
   and gets WhatsApp (LT-716, see "The United States"). A failed WhatsApp is
   resent by SMS to an Israeli number. Texts in
-  Hebrew and English only, written by Lightor (the owner does not edit them).
-- **The customer texts' language is the owner's** (LT-715, checked 2026-11-24
-  on lightor-back `notificationService.ts`: `user.defaultLanguage`, Hebrew when
-  none; a language without the text falls back to English). The confirmation,
-  the reminders, a move and a cancel exist in Hebrew and English only, so **an
-  owner who runs Lightor in Arabic (or French or Spanish) has customers who get
-  English**. The WhatsApp template is asked for in the owner's language
-  (`lightor_cust_book_ar` ...); a template Meta refuses goes out as the same
-  English text by SMS to an Israeli number (LT-215). **An Arabic article never
-  promises Arabic texts to customers**; the dashboard, the site's buttons and
-  the booking flow are in Arabic.
+  Hebrew, English and Arabic (LT-719), written by Lightor (the owner does not
+  edit them).
+- **The customer texts' language is the owner's** (LT-715; LT-719, live
+  2026-11-24, lightor-back `notificationService.ts`: `user.defaultLanguage`,
+  Hebrew when none; a language without the text falls back to English). The
+  confirmation, the reminders, a move and a cancel exist in Hebrew, English
+  and Arabic: **an owner who runs Lightor in Arabic has customers who get
+  Arabic SMS** (the date and the hour written as in Hebrew, "02.12" and
+  "15:00", the day by its Arabic name). **An owner in French or Spanish still
+  has customers who get English.** The WhatsApp template is asked for in the
+  owner's language: `lightor_cust_*_ar` for an Arabic owner. Until Meta
+  approves those, an Israeli customer gets the Arabic SMS instead (LT-215),
+  and a customer abroad gets the same message once on WhatsApp in English
+  (LT-719). An Arabic article may say the confirmation and the reminders reach
+  the customers in Arabic when the owner uses Lightor in Arabic; **never that
+  they come on WhatsApp in Arabic** until this line says Meta approved the
+  templates. The dashboard, the site's buttons and the booking flow are in
+  Arabic too.
   The confirmation carries the manage link and says until when it can be used,
   e.g. "לינק לניהול התור עד שעה לפני התור".
 - Reminders to customers:
@@ -448,8 +455,8 @@ post that relies on these two items, before LT-716 is live.**
   until Lightor's US text sender is live. **Never promise a US customer
   text-message confirmations or reminders** until this section says
   otherwise.
-- **The texts' language and formats**: the owner's language, Hebrew or English
-  (see Bookings); a US business's customer messages write the date and time
+- **The texts' language and formats**: the owner's language, Hebrew, English
+  or Arabic (see Bookings); a US business's customer messages write the date and time
   the American way, "Dec 2" and "3:00 PM" (back `notificationService.ts`
   `momentFor`).
 - **Consent line** (LT-687, front `TextConsent.tsx`; LT-716, 2026-11-24):
