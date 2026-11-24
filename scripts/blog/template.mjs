@@ -184,10 +184,14 @@ export const landingHead = (page) => {
 /**
  * LT-715: the blog index pages of every language that has one name each
  * other, and only they do: the posts are written in their own language, with
- * no twin elsewhere.
+ * no twin elsewhere. LT-717: the Hebrew blog is their x-default, as the
+ * Hebrew home is the home pages'.
  */
 const hreflangLinks = (others) =>
-  others.length > 1 ? others.map((O) => `\n    <link rel="alternate" hreflang="${O.inLanguage}" href="${ORIGIN}${O.base}" />`).join('') : '';
+  others.length > 1
+    ? others.map((O) => `\n    <link rel="alternate" hreflang="${O.inLanguage}" href="${ORIGIN}${O.base}" />`).join('') +
+      `\n    <link rel="alternate" hreflang="x-default" href="${ORIGIN}${HE.base}" />`
+    : '';
 
 /** The blog index's <head> lines; `others` are the languages whose blog index exists, this one included. */
 export const indexHead = (posts, L = HE, others = []) => {

@@ -148,7 +148,7 @@ export const SUMMARY: Record<Lang, Summary> = {
       'Answers the visitors on your site from what it says: products and prices, services, hours and FAQs.',
     ],
     promo:
-      'Every site is promoted organically: search engines are updated on every change, the content is marked up so search engines understand it, and each site is linked from lightor.app/sites. Lightor works for businesses, events, landing pages and any idea. It is free to start, needs no installation, and is available in Hebrew, English, Arabic, French and Spanish.',
+      'Every site is promoted organically: search engines are updated on every change, the content is marked up so search engines understand it, and each site is linked from lightor.app/en/sites. Lightor works for businesses, events, landing pages and any idea. It is free to start, needs no installation, and is available in Hebrew, English, Arabic, French and Spanish.',
     links: {
       build: 'Build your site free',
       sites: 'Sites built with Lightor',
@@ -180,7 +180,7 @@ export const SUMMARY: Record<Lang, Summary> = {
       'يجيب زوار موقعك مما هو مكتوب فيه: المنتجات والأسعار والخدمات والساعات والأسئلة الشائعة.',
     ],
     promo:
-      'كل موقع يحظى بترويج طبيعي: تُحدَّث محركات البحث مع كل تغيير، ويُوسَم المحتوى بحيث تفهمه محركات البحث، وكل موقع مرتبط من lightor.app/sites. لايتور يناسب الأعمال والأحداث وصفحات الهبوط وأي فكرة. البدء مجاني، بلا تثبيت، ومتوفر بالعبرية والإنجليزية والعربية والفرنسية والإسبانية.',
+      'كل موقع يحظى بترويج طبيعي: تُحدَّث محركات البحث مع كل تغيير، ويُوسَم المحتوى بحيث تفهمه محركات البحث، وكل موقع مرتبط من lightor.app/ar/sites. لايتور يناسب الأعمال والأحداث وصفحات الهبوط وأي فكرة. البدء مجاني، بلا تثبيت، ومتوفر بالعبرية والإنجليزية والعربية والفرنسية والإسبانية.',
     links: {
       build: 'أنشئ موقعك مجانًا',
       sites: 'مواقع بُنيت مع لايتور',

@@ -86,8 +86,8 @@ export const BLOG_LANGS = [
   lang('ar', {
     dir: 'rtl',
     inLanguage: 'ar',
-    // Written for businesses in Israel.
-    ogLocale: 'ar_IL',
+    // Written for businesses in Israel; ar_AR as the home and /ar/sites say it (LT-717).
+    ogLocale: 'ar_AR',
     // Western digits, as the dashboard writes Arabic dates (lightor-dashboard businessFormats.ts).
     dateLocale: 'ar-u-nu-latn',
     faqTitle: 'الأسئلة الشائعة',
@@ -98,7 +98,7 @@ export const BLOG_LANGS = [
     crumbBlog: 'المدونة',
     indexTitle: 'مدونة لايتور - مواقع وحجز مواعيد واستفسارات للأعمال الصغيرة',
     indexDescription:
-      'أدلة قصيرة وعملية لأصحاب الأعمال الصغيرة: كيف تبنون موقعًا، وتستقبلون الحجوزات والاستفسارات عبر الإنترنت، وتظهرون في جوجل.',
+      'أدلة قصيرة وعملية لأصحاب الأعمال الصغيرة: كيف تبنون موقعًا، وتستقبلون الحجوزات والاستفسارات عبر الإنترنت، وتظهرون في Google.',
     imageAlt: 'Lighty، شخصية لايتور، بجانب العنوان: موقعك خلال 60 ثانية',
     ctaText: 'هل تريدون أن تروا كيف سيبدو موقعكم؟ Lighty يبني لكم موقعًا خلال دقائق، مجانًا.',
     ctaButton: 'ابنوا موقعكم مجانًا',

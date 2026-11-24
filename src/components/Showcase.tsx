@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { HaloReel } from './ui/halo-reel';
 import { SITES, shotSrc } from './showcaseSites';
+import { sitesUrl } from '../lib/siteLinks';
 
 /**
  * True while the viewport is at least `px` wide; follows resizes. The page
@@ -105,7 +106,7 @@ const Showcase = () => {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mt-10 text-center">
           <a
-            href="https://lightor.app/sites"
+            href={sitesUrl(lang)}
             className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-800 transition hover:border-gray-400 dark:border-gray-700 dark:bg-white/5 dark:text-gray-100"
           >
             {t('showcase.all')}

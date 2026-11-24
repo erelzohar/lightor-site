@@ -3,12 +3,11 @@ import Poof from './Poof';
 import { useTranslation } from 'react-i18next';
 import { isRtl, type Lang } from '../i18n/languages';
 import { registerUrl } from '../lib/crossLinks';
+import { sitesUrl } from '../lib/siteLinks';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
 import { useStill } from '../hooks/useA11yPrefs';
 import { SplashButton } from './ui/splash-button';
-
-const SITES_URL = 'https://lightor.app/sites';
 
 // three.js and the model load in their own chunk, after the page is up.
 // A chunk that fails to load — a tab opened before a deploy asks for a hash
@@ -160,7 +159,7 @@ const Hero = () => {
               {t('hero.cta')}
             </SplashButton>
             <a
-              href={SITES_URL}
+              href={sitesUrl(i18n.language as Lang)}
               className="relative z-[1] inline-flex w-full items-center justify-center rounded-full border border-gray-300 bg-white/70 px-7 py-4 text-lg font-semibold text-gray-800 transition hover:border-gray-400 hover:bg-white sm:w-auto dark:border-gray-700 dark:bg-white/5 dark:text-gray-100 dark:hover:bg-white/10"
             >
               {t('hero.secondary')}

@@ -18,6 +18,8 @@ const DIST = join(ROOT, 'dist');
 const ENTRY = join(ROOT, 'dist-ssr-home', 'entry-server.js');
 const EMPTY_ROOT = '<div id="root"></div>';
 const DASHES = /[—―]/; // em-dash, horizontal bar: never in what a reader sees
+/** The languages with a sites page of their own (src/lib/siteLinks.ts `sitesUrl`). */
+const OWN_SITES_PAGE = ['en', 'ar'];
 /** As React writes text into HTML. */
 const esc = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
 
@@ -56,7 +58,14 @@ for (const lang of LANGS) {
   if (page.split('</head>').length !== 2) fail(`dist/${rel} has no single </head>`);
   const url = `https://lightor.app/${lang === DEFAULT_LANG ? '' : `${lang}/`}`;
   const withFaq = page.replace('</head>', () => `    <script type="application/ld+json">${faqData(faq, url)}</script>\n  </head>`);
-  pages.push([file, withFaq.replace(EMPTY_ROOT, () => `<div id="root">${body}</div>`), rel, words]);
+  // LT-717: English and Arabic have their own sites page (lightor-edge); no
+  // link on those pages may send a reader to the Hebrew one.
+  const html = withFaq.replace(EMPTY_ROOT, () => `<div id="root">${body}</div>`);
+  if (OWN_SITES_PAGE.includes(lang)) {
+    if (html.includes('href="https://lightor.app/sites"')) fail(`the ${lang} page links the Hebrew sites page (https://lightor.app/sites)`);
+    if (!html.includes(`href="https://lightor.app/${lang}/sites"`)) fail(`the ${lang} page has no link to https://lightor.app/${lang}/sites`);
+  }
+  pages.push([file, html, rel, words]);
 }
 for (const [file, html, rel, words] of pages) {
   writeFileSync(file, html);
