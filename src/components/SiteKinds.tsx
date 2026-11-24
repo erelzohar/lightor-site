@@ -13,11 +13,14 @@ const CARDS = [
 /**
  * LT-698: a card's page about itself, linked under it as `kinds.<id>.more`.
  * The pages are in Hebrew, so only a language that has the text shows it:
- * read without the Hebrew fallback.
+ * read without the Hebrew fallback. LT-715: the leads card's page, and the
+ * store card's Hebrew article on opening an online store.
  */
 const MORE: Partial<Record<(typeof CARDS)[number]['id'], string>> = {
   site: '/free-website-builder/',
   booking: '/booking-system/',
+  leads: '/leads-system/',
+  products: '/blog/open-online-store/',
 };
 
 /**

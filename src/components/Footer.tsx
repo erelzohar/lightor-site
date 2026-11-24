@@ -3,6 +3,7 @@ import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok } from 'react-icons/fa6';
 import StoreLinks from './StoreLinks';
 import type { Lang } from '../i18n/languages';
 import { dashboardUrl, legalUrl, registerUrl } from '../lib/crossLinks';
+import { blogPath, sitesUrl } from '../lib/siteLinks';
 
 /** LT-652: Lightor's own profiles; the same list as the Organization's sameAs in index.html and the blog's. */
 export const PROFILES = [
@@ -26,6 +27,7 @@ const LINKS: Record<'product' | 'account' | 'legal', readonly FooterLink[]> = {
     { key: 'faq', href: '#faq' },
     { key: 'freeSite', href: 'https://lightor.app/free-website-builder/', own: true },
     { key: 'bookingSystem', href: 'https://lightor.app/booking-system/', own: true },
+    { key: 'leadsSystem', href: 'https://lightor.app/leads-system/', own: true },
     { key: 'sites', href: 'https://lightor.app/sites' },
     { key: 'blog', href: 'https://lightor.app/blog/' },
   ],
@@ -49,12 +51,17 @@ const Footer = ({ home = '' }: { home?: string }) => {
   const { t, i18n } = useTranslation();
   const shown = ({ key, own }: FooterLink) => !own || !!i18n.getResource(i18n.language, 'translation', `footer.links.${key}`);
   const lang = i18n.language as Lang;
+  // LT-715: a language with a blog of its own links it, named as in the navbar; the rest link the Hebrew one, marked as Hebrew.
+  const ownBlog = blogPath(lang);
   const hrefFor = (group: keyof typeof LINKS, { key, href }: FooterLink): string => {
     if (href.startsWith('#')) return `${home}${href}`;
     if (key === 'start') return registerUrl(lang);
     if (key === 'signIn') return dashboardUrl(lang);
+    if (key === 'blog' && ownBlog) return `https://lightor.app${ownBlog}`;
+    if (key === 'sites') return sitesUrl(lang);
     return group === 'legal' ? legalUrl(href, lang) : href;
   };
+  const labelFor = ({ key }: FooterLink): string => (key === 'blog' && ownBlog && lang !== 'he' ? t('nav.blog') : t(`footer.links.${key}`));
 
   return (
     <footer className="bg-black text-white" role="contentinfo">
@@ -92,7 +99,7 @@ const Footer = ({ home = '' }: { home?: string }) => {
                 {LINKS[group].filter(shown).map((link) => (
                   <li key={link.key}>
                     <a href={hrefFor(group, link)} className="text-gray-400 transition-colors hover:text-white">
-                      {t(`footer.links.${link.key}`)}
+                      {labelFor(link)}
                     </a>
                   </li>
                 ))}

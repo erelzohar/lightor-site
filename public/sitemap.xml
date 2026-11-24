@@ -65,6 +65,17 @@
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
+  <!-- LT-715: the sites built with Lightor in English and Arabic (lightor-edge, like /sites). -->
+  <url>
+    <loc>https://lightor.app/en/sites</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://lightor.app/ar/sites</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
   <url>
     <loc>https://lightor.app/pricing.html</loc>
     <lastmod>2026-10-29</lastmod>

@@ -66,7 +66,9 @@ export default {
         'כל הפניות במקום אחד, עם סטטוס לכל אחת',
         'התראה מיידית בוואטסאפ, ב-SMS או במייל',
         'Lighty עונה ללידים שלכם'
-      ]
+      ],
+      // LT-715: Hebrew only, like the page it opens (/leads-system/).
+      more: 'עוד על מערכת הלידים'
     },
     products: {
       title: 'חנות אונליין',
@@ -76,7 +78,9 @@ export default {
         'מעלים תמונה או כותבים תיאור קצר ו‑Lighty מייצר מוצר וכותב את השם והתיאור המלא',
         'פנייה על מוצר מגיעה אליכם עם המוצר שבחרו',
         'חנות שלמה בכמה שניות'
-      ]
+      ],
+      // LT-715: a Hebrew article (/blog/open-online-store/).
+      more: 'איך פותחים חנות אונליין'
     },
     both: 'Lighty בוחר מה מתאים לפי מה שתספרו לו, ואפשר לבקש ממנו לשנות בכל רגע. מוצרים אפשר להוסיף לכל אתר.'
   },
@@ -336,6 +340,7 @@ export default {
       // LT-698: Hebrew only, like the pages they open.
       freeSite: 'בניית אתר בחינם',
       bookingSystem: 'מערכת תורים לעסק',
+      leadsSystem: 'מערכת לידים לעסק',
       start: 'התחלה בחינם',
       signIn: 'כניסה',
       pricing: 'מחירים',

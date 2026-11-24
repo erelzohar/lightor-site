@@ -7,6 +7,8 @@ on:
     # LT-430: the blog's notes (topic list, facts, how-to) change no page.
     paths-ignore:
       - 'blog/topics.md'
+      # LT-715: the English and Arabic blogs' topic lists.
+      - 'blog/*/topics.md'
       - 'blog/FACTS.md'
       - 'blog/README.md'
       - 'README.md'

@@ -5,13 +5,15 @@
  * article, footer) is the site's React code, rendered by
  * src/blog/entry-server.tsx.
  *
+ * LT-715: in the post's language (`L`, one of scripts/blog/languages.mjs):
+ * Hebrew, English or Arabic. The landing pages are Hebrew only.
+ *
  * Plain "-" only, never an em-dash, in anything a reader sees (LT-350).
  */
+import { BLOG_LANG, ORIGIN, dateIn } from './languages.mjs';
 
-export const ORIGIN = 'https://lightor.app';
-// LT-710: the blog and the landing pages are Hebrew, so the wizard opens in Hebrew.
-export const REGISTER_URL = 'https://register.lightor.app/?lang=he';
-export const BLOG_NAME = 'הבלוג של לייטור';
+export { ORIGIN };
+const HE = BLOG_LANG.he;
 
 export const esc = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -19,14 +21,14 @@ export const esc = (s) =>
 /** JSON for a <script type="application/ld+json">: no "</script>" can close it early. */
 const ld = (data) => JSON.stringify(data, null, 2).replace(/</g, '\\u003c');
 
-const HE_DATE = new Intl.DateTimeFormat('he-IL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
-export const heDate = (iso) => HE_DATE.format(new Date(`${iso}T00:00:00Z`));
+/** A date written out in the language (LT-715; Hebrew as before). */
+export const dateLabel = (iso, L = HE) => dateIn(iso, L);
 
-const socialMeta = ({ url, title, description, type, image, imageAlt }) => `
+const socialMeta = ({ url, title, description, type, image, imageAlt, L = HE }) => `
   <link rel="canonical" href="${url}" />
   <meta property="og:type" content="${type}" />
   <meta property="og:site_name" content="Lightor" />
-  <meta property="og:locale" content="he_IL" />
+  <meta property="og:locale" content="${L.ogLocale}" />
   <meta property="og:url" content="${url}" />
   <meta property="og:title" content="${esc(title)}" />
   <meta property="og:description" content="${esc(description)}" />
@@ -40,7 +42,6 @@ const socialMeta = ({ url, title, description, type, image, imageAlt }) => `
   <meta name="twitter:image" content="${image.url}" />`;
 
 export const DEFAULT_IMAGE = { url: `${ORIGIN}/og-image.jpg`, width: 1200, height: 630 };
-const DEFAULT_IMAGE_ALT = 'Lighty, הדמות של לייטור, ליד הכותרת: האתר שלך, תוך 60 שניות';
 
 /**
  * The site's Organization, exactly the node on the home page (LT-619), so the
@@ -70,11 +71,11 @@ const PUBLISHER = {
  * (build.mjs reads it from the rendered HTML). Honest markup for the answer
  * engines; Google no longer shows FAQ rich results, and this is not for one.
  */
-const faqLd = (url, faq) => ({
+const faqLd = (url, faq, L = HE) => ({
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   url,
-  inLanguage: 'he',
+  inLanguage: L.inLanguage,
   mainEntity: faq.map(({ question, answer }) => ({
     '@type': 'Question',
     name: question,
@@ -88,15 +89,21 @@ const crumbsLd = (items) => ({
   itemListElement: items.map(([name, item], i) => ({ '@type': 'ListItem', position: i + 1, name, item })),
 });
 
-/** `[[cta]]` on its own line in an article: a short invitation mid-way. */
-export const inlineCta = (text) => `
+/** `[[cta]]` on its own line in an article: a short invitation mid-way, in the post's language. */
+export const inlineCta = (text, L = HE) => `
 <div class="cta-inline">
-  <p>${esc(text || 'רוצים לראות איך זה נראה אצלכם? Lighty בונה לכם אתר בכמה דקות, בחינם.')}</p>
-  <a class="btn" href="${REGISTER_URL}">לבניית האתר שלי - בחינם</a>
+  <p>${esc(text || L.ctaText)}</p>
+  <a class="btn" href="${L.registerUrl}">${L.ctaButton}</a>
 </div>`;
 
+/** The breadcrumbs' first two steps in a language: its home page, its blog. */
+const blogCrumbs = (L) => [
+  [L.crumbHome, `${ORIGIN}${L.home}`],
+  [L.crumbBlog, `${ORIGIN}${L.base}`],
+];
+
 /** An article's <head> lines: title, description, canonical, share card, structured data. */
-export const articleHead = (post) => {
+export const articleHead = (post, L = HE) => {
   const url = `${ORIGIN}${post.path}`;
   const image = post.og || DEFAULT_IMAGE;
   const article = {
@@ -104,7 +111,7 @@ export const articleHead = (post) => {
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
-    inLanguage: 'he',
+    inLanguage: L.inLanguage,
     url,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     datePublished: post.date,
@@ -114,7 +121,7 @@ export const articleHead = (post) => {
     image: [image.url, ...(post.image ? [`${ORIGIN}${post.image.src1200}`] : [])],
     wordCount: post.words,
     ...(post.keyword ? { keywords: post.keyword } : {}),
-    isPartOf: { '@type': 'Blog', name: BLOG_NAME, url: `${ORIGIN}/blog/` },
+    isPartOf: { '@type': 'Blog', name: L.blogName, url: `${ORIGIN}${L.base}` },
     ...(post.video
       ? {
           video: {
@@ -124,13 +131,13 @@ export const articleHead = (post) => {
             thumbnailUrl: `${ORIGIN}${post.video.poster}`,
             contentUrl: `${ORIGIN}${post.video.mp4}`,
             uploadDate: post.updated || post.date,
-            inLanguage: 'he',
+            inLanguage: L.inLanguage,
           },
         }
       : {}),
   };
-  return `<title>${esc(post.title)} | לייטור</title>
-    <meta name="description" content="${esc(post.description)}" />${socialMeta({ url, title: post.title, description: post.description, type: 'article', image, imageAlt: post.imageAlt || DEFAULT_IMAGE_ALT })}${
+  return `<title>${esc(post.title)}${L.titleSuffix}</title>
+    <meta name="description" content="${esc(post.description)}" />${socialMeta({ url, title: post.title, description: post.description, type: 'article', image, imageAlt: post.imageAlt || L.imageAlt, L })}${
       post.video
         ? `\n    <link rel="preload" as="image" href="${post.video.poster}" fetchpriority="high" />`
         : post.image
@@ -140,9 +147,9 @@ export const articleHead = (post) => {
     <meta property="article:published_time" content="${post.date}" />
     <meta property="article:modified_time" content="${post.updated || post.date}" />
     <script type="application/ld+json">${ld(article)}</script>${
-      post.faq?.length ? `\n    <script type="application/ld+json">${ld(faqLd(url, post.faq))}</script>` : ''
+      post.faq?.length ? `\n    <script type="application/ld+json">${ld(faqLd(url, post.faq, L))}</script>` : ''
     }
-    <script type="application/ld+json">${ld(crumbsLd([['לייטור', `${ORIGIN}/`], ['בלוג', `${ORIGIN}/blog/`], [post.title, url]]))}</script>`;
+    <script type="application/ld+json">${ld(crumbsLd([...blogCrumbs(L), [post.title, url]]))}</script>`;
 };
 
 /**
@@ -167,27 +174,31 @@ export const landingHead = (page) => {
     publisher: PUBLISHER,
   };
   return `<title>${esc(page.title)} | לייטור</title>
-    <meta name="description" content="${esc(page.description)}" />${socialMeta({ url, title: page.title, description: page.description, type: 'website', image: DEFAULT_IMAGE, imageAlt: DEFAULT_IMAGE_ALT })}
+    <meta name="description" content="${esc(page.description)}" />${socialMeta({ url, title: page.title, description: page.description, type: 'website', image: DEFAULT_IMAGE, imageAlt: HE.imageAlt })}
     <script type="application/ld+json">${ld(webPage)}</script>${
       page.faq?.length ? `\n    <script type="application/ld+json">${ld(faqLd(url, page.faq))}</script>` : ''
     }
     <script type="application/ld+json">${ld(crumbsLd([['לייטור', `${ORIGIN}/`], [page.title, url]]))}</script>`;
 };
 
-export const INDEX_TITLE = 'הבלוג של לייטור - מדריכים לבניית אתר, תורים ולידים';
-export const INDEX_DESCRIPTION =
-  'מדריכים קצרים ומעשיים לבעלי עסקים קטנים: איך בונים אתר, מקבלים תורים ולידים אונליין, שולחים תזכורות ללקוחות ומופיעים בגוגל.';
+/**
+ * LT-715: the blog index pages of every language that has one name each
+ * other, and only they do: the posts are written in their own language, with
+ * no twin elsewhere.
+ */
+const hreflangLinks = (others) =>
+  others.length > 1 ? others.map((O) => `\n    <link rel="alternate" hreflang="${O.inLanguage}" href="${ORIGIN}${O.base}" />`).join('') : '';
 
-/** The blog index's <head> lines. */
-export const indexHead = (posts) => {
-  const url = `${ORIGIN}/blog/`;
+/** The blog index's <head> lines; `others` are the languages whose blog index exists, this one included. */
+export const indexHead = (posts, L = HE, others = []) => {
+  const url = `${ORIGIN}${L.base}`;
   const blog = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: BLOG_NAME,
-    description: INDEX_DESCRIPTION,
+    name: L.blogName,
+    description: L.indexDescription,
     url,
-    inLanguage: 'he',
+    inLanguage: L.inLanguage,
     publisher: PUBLISHER,
     blogPost: posts.map((p) => ({
       '@type': 'BlogPosting',
@@ -197,8 +208,8 @@ export const indexHead = (posts) => {
       dateModified: p.updated || p.date,
     })),
   };
-  return `<title>${esc(INDEX_TITLE)}</title>
-    <meta name="description" content="${esc(INDEX_DESCRIPTION)}" />${socialMeta({ url, title: INDEX_TITLE, description: INDEX_DESCRIPTION, type: 'website', image: DEFAULT_IMAGE, imageAlt: DEFAULT_IMAGE_ALT })}
+  return `<title>${esc(L.indexTitle)}</title>
+    <meta name="description" content="${esc(L.indexDescription)}" />${socialMeta({ url, title: L.indexTitle, description: L.indexDescription, type: 'website', image: DEFAULT_IMAGE, imageAlt: L.imageAlt, L })}${hreflangLinks(others)}
     <script type="application/ld+json">${ld(blog)}</script>
-    <script type="application/ld+json">${ld(crumbsLd([['לייטור', `${ORIGIN}/`], ['בלוג', url]]))}</script>`;
+    <script type="application/ld+json">${ld(crumbsLd(blogCrumbs(L)))}</script>`;
 };

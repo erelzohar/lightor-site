@@ -3,8 +3,8 @@
  * a landing page at the site's root). It is rendered on
  * the build machine (entry-server) and embedded in the page as JSON, so the
  * browser (entry-client) takes over the same page without fetching anything.
- * Dates arrive already written out in Hebrew, so the server and the browser
- * print the same text.
+ * Dates arrive already written out in the page's language, so the server and
+ * the browser print the same text.
  */
 /** An article's photo, cut by the build into two 16:9 sizes (blog/images/<slug>.jpg). */
 export interface BlogImage {
@@ -77,10 +77,18 @@ export interface LandingPage {
   ctaText?: string;
 }
 
-export type BlogData =
+/**
+ * LT-715: the blog's languages. A page in English or Arabic carries its
+ * `lang`; a Hebrew page has none (the blog was Hebrew before LT-715, and its
+ * pages' data stays as it was). The landing pages are Hebrew only.
+ */
+export type BlogLang = 'he' | 'en' | 'ar';
+
+export type BlogData = (
   | { kind: 'article'; post: ArticlePost; related: PostCard[] }
   | { kind: 'index'; posts: PostCard[] }
-  | { kind: 'landing'; page: LandingPage; related: PostCard[] };
+  | { kind: 'landing'; page: LandingPage; related: PostCard[] }
+) & { lang?: Exclude<BlogLang, 'he'> };
 
 /** The element that holds an article's text, read back by the browser before it takes over. */
 export const BODY_ATTR = 'data-blog-body';

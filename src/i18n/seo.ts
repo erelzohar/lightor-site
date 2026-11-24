@@ -1,5 +1,6 @@
 import { LANGS, DEFAULT_LANG, NATIVE_NAME, isRtl, pathFor, type Lang } from './languages';
 import { dashboardUrl, legalUrl, registerUrl } from '../lib/crossLinks';
+import { blogPath, sitesUrl } from '../lib/siteLinks';
 
 /**
  * LT-349: what each language's HTML carries before any script runs: the
@@ -270,16 +271,20 @@ export const hreflangLinks = (): string =>
     `<link rel="alternate" hreflang="x-default" href="${ORIGIN}${pathFor(DEFAULT_LANG)}" />`,
   ].join('\n    ');
 
-/** The <noscript> block in `lang`, with links to the page in every other language. */
-export const summaryHtml = (lang: Lang): string => {
+/**
+ * The <noscript> block in `lang`, with links to the page in every other
+ * language. `blogLangs`: the languages whose blog the build links (LT-715,
+ * vite.config.ts); the others link the Hebrew blog.
+ */
+export const summaryHtml = (lang: Lang, blogLangs: readonly string[] = ['he']): string => {
   const sum = SUMMARY[lang];
   const li = (items: readonly string[]) => items.map((item) => `<li>${esc(item)}</li>`).join('\n          ');
   const links: [string, string][] = [
     // LT-710: the wizard and the dashboard in the page's language, the
     // two-language pages at their English part for every language but Hebrew.
     [registerUrl(lang), sum.links.build],
-    [`${ORIGIN}/sites`, sum.links.sites],
-    [`${ORIGIN}/blog/`, sum.links.blog],
+    [sitesUrl(lang), sum.links.sites],
+    [`${ORIGIN}${blogPath(lang, blogLangs) ?? '/blog/'}`, sum.links.blog],
     [dashboardUrl(lang), sum.links.signIn],
     [legalUrl(`${ORIGIN}/pricing.html`, lang), sum.links.pricing],
     [legalUrl(`${ORIGIN}/support.html`, lang), sum.links.support],
@@ -318,7 +323,7 @@ export const summaryHtml = (lang: Lang): string => {
  * the canonical URL, the share card, the hreflang links and the crawlable
  * summary: everything a crawler reads before scripts. `html` is the Hebrew build (index.html).
  */
-export const localizeHtml = (html: string, lang: Lang): string => {
+export const localizeHtml = (html: string, lang: Lang, blogLangs: readonly string[] = ['he']): string => {
   const seo = SEO[lang];
   const url = `${ORIGIN}${pathFor(lang)}`;
   const set = (re: RegExp, value: string) => {
@@ -339,6 +344,6 @@ export const localizeHtml = (html: string, lang: Lang): string => {
   set(/<meta property="og:image:alt" content="[^"]*" \/>/, `<meta property="og:image:alt" content="${esc(seo.imageAlt)}" />`);
   set(/<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${esc(seo.ogTitle)}" />`);
   set(/<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${esc(seo.ogDescription)}" />`);
-  set(/<noscript>[\s\S]*?<\/noscript>/, summaryHtml(lang));
+  set(/<noscript>[\s\S]*?<\/noscript>/, summaryHtml(lang, blogLangs));
   return html;
 };

@@ -195,11 +195,58 @@ cta_text: optional, its sentence
   (לייטור > the page) and FAQPage; no hreflang (Hebrew only). It goes into
   the sitemap at priority 0.8, dated by `date` (or `updated`), so IndexNow
   sends it on that day.
-- The home page links the two pages from its Hebrew cards and footer only
-  (`kinds.<id>.more`, `footer.links.freeSite` and `bookingSystem` in
-  `he.ts`); a language without the text shows no link.
+- The home page links the pages from its Hebrew cards and footer only
+  (`kinds.<id>.more`, `footer.links.freeSite`, `bookingSystem` and, since
+  LT-715, `leadsSystem` in `he.ts`; the store card links the article
+  `/blog/open-online-store/`); a language without the text shows no link.
 - One page per search phrase: a post must not chase a landing page's
   keyword; it links to the page instead.
+
+## Other languages (LT-715)
+
+The blog is also written in English, for small businesses in the United
+States, and in Arabic, for businesses in Israel that read Arabic. Each
+language has its own posts, written for its own searches, never translated:
+
+| | Posts | Topics | Address | Words | Last section |
+|---|---|---|---|---|---|
+| Hebrew | `blog/posts/` | `blog/topics.md` | `/blog/<slug>/` | 800-1,600 | `## שאלות נפוצות` |
+| English | `blog/en/posts/` | `blog/en/topics.md` | `/en/blog/<slug>/` | 1,000-1,800 | `## Frequently asked questions` |
+| Arabic | `blog/ar/posts/` | `blog/ar/topics.md` | `/ar/blog/<slug>/` | 800-1,600 | `## الأسئلة الشائعة` |
+
+- **Everything else is the same**: the front matter, the gates, the photo
+  (one folder, `blog/images/<slug>.jpg`, so a file name is used once across
+  all three languages; the Arabic ones end in `-ar`), the opening answer and
+  3-5 questions (an Arabic question ends with "؟").
+- **The page follows the language**: `<html lang dir>` (Arabic right to left),
+  the dates written by `Intl` in the language (`en-US`, Arabic with Western
+  digits), `og:locale` (`en_US`, `ar_IL`), `inLanguage`, the breadcrumbs, the
+  `[[cta]]` box and the register links (`?lang=en`, `?lang=ar`). The head's
+  words are in `scripts/blog/languages.mjs`, the page's own words in
+  `src/blog/words.ts`.
+- **Links**: a post links its own language's posts (`/en/blog/<slug>/`,
+  `/ar/blog/<slug>/`, with the slash), the showcase in its language (`/en/sites`,
+  `/ar/sites`) and the pricing page's English part (`/pricing.html#english`,
+  which shows a US visitor dollars).
+- **Search engines**: every page is in the sitemap and sent to IndexNow on its
+  date, like the Hebrew ones. Only the three blog index pages name each other
+  with `hreflang`: a post has no twin in another language.
+- **The navbar and the footer** of a language link its blog once it has at
+  least three published posts (`linkedBlogLanguages` in
+  `scripts/blog/languages.mjs`, read by `vite.config.ts`); until then French
+  and Spanish keep "Blog (Hebrew)" in the footer.
+- **Facts**: `blog/FACTS.md` as for Hebrew. English articles use its section
+  "The United States" and dollar prices; Arabic ones shekels and Israeli
+  towns, and the dashboard's own Arabic words (lightor-dashboard
+  `src/i18n/locales/ar.json`). **Customer texts exist in Hebrew and English
+  only**: an Arabic article never promises them in Arabic, and an English one
+  never promises a US customer text-message reminders while FACTS says they go
+  on WhatsApp only.
+- **Autocomplete** for the questions: `hl=en&gl=us` for English,
+  `hl=ar&gl=il` for Arabic (the Arabic results mix in Egypt, Jordan and Syria:
+  keep the questions a business in Israel would ask).
+- **Style**: English in plain American English, second person; Arabic in
+  فصحى مبسطة, plural address (أنتم). Plain "-" in every language.
 
 ## Writing rules
 

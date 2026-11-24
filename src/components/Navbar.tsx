@@ -4,6 +4,7 @@ import { Menu, Moon, Sun, X } from 'lucide-react';
 import { LanguageLinks, LanguageMenu } from './LanguageMenu';
 import AccessibilityMenu from './AccessibilityMenu';
 import { dashboardUrl, registerUrl } from '../lib/crossLinks';
+import { blogPath, sitesUrl } from '../lib/siteLinks';
 import type { Lang } from '../i18n/languages';
 
 interface NavbarProps {
@@ -19,6 +20,7 @@ const Navbar = ({ darkMode, toggleDarkMode, home = '', current }: NavbarProps) =
   // LT-710: the wizard and the dashboard open in the page's language.
   const REGISTER_URL = registerUrl(i18n.language as Lang);
   const DASHBOARD_URL = dashboardUrl(i18n.language as Lang);
+  const blog = blogPath(i18n.language as Lang);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -55,10 +57,12 @@ const Navbar = ({ darkMode, toggleDarkMode, home = '', current }: NavbarProps) =
     { href: `${home}#how`, label: t('nav.how') },
     { href: `${home}#lighty`, label: t('nav.lighty') },
     { href: `${home}#features`, label: t('nav.features') },
-    { href: 'https://lightor.app/sites', label: t('nav.sites') },
-    // LT-430: the blog is written in Hebrew, so only the Hebrew bar links it;
-    // the other languages reach it from the footer, marked as Hebrew.
-    ...(i18n.language === 'he' ? [{ href: '/blog/', label: t('nav.blog'), current: current === 'blog' }] : []),
+    // LT-715: English and Arabic have their own page of sites.
+    { href: sitesUrl(i18n.language as Lang), label: t('nav.sites') },
+    // LT-430, LT-715: a language's bar links its own blog once it has one
+    // (three posts: Hebrew, English, Arabic); the others reach the Hebrew
+    // blog from the footer, marked as Hebrew.
+    ...(blog ? [{ href: blog, label: t('nav.blog'), current: current === 'blog' }] : []),
   ];
 
   const iconButton =

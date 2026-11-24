@@ -12,6 +12,12 @@
  *
  *   dist/<slug>/index.html        https://lightor.app/<slug>/
  *
+ * and, since LT-715, the English and Arabic blogs (blog/en/posts,
+ * blog/ar/posts; see scripts/blog/languages.mjs):
+ *
+ *   dist/en/blog/index.html, dist/en/blog/<slug>/index.html   https://lightor.app/en/blog/...
+ *   dist/ar/blog/index.html, dist/ar/blog/<slug>/index.html   https://lightor.app/ar/blog/...
+ *
  * Each page is the site's own navbar, article and footer rendered to HTML, so
  * a search engine reads it without running a script, plus the JSON the
  * browser needs to take it over. They are added to dist/sitemap.xml. nginx
@@ -29,10 +35,11 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { Marked } from 'marked';
 import sharp from 'sharp';
-import { ORIGIN, articleHead, esc, heDate, indexHead, inlineCta, landingHead } from './template.mjs';
+import { ORIGIN, articleHead, dateLabel, esc, indexHead, inlineCta, landingHead } from './template.mjs';
+import { BLOG_LANG, BLOG_LANGS, postsDir } from './languages.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
-const POSTS_DIR = join(ROOT, 'blog', 'posts');
+const HE = BLOG_LANG.he;
 const PAGES_DIR = join(ROOT, 'blog', 'pages');
 const IMAGES_DIR = join(ROOT, 'blog', 'images');
 const SHOTS_DIR = join(ROOT, 'blog', 'shots');
@@ -45,8 +52,7 @@ const SHELL = join(DIST, 'blog.html');
 const SHELL_COPY = join(ROOT, 'node_modules', '.cache', 'lightor-blog', 'blog-shell.html');
 const MARKS = ['<!--lt-blog-head-->', '<!--lt-blog-app-->', '<!--lt-blog-data-->'];
 
-const MIN_WORDS = 800; // Hebrew is compact: 800 words read like 1,100 in English
-const MAX_WORDS = 1600;
+// An article's words: per language (scripts/blog/languages.mjs, `words`).
 const MIN_GUIDE_WORDS = 450;
 // LT-698: a landing page answers one search and sends the reader on; shorter than an article.
 const PAGE_WORDS = [600, 1400];
@@ -64,15 +70,19 @@ const TITLE_MAX = 70;
 const DESCRIPTION_RANGE = [70, 165];
 const DASHES = /[—―]/; // em-dash, horizontal bar: never in what a reader sees
 // LT-619: answer-shaped posts. The opening paragraph is the direct answer
-// (two or three short Hebrew sentences); the last section is the questions.
+// (two or three short sentences); the last section is the questions, under
+// the language's own heading (`faqTitle`: "שאלות נפוצות", LT-715 also
+// "Frequently asked questions", "الأسئلة الشائعة").
 const LEAD_WORDS = [15, 90];
-const FAQ_TITLE = 'שאלות נפוצות';
 const FAQ_COUNT = [3, 5];
 const FAQ_ANSWER_MAX_WORDS = 80; // one short paragraph, one to three sentences
 
 const errors = [];
-/** Articles waiting to be published (`draft: true`): a link to one shows as plain text until it is live. */
-const drafts = new Set();
+/**
+ * Articles waiting to be published (`draft: true`), by language: a link to
+ * one shows as plain text until it is live.
+ */
+const drafts = Object.fromEntries(BLOG_LANGS.map((L) => [L.code, new Set()]));
 const fail = (where, message) => errors.push(`${where}: ${message}`);
 
 /** Today in Israel, as YYYY-MM-DD: a CI runner is on UTC. */
@@ -129,13 +139,14 @@ const wordCount = (text) => text.split(' ').filter(Boolean).length;
  * people search (blog/README.md, "Writing rules"). Checked on the rendered
  * HTML, so it holds however the Markdown is written:
  *   - the first block, before any heading, is a paragraph of LEAD_WORDS words;
- *   - the last "## " section is "## שאלות נפוצות", nothing in it but 3-5
- *     "### question?" headings, each followed by one answer paragraph (and,
- *     at its end, a [[cta]] box if the post puts one there).
+ *   - the last "## " section is "## שאלות נפוצות" (or the post's language's
+ *     own, `faqTitle`), nothing in it but 3-5 "### question?" headings, each
+ *     followed by one answer paragraph (and, at its end, a [[cta]] box if the
+ *     post puts one there).
  * Returns the questions and answers as a reader sees them, for the FAQPage
  * structured data.
  */
-const answerShape = (html, file) => {
+const answerShape = (html, file, FAQ_TITLE = HE.faqTitle) => {
   const firstHeading = html.search(/<h[1-6][\s>]/);
   const lead = (firstHeading < 0 ? html : html.slice(0, firstHeading)).trim().match(/^<p>([\s\S]*?)<\/p>/);
   if (!lead) fail(file, 'the text must open with a paragraph, before any heading, picture or box: two or three short sentences that answer the title');
@@ -167,7 +178,8 @@ const answerShape = (html, file) => {
   if (before.trim()) fail(file, `"## ${FAQ_TITLE}" starts straight with its first "### question?", nothing before it`);
   if (items.length < FAQ_COUNT[0] || items.length > FAQ_COUNT[1])
     fail(file, `"## ${FAQ_TITLE}" has ${items.length} questions; it needs ${FAQ_COUNT[0]}-${FAQ_COUNT[1]}, each a "### " heading`);
-  const bare = (s) => s.replace(/[?\s]+$/, '');
+  // LT-715: Arabic asks with its own mark, "؟".
+  const bare = (s) => s.replace(/[?؟\s]+$/, '');
   const sectionTitles = new Set(titles.map(bare));
   const faq = [];
   for (const item of items) {
@@ -175,7 +187,7 @@ const answerShape = (html, file) => {
     const question = plainText(m?.[1] || '');
     const rest = (m?.[2] || '').trim();
     const answer = rest.match(/^<p>([\s\S]*?)<\/p>$/);
-    if (!question.endsWith('?')) fail(file, `the question "${question}" must end with "?"`);
+    if (!/[?؟]$/.test(question)) fail(file, `the question "${question}" must end with "?" (in Arabic "؟")`);
     if (sectionTitles.has(bare(question))) fail(file, `the question "${question}" repeats a section heading; ask something the article does not already answer under a heading`);
     if (!answer || /<p>/.test(answer[1])) {
       fail(file, `the question "${question}" needs one answer paragraph right under it (no list, table or second paragraph)`);
@@ -256,7 +268,7 @@ const screenshots = (html, file, slug) => {
   return html;
 };
 
-const render = (body, file, slug) => {
+const render = (body, file, slug, L = HE) => {
   let html = screenshots(marked.parse(body), file, slug);
   const used = new Set();
   const headings = [];
@@ -265,7 +277,7 @@ const render = (body, file, slug) => {
     if (level === '2') headings.push({ id, html: inner });
     return `<h${level} id="${id}">${inner}</h${level}>`;
   });
-  html = html.replace(/<p>\[\[cta(?::\s*([^\]]+))?\]\]<\/p>/g, (_m, text) => inlineCta(text?.trim()));
+  html = html.replace(/<p>\[\[cta(?::\s*([^\]]+))?\]\]<\/p>/g, (_m, text) => inlineCta(text?.trim(), L));
   // "Lightor+" in a right-to-left line: the plus would jump to the word's other side.
   html = html.replace(/>([^<]*)/g, (_m, text) => `>${text.replace(/Lightor\+/g, '<bdi>Lightor+</bdi>')}`);
   html = html.replace(/<table>/g, '<div class="table"><table>').replace(/<\/table>/g, '</table></div>');
@@ -277,26 +289,29 @@ const render = (body, file, slug) => {
   if (!headings.length) fail(file, 'no "## " section headings');
   if (/\[\[/.test(html)) fail(file, 'an unknown [[...]] marker is left in the text');
   if (/\*\*/.test(textOf(html))) fail(file, 'Markdown bold did not render ("**" left in the text): after a Hebrew prefix letter write ו**מילה**, without quotes inside');
-  const faq = answerShape(html, file);
+  const faq = answerShape(html, file, L.faqTitle);
   return { html, headings, faq };
 };
 
-const loadPosts = () => {
-  if (!existsSync(POSTS_DIR)) return [];
+/** A language's published posts (LT-715: blog/posts for Hebrew, blog/<lang>/posts for the others). */
+const loadPosts = (L = HE) => {
+  const dir = postsDir(ROOT, L);
+  if (!existsSync(dir)) return [];
   const today = todayIL();
   const posts = [];
-  for (const name of readdirSync(POSTS_DIR).filter((f) => f.endsWith('.md')).sort()) {
-    const file = `blog/posts/${name}`;
-    const raw = readFileSync(join(POSTS_DIR, name), 'utf8').replace(/\r\n/g, '\n');
+  const [MIN_WORDS, MAX_WORDS] = L.words;
+  for (const name of readdirSync(dir).filter((f) => f.endsWith('.md')).sort()) {
+    const file = `${L.postsRel}/${name}`;
+    const raw = readFileSync(join(dir, name), 'utf8').replace(/\r\n/g, '\n');
     const { meta, body } = parseFrontMatter(raw, file);
     const slug = name.replace(/\.md$/, '');
     if (meta.draft === 'true') {
-      drafts.add(slug);
+      drafts[L.code].add(slug);
       continue;
     }
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) fail(file, 'the file name (the URL) must be lowercase English words joined by "-"');
     for (const key of ['title', 'description', 'date', 'keyword', 'image_alt', 'image_credit']) if (!meta[key]) fail(file, `"${key}" is missing`);
-    if (meta.image_alt && (meta.image_alt.length < 15 || meta.image_alt.length > 160)) fail(file, `image_alt is ${meta.image_alt.length} characters, keep it 15-160 (what the photo shows, in Hebrew)`);
+    if (meta.image_alt && (meta.image_alt.length < 15 || meta.image_alt.length > 160)) fail(file, `image_alt is ${meta.image_alt.length} characters, keep it 15-160 (what the photo shows, in the post's language)`);
     if (meta.title && meta.title.length > TITLE_MAX) fail(file, `title is ${meta.title.length} characters, at most ${TITLE_MAX}`);
     const d = meta.description || '';
     if (d && (d.length < DESCRIPTION_RANGE[0] || d.length > DESCRIPTION_RANGE[1]))
@@ -305,7 +320,7 @@ const loadPosts = () => {
     if (meta.date && validDate(meta.date) && meta.date > today) fail(file, `date ${meta.date} is in the future (today is ${today})`);
     if (meta.updated && (!validDate(meta.updated) || meta.updated < (meta.date || ''))) fail(file, `updated "${meta.updated}" must be a YYYY-MM-DD on or after the date`);
     if (DASHES.test(raw)) fail(file, 'contains an em-dash; write a plain "-" (LT-350)');
-    const { html, headings, faq } = render(body, file, slug);
+    const { html, headings, faq } = render(body, file, slug, L);
     const kind = meta.kind || 'article';
     if (!KINDS.includes(kind)) fail(file, `kind "${kind}" is not one of ${KINDS.join(', ')}`);
     if (kind === 'guide' && (!validDate(meta.verified || '') || meta.verified > today))
@@ -324,7 +339,8 @@ const loadPosts = () => {
     posts.push({
       file,
       slug,
-      path: `/blog/${slug}/`,
+      lang: L.code,
+      path: `${L.base}${slug}/`,
       title: meta.title || slug,
       description: d,
       date: meta.date || today,
@@ -452,17 +468,25 @@ const relatedFor = (post, posts) => {
 /** LT-698: a link to a folder at the site's root (`/<name>/`) other than these must be a landing page. */
 const ROOT_FOLDERS = new Set(['blog', 'en', 'ar', 'fr', 'es']);
 
+/**
+ * A link to an article of any language's blog: `/blog/<slug>/` (Hebrew) or
+ * `/en/blog/<slug>/`, `/ar/blog/<slug>/` (LT-715). [language, slug] or null.
+ */
+const BLOG_LINK = /^(?:https:\/\/lightor\.app)?\/(?:(en|ar)\/)?blog\/([^/#?]*)\/?(?:[#?].*)?$/;
+
+/** `posts`: every language's published posts. A post's related ones are of its own language. */
 const checkLinks = (posts, pages = []) => {
-  const slugs = new Set(posts.map((p) => p.slug));
+  const slugsOf = Object.fromEntries(BLOG_LANGS.map((L) => [L.code, new Set(posts.filter((p) => p.lang === L.code).map((p) => p.slug))]));
+  const known = (lang, slug) => slugsOf[lang].has(slug) || drafts[lang].has(slug);
   const landing = new Set(pages.map((p) => p.slug));
-  for (const p of posts) for (const s of p.relatedSlugs) if (!slugs.has(s) && !drafts.has(s)) fail(p.file, `related "${s}" is not an article`);
-  // A landing page shows its related posts as cards, so each must be out.
-  for (const p of pages) for (const s of p.relatedSlugs) if (!slugs.has(s)) fail(p.file, `related "${s}" is not a published article`);
+  for (const p of posts) for (const s of p.relatedSlugs) if (!known(p.lang, s)) fail(p.file, `related "${s}" is not an article${p.lang === 'he' ? '' : ` of the ${p.lang} blog`}`);
+  // A landing page shows its related posts as cards, so each must be out (Hebrew, like the page).
+  for (const p of pages) for (const s of p.relatedSlugs) if (!slugsOf.he.has(s)) fail(p.file, `related "${s}" is not a published article`);
   for (const p of [...posts, ...pages]) {
     for (const [, href] of p.html.matchAll(/href="([^"]+)"/g)) {
-      const blog = href.match(/^(?:https:\/\/lightor\.app)?\/blog\/([^/#?]*)\/?(?:[#?].*)?$/);
-      if (blog && blog[1] && !slugs.has(blog[1]) && !drafts.has(blog[1])) fail(p.file, `links to ${href}, which is not an article`);
-      if (blog && blog[1] && !/\/blog\/[^/#?]+\/(?:[#?]|$)/.test(href)) fail(p.file, `link ${href} needs the trailing "/" (the article's URL)`);
+      const blog = href.match(BLOG_LINK);
+      if (blog && blog[2] && !known(blog[1] || 'he', blog[2])) fail(p.file, `links to ${href}, which is not an article`);
+      if (blog && blog[2] && !/\/blog\/[^/#?]+\/(?:[#?]|$)/.test(href)) fail(p.file, `link ${href} needs the trailing "/" (the article's URL)`);
       if (/^https?:\/\/(?:www\.)?lightor\.app\/?$/.test(href) === false && /^http:\/\//.test(href)) fail(p.file, `link ${href} is http, use https`);
       const root = href.match(/^(?:https:\/\/lightor\.app)?\/([a-z0-9-]+)(\/?)(?:[#?].*)?$/);
       if (root && root[2] && !ROOT_FOLDERS.has(root[1]) && !landing.has(root[1])) fail(p.file, `links to ${href}, which is not a landing page (blog/pages/)`);
@@ -470,6 +494,12 @@ const checkLinks = (posts, pages = []) => {
     }
   }
   const seen = new Map();
+  // LT-715: the photos share blog/images, so a file name is one post's in all the languages.
+  const bySlug = new Map();
+  for (const p of posts) {
+    if (bySlug.has(p.slug)) fail(p.file, `the file name "${p.slug}" is taken by ${bySlug.get(p.slug)}; the photos share blog/images, so choose another`);
+    else bySlug.set(p.slug, p.file);
+  }
   for (const p of [...posts, ...pages])
     for (const key of ['title', 'description']) {
       const k = `${key}:${p[key]}`;
@@ -501,18 +531,30 @@ const checkSafeHtml = (posts) => {
   }
 };
 
-const sitemapEntries = (posts, pages = []) => {
-  if (!posts.length && !pages.length) return '';
-  const url = (loc, lastmod, priority) =>
-    `  <url>\n    <loc>${esc(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority}</priority>\n  </url>\n`;
-  let out = `  <!-- LT-430: the blog, generated by scripts/blog/build.mjs -->\n`;
-  if (posts.length) {
+/**
+ * The sitemap's blog part: `blogs` is [language, its posts] for each language,
+ * Hebrew first. A language's index names the other languages' indexes
+ * (LT-715, the same hreflang as their pages).
+ */
+const sitemapEntries = (blogs, pages = []) => {
+  const live = blogs.filter(([, posts]) => posts.length);
+  if (!live.length && !pages.length) return '';
+  const url = (loc, lastmod, priority, alternates = '') =>
+    `  <url>\n    <loc>${esc(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority}</priority>\n${alternates}  </url>\n`;
+  const alternates =
+    live.length > 1 ? live.map(([O]) => `    <xhtml:link rel="alternate" hreflang="${O.inLanguage}" href="${ORIGIN}${O.base}" />\n`).join('') : '';
+  const blog = ([L, posts]) => {
     const newest = posts.reduce((m, p) => ((p.updated || p.date) > m ? p.updated || p.date : m), '');
-    out += url(`${ORIGIN}/blog/`, newest, '0.7') + posts.map((p) => url(`${ORIGIN}${p.path}`, p.updated || p.date, '0.6')).join('');
-  }
+    return url(`${ORIGIN}${L.base}`, newest, '0.7', alternates) + posts.map((p) => url(`${ORIGIN}${p.path}`, p.updated || p.date, '0.6')).join('');
+  };
+  let out = `  <!-- LT-430: the blog, generated by scripts/blog/build.mjs -->\n`;
+  const he = live.find(([L]) => L === HE);
+  if (he) out += blog(he);
   // LT-698: the landing pages, dated by their front matter like the posts (so
   // scripts/blog/indexnow.mjs sends one on the day it is dated).
   if (pages.length) out += `  <!-- LT-698: the landing pages (blog/pages) -->\n` + pages.map((p) => url(`${ORIGIN}${p.path}`, p.updated || p.date, '0.8')).join('');
+  // LT-715: the other languages' blogs, dated the same way.
+  for (const entry of live.filter(([L]) => L !== HE)) out += `  <!-- LT-715: the ${entry[0].code} blog (${entry[0].postsRel}) -->\n` + blog(entry);
   return out;
 };
 
@@ -601,14 +643,14 @@ const writePhotos = (jobs) =>
     }),
   ]);
 
-/** What the page's React code gets (src/blog/types.ts): dates already in Hebrew. */
+/** What the page's React code gets (src/blog/types.ts): dates already written out in the post's language. */
 const card = (p) => ({
   slug: p.slug,
   path: p.path,
   title: p.title,
   description: p.description,
   date: p.date,
-  dateLabel: heDate(p.date),
+  dateLabel: dateLabel(p.date, BLOG_LANG[p.lang] || HE),
   minutes: p.minutes,
   image: p.image,
   kind: p.kind,
@@ -635,15 +677,19 @@ const landingData = (lp, posts) => {
   };
 };
 
-const articleData = (post, related) => ({
+/** LT-715: a page in another language than Hebrew says so (`lang`); a Hebrew page's data is as it was. */
+const langOf = (L) => (L === HE ? {} : { lang: L.code });
+
+const articleData = (post, related, L = HE) => ({
   kind: 'article',
+  ...langOf(L),
   post: {
     ...card(post),
     tags: post.tags,
     ...(post.video ? { video: post.video } : {}),
     credit: post.imageCredit,
-    ...(post.verified ? { verified: post.verified, verifiedLabel: heDate(post.verified) } : {}),
-    ...(post.updated ? { updated: post.updated, updatedLabel: heDate(post.updated) } : {}),
+    ...(post.verified ? { verified: post.verified, verifiedLabel: dateLabel(post.verified, L) } : {}),
+    ...(post.updated ? { updated: post.updated, updatedLabel: dateLabel(post.updated, L) } : {}),
     headings: post.headings.map((h) => ({ id: h.id, text: textOf(h.html) })),
     ...(post.ctaTitle ? { ctaTitle: post.ctaTitle } : {}),
     ...(post.ctaText ? { ctaText: post.ctaText } : {}),
@@ -671,7 +717,10 @@ const main = async () => {
   for (const mark of MARKS) if (!shell.includes(mark)) fail('blog.html', `the built shell lost its ${mark} marker`);
   const { render, showcaseSites } = await import(pathToFileURL(entry).href);
 
-  const posts = loadPosts();
+  // LT-715: each language's posts, Hebrew first; `posts` is all of them.
+  const blogs = BLOG_LANGS.map((L) => [L, loadPosts(L)]);
+  const posts = blogs.flatMap(([, list]) => list);
+  const hePosts = blogs[0][1];
   const landing = loadPages(typeof showcaseSites === 'function' ? showcaseSites() : []);
   checkLinks(posts, landing);
   checkSafeHtml([...posts, ...landing]);
@@ -680,19 +729,31 @@ const main = async () => {
   const videoJobs = await prepareVideos(posts);
   // A link to an article that is not out yet keeps its words and loses the link.
   for (const p of [...posts, ...landing])
-    p.html = p.html.replace(/<a href="\/blog\/([a-z0-9-]+)\/[^"]*"[^>]*>([\s\S]*?)<\/a>/g, (m, slug, text) => (drafts.has(slug) ? text : m));
+    p.html = p.html.replace(/<a href="\/(?:(en|ar)\/)?blog\/([a-z0-9-]+)\/[^"]*"[^>]*>([\s\S]*?)<\/a>/g, (m, lang, slug, text) => (drafts[lang || 'he'].has(slug) ? text : m));
 
-  const page = (head, data, html) =>
-    shell
+  // The shell is Hebrew (blog.html): a page in another language says its own language and direction.
+  const SHELL_HTML = '<html lang="he" dir="rtl">';
+  if (!shell.includes(SHELL_HTML)) fail('blog.html', `the built shell lost its ${SHELL_HTML}`);
+  // LT-715: render() sets the page's language first, so it is awaited.
+  const page = async (head, data, html, L = HE) => {
+    const body = await render(data, html);
+    return shell
+      .replace(SHELL_HTML, () => `<html lang="${L.code}" dir="${L.dir}">`)
       .replace(MARKS[0], () => head)
-      .replace(MARKS[1], () => render(data, html))
+      .replace(MARKS[1], () => body)
       .replace(MARKS[2], () => `<script type="application/json" id="lt-blog-data">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`);
+  };
 
+  /** Where a post is built: its address without the leading "/". */
+  const relOf = (post) => `${post.path.slice(1)}index.html`;
+  const withIndex = blogs.filter(([, list]) => list.length).map(([L]) => L);
   const pages = [];
   if (!errors.length) {
-    for (const post of posts) pages.push([`blog/${post.slug}/index.html`, page(articleHead(post), articleData(post, relatedFor(post, posts)), post.html)]);
-    if (posts.length) pages.push(['blog/index.html', page(indexHead(posts), { kind: 'index', posts: posts.map(card) }, '')]);
-    for (const lp of landing) pages.push([`${lp.slug}/index.html`, page(landingHead(lp), landingData(lp, posts), lp.html)]);
+    for (const [L, list] of blogs) {
+      for (const post of list) pages.push([relOf(post), await page(articleHead(post, L), articleData(post, relatedFor(post, list), L), post.html, L)]);
+      if (list.length) pages.push([`${L.base.slice(1)}index.html`, await page(indexHead(list, L, withIndex), { kind: 'index', ...langOf(L), posts: list.map(card) }, '', L)]);
+    }
+    for (const lp of landing) pages.push([`${lp.slug}/index.html`, await page(landingHead(lp), landingData(lp, hePosts), lp.html)]);
   }
 
   for (const [rel, html] of pages) {
@@ -700,7 +761,7 @@ const main = async () => {
     if (!html.includes('id="main-content"') || !html.includes('<nav')) fail(rel, 'the rendered page has no navbar or main content');
   }
   for (const post of [...posts, ...landing]) {
-    const rel = landing.includes(post) ? `${post.slug}/index.html` : `blog/${post.slug}/index.html`;
+    const rel = landing.includes(post) ? `${post.slug}/index.html` : relOf(post);
     const built = pages.find(([r]) => r === rel)?.[1] || '';
     const firstWords = textOf(post.html).split(' ').slice(0, 8).join(' ');
     if (built && !textOf(built).includes(firstWords)) fail(post.file, 'the text is missing from its built page');
@@ -711,7 +772,7 @@ const main = async () => {
   // A second run (`npm run blog`) replaces the blog's entries, never doubles them.
   sitemap = sitemap.replace(/ {2}<!-- LT-430:[\s\S]*?(?=<\/urlset>)/, '');
   if (!sitemap.includes('</urlset>')) fail('dist/sitemap.xml', 'missing or has no </urlset> (public/sitemap.xml is the base)');
-  else sitemap = sitemap.replace('</urlset>', `${sitemapEntries(posts, landing)}</urlset>`);
+  else sitemap = sitemap.replace('</urlset>', `${sitemapEntries(blogs, landing)}</urlset>`);
 
   if (errors.length) {
     console.error(`✗ blog: ${errors.length} problem(s), nothing written:\n  - ${errors.join('\n  - ')}`);
@@ -727,7 +788,9 @@ const main = async () => {
     console.error(`✗ blog: ${errors.join('; ')}`);
     process.exit(1);
   }
-  console.log(`✓ blog: ${posts.length} article(s) + index, ${landing.length} landing page(s), sitemap updated`);
+  console.log(
+    `✓ blog: ${blogs.map(([L, list]) => `${L.code} ${list.length} article(s)${list.length ? ` + ${L.base}` : ''}`).join(', ')}; ${landing.length} landing page(s), sitemap updated`,
+  );
   for (const p of landing) console.log(`   ${p.path}  ${p.words} words  ${p.date}  (landing page)`);
   for (const p of posts) console.log(`   ${p.path}  ${p.words} words  ${p.date}`);
 };

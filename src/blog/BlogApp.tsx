@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Pause, Play, RotateCcw } from 'lucide-react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { ArrowLeft, ArrowRight, Pause, Play, RotateCcw } from 'lucide-react';
 import SiteShell from '../components/SiteShell';
 import { SITES, shotSrc, type ShowcaseSite } from '../components/showcaseSites';
 import { BODY_ATTR, type ArticlePost, type BlogData, type BlogImage, type BlogVideo, type LandingPage as Landing, type PostCard } from './types';
+import { WORDS, type BlogWords } from './words';
 
 /**
  * LT-430: the blog, inside the same frame as the home page (navbar, footer,
@@ -10,14 +11,25 @@ import { BODY_ATTR, type ArticlePost, type BlogData, type BlogImage, type BlogVi
  * HTML when the site is built, so a search engine reads the whole article
  * without running a script; the browser then takes the page over.
  *
- * The blog is written in Hebrew only, so its own words live here rather than
- * in the five locales. LT-698: so are the landing pages at the site's root
- * (/booking-system/, /free-website-builder/), built by the same script.
+ * LT-715: the blog is written in Hebrew, English and Arabic, each language
+ * its own posts; the words around them come from src/blog/words.ts, by the
+ * page's language (`data.lang`, Hebrew when none). LT-698: the landing pages
+ * at the site's root (/booking-system/, /free-website-builder/), built by the
+ * same script, are Hebrew only.
  */
 
-// LT-710: the blog is Hebrew, so the wizard opens in Hebrew.
+// LT-710: the landing pages are Hebrew, so the wizard opens in Hebrew.
 const REGISTER_URL = 'https://register.lightor.app/?lang=he';
 const SITES_URL = 'https://lightor.app/sites';
+
+/** The page's words (LT-715). */
+const Words = createContext<BlogWords>(WORDS.he);
+const useWords = () => useContext(Words);
+/** "Forward" in the page's direction: left in Hebrew and Arabic, right in English. */
+const Forward = ({ className }: { className: string }) => {
+  const Arrow = useWords().dir === 'rtl' ? ArrowLeft : ArrowRight;
+  return <Arrow className={className} aria-hidden="true" />;
+};
 
 /**
  * The home page's two soft glows (Hero.tsx): radial gradients, never blur
@@ -54,6 +66,7 @@ const COVER = 'aspect-[16/9] w-full rounded-3xl bg-gray-100 object-cover shadow-
  * asked for less motion sees that last frame and plays it themselves.
  */
 const CoverVideo = ({ video, caption }: { video: BlogVideo; caption: string }) => {
+  const w = useWords();
   const ref = useRef<HTMLVideoElement>(null);
   const [state, setState] = useState<'paused' | 'playing' | 'ended'>('paused');
   useEffect(() => {
@@ -80,7 +93,7 @@ const CoverVideo = ({ video, caption }: { video: BlogVideo; caption: string }) =
     if (state === 'ended') clip.currentTime = 0;
     clip.play().catch(() => {});
   };
-  const label = state === 'playing' ? 'עצירת הסרטון' : state === 'ended' ? 'הפעלה מההתחלה' : 'הפעלת הסרטון';
+  const label = state === 'playing' ? w.video.pause : state === 'ended' ? w.video.replay : w.video.play;
   const Icon = state === 'playing' ? Pause : state === 'ended' ? RotateCcw : Play;
   return (
     <>
@@ -130,26 +143,34 @@ const Chip = ({ children, guide }: { children: string; guide?: boolean }) => (
 );
 
 /** A guide's chip says so; an article's is its first tag. */
-const CardChip = ({ post }: { post: PostCard }) =>
-  post.kind === 'guide' ? <Chip guide>מדריך ללייטור</Chip> : post.tag ? <Chip>{post.tag}</Chip> : null;
+const CardChip = ({ post }: { post: PostCard }) => {
+  const w = useWords();
+  return post.kind === 'guide' ? <Chip guide>{w.guideChip}</Chip> : post.tag ? <Chip>{post.tag}</Chip> : null;
+};
 
-const Crumbs = ({ inArticle }: { inArticle?: boolean }) => (
-  <nav aria-label="פירורי לחם" className="text-sm text-gray-600 dark:text-gray-400">
-    <a href="/" className="hover:text-violet-700 hover:underline dark:hover:text-violet-300">לייטור</a>
+const Crumbs = ({ inArticle }: { inArticle?: boolean }) => {
+  const w = useWords();
+  return (
+  <nav aria-label={w.crumbs.label} className="text-sm text-gray-600 dark:text-gray-400">
+    <a href={w.home} className="hover:text-violet-700 hover:underline dark:hover:text-violet-300">{w.crumbs.home}</a>
     <span aria-hidden="true" className="mx-2">/</span>
     {inArticle ? (
-      <a href="/blog/" className="hover:text-violet-700 hover:underline dark:hover:text-violet-300">בלוג</a>
+      <a href={w.blog} className="hover:text-violet-700 hover:underline dark:hover:text-violet-300">{w.crumbs.blog}</a>
     ) : (
-      <span aria-current="page">בלוג</span>
+      <span aria-current="page">{w.crumbs.blog}</span>
     )}
   </nav>
-);
+  );
+};
 
-const Meta = ({ post }: { post: PostCard }) => (
-  <p className="text-sm text-gray-600 dark:text-gray-400">
-    <time dateTime={post.date}>{post.dateLabel}</time> · {post.minutes} דקות קריאה
-  </p>
-);
+const Meta = ({ post }: { post: PostCard }) => {
+  const w = useWords();
+  return (
+    <p className="text-sm text-gray-600 dark:text-gray-400">
+      <time dateTime={post.date}>{post.dateLabel}</time> · {w.minutes(post.minutes)}
+    </p>
+  );
+};
 
 /**
  * A card with the article's photo on top. `wide` spans the row with the photo
@@ -188,31 +209,33 @@ const Card = ({ post, layout, headingLevel: H = 'h3' }: { post: PostCard; layout
 };
 
 /** The closing call to action, in the home page's own style. */
-const Cta = ({ title, text }: { title?: string; text?: string }) => (
+const Cta = ({ title, text }: { title?: string; text?: string }) => {
+  const w = useWords();
+  return (
   <aside
     aria-labelledby="blog-cta-title"
     className="relative mt-14 grid items-center gap-6 overflow-hidden rounded-[2rem] bg-gradient-to-br from-violet-600 via-purple-600 to-pink-600 px-6 py-10 text-white sm:px-10 md:grid-cols-[1fr_auto]"
   >
     <div className="text-center md:text-start">
       <h2 id="blog-cta-title" className="text-balance text-2xl font-bold tracking-tight sm:text-3xl">
-        {title || 'האתר שלכם, תוך 60 שניות'}
+        {title || w.cta.title}
       </h2>
       <p className="mt-3 text-lg text-white/90">
-        {text || 'מספרים ל-Lighty על העסק במילים פשוטות, והוא בונה את האתר - עם קביעת תורים או טופס לידים, תזכורות ללקוחות וכתובת משלכם. ללא אשראי וללא התחייבות.'}
+        {text || w.cta.text}
       </p>
       <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row md:justify-start">
         <a
-          href={REGISTER_URL}
+          href={w.registerUrl}
           className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-lg font-bold text-violet-700 shadow-lg transition hover:bg-violet-50 sm:w-auto"
         >
-          לבניית האתר שלי - בחינם
-          <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+          {w.cta.button}
+          <Forward className="h-5 w-5" />
         </a>
         <a
-          href="/sites"
+          href={w.sitesUrl}
           className="inline-flex w-full items-center justify-center rounded-full border border-white/50 px-6 py-3.5 font-semibold text-white transition hover:bg-white/10 sm:w-auto"
         >
-          לראות אתרים שנבנו
+          {w.cta.sites}
         </a>
       </div>
     </div>
@@ -225,7 +248,8 @@ const Cta = ({ title, text }: { title?: string; text?: string }) => (
       className="mx-auto w-36 drop-shadow-[0_18px_30px_rgba(40,0,80,0.35)] sm:w-48"
     />
   </aside>
-);
+  );
+};
 
 /** Cards for other posts under a page: an article's "more in the blog", a landing page's reading list. */
 const Related = ({ posts, title, className = 'pb-20 pt-12' }: { posts: PostCard[]; title: string; className?: string }) =>
@@ -238,7 +262,9 @@ const Related = ({ posts, title, className = 'pb-20 pt-12' }: { posts: PostCard[
     </section>
   ) : null;
 
-const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard[]; html: string }) => (
+const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard[]; html: string }) => {
+  const w = useWords();
+  return (
   <>
     <article>
       <header className="relative isolate pt-28 sm:pt-36">
@@ -247,7 +273,7 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
           <Crumbs inArticle />
           {(post.kind === 'guide' || post.tags.length > 0) && (
             <div className="mt-5 flex flex-wrap gap-2">
-              {post.kind === 'guide' && <Chip guide>מדריך ללייטור</Chip>}
+              {post.kind === 'guide' && <Chip guide>{w.guideChip}</Chip>}
               {post.tags.map((t) => <Chip key={t}>{t}</Chip>)}
             </div>
           )}
@@ -258,31 +284,31 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
           {/* LT-619: who wrote it and when. The dates arrive written out by the build, so the browser prints the same text.
               A revision on the day it came out is not news to the reader; the structured data still carries it. */}
           <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-            <span className="font-semibold text-gray-800 dark:text-gray-200">צוות לייטור</span>
+            <span className="font-semibold text-gray-800 dark:text-gray-200">{w.byline}</span>
             {' · '}
             <time dateTime={post.date}>{post.dateLabel}</time>
             {post.updated && post.updated !== post.date && (
               <>
-                {' · עודכן ב-'}
+                {w.updated}
                 <time dateTime={post.updated}>{post.updatedLabel}</time>
               </>
             )}
-            {` · ${post.minutes} דקות קריאה`}
+            {` · ${w.minutes(post.minutes).join('')}`}
           </p>
           {post.verified && (
             <p className="mt-2 text-sm font-medium text-violet-700 dark:text-violet-300">
-              כל שלב במדריך נבדק במערכת עצמה ב-<time dateTime={post.verified}>{post.verifiedLabel}</time>.
+              {w.verified[0]}<time dateTime={post.verified}>{post.verifiedLabel}</time>{w.verified[1]}
             </p>
           )}
         </div>
         <figure className="mx-auto mt-8 max-w-5xl px-4 sm:mt-10 sm:px-6">
           {post.video ? (
-            <CoverVideo video={post.video} caption="סרטון קצר, בלי קול, מהמסכים של Lightor" />
+            <CoverVideo video={post.video} caption={w.video.caption} />
           ) : (
             <>
               <Picture image={post.image} sizes="(min-width: 1024px) 1024px, 100vw" eager className={COVER} />
               <figcaption className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-                צילום: <bdi>{post.credit}</bdi>
+                {w.photoBy}<bdi>{post.credit}</bdi>
               </figcaption>
             </>
           )}
@@ -291,7 +317,7 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
       <div className="mx-auto max-w-3xl px-4 pb-6 sm:px-6">
         {post.headings.length >= 4 && (
           <nav aria-labelledby="toc-title" className="mt-10 rounded-3xl border border-gray-200 bg-gray-50 p-5 sm:p-6 dark:border-gray-800 dark:bg-gray-950">
-            <h2 id="toc-title" className="font-bold text-gray-950 dark:text-white">בכתבה</h2>
+            <h2 id="toc-title" className="font-bold text-gray-950 dark:text-white">{w.toc}</h2>
             <ol className="mt-2 list-decimal space-y-1 ps-5 text-gray-700 marker:text-violet-600 dark:text-gray-300">
               {post.headings.map((h) => (
                 <li key={h.id}>
@@ -305,9 +331,10 @@ const Article = ({ post, related, html }: { post: ArticlePost; related: PostCard
         <Cta title={post.ctaTitle} text={post.ctaText} />
       </div>
     </article>
-    <Related posts={related} title="עוד בבלוג" />
+    <Related posts={related} title={w.related} />
   </>
-);
+  );
+};
 
 /**
  * LT-698: a landing page's phones, the showcase's own screenshots in the
@@ -397,10 +424,13 @@ const topOf = (posts: PostCard[]): PostCard[] => {
 };
 
 const Index = ({ posts }: { posts: PostCard[] }) => {
+  const w = useWords();
   const top = topOf(posts);
   const rest = posts.filter((p) => !top.includes(p));
   const guides = rest.filter((p) => p.kind === 'guide');
   const articles = rest.filter((p) => p.kind !== 'guide');
+  const guideCount = posts.filter((p) => p.kind === 'guide').length;
+  const articleCount = posts.length - guideCount;
   const jump = 'inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/70 px-4 py-2 font-semibold text-gray-800 transition-colors hover:border-violet-300 hover:text-violet-700 dark:border-gray-800 dark:bg-black/40 dark:text-gray-200 dark:hover:text-violet-300';
   return (
     <>
@@ -410,28 +440,31 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
           <div>
             <Crumbs />
             <h1 id="blog-title" className="text-balance mt-6 text-4xl font-bold tracking-tight text-gray-950 sm:text-6xl dark:text-white">
-              <span className="bg-gradient-to-r from-violet-600 to-pink-600 bg-clip-text text-transparent">בלוג</span>
+              <span className="bg-gradient-to-r from-violet-600 to-pink-600 bg-clip-text text-transparent">{w.index.title}</span>
             </h1>
             <p className="mt-5 max-w-2xl text-lg text-gray-600 sm:text-xl dark:text-gray-400">
-              מדריכים קצרים ומעשיים: איך בונים אתר, מקבלים תורים ולידים אונליין, שולחים תזכורות ללקוחות ומופיעים בגוגל.
+              {w.index.intro}
             </p>
-            <nav aria-label="בבלוג" className="mt-6 flex flex-wrap gap-3">
-              <a href="#guides" className={jump}>מדריכים ללייטור <span className="text-violet-600 dark:text-violet-400">{posts.filter((p) => p.kind === 'guide').length}</span></a>
-              <a href="#articles" className={jump}>כתבות <span className="text-violet-600 dark:text-violet-400">{posts.filter((p) => p.kind !== 'guide').length}</span></a>
-            </nav>
+            {/* LT-715: the jumps only where both parts have posts (an English or Arabic blog may have no guides). */}
+            {guideCount > 0 && articleCount > 0 && (
+              <nav aria-label={w.index.jump} className="mt-6 flex flex-wrap gap-3">
+                <a href="#guides" className={jump}>{`${w.index.guides} `}<span className="text-violet-600 dark:text-violet-400">{guideCount}</span></a>
+                <a href="#articles" className={jump}>{`${w.index.articles} `}<span className="text-violet-600 dark:text-violet-400">{articleCount}</span></a>
+              </nav>
+            )}
           </div>
         </div>
       </section>
       <div className="mx-auto max-w-6xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-        <section aria-label="מומלץ">
+        <section aria-label={w.index.featured}>
           <ul className={`grid gap-5 ${top.length > 1 ? 'lg:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
             {top.map((p) => <Card key={p.slug} post={p} layout={top.length > 1 ? 'large' : 'wide'} headingLevel="h2" />)}
           </ul>
         </section>
         {guides.length > 0 && (
           <section id="guides" aria-labelledby="guides-title" className="mt-14">
-            <h2 id="guides-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">מדריכים ללייטור</h2>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">צעד אחר צעד, עם צילומי מסך מהמערכת עצמה.</p>
+            <h2 id="guides-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">{w.index.guides}</h2>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">{w.index.guidesIntro}</p>
             <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {guides.map((p) => <Card key={p.slug} post={p} />)}
             </ul>
@@ -439,7 +472,7 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
         )}
         {articles.length > 0 && (
           <section id="articles" aria-labelledby="articles-title" className="mt-14">
-            <h2 id="articles-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">כתבות</h2>
+            <h2 id="articles-title" className="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl dark:text-white">{w.index.articles}</h2>
             <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {articles.map((p) => <Card key={p.slug} post={p} />)}
             </ul>
@@ -451,17 +484,22 @@ const Index = ({ posts }: { posts: PostCard[] }) => {
   );
 };
 
-const BlogApp = ({ data, html }: { data: BlogData; html: string }) => (
-  // A landing page is not part of the blog: the navbar marks no page as current.
-  <SiteShell home="/" current={data.kind === 'landing' ? undefined : 'blog'}>
-    {data.kind === 'article' ? (
-      <Article post={data.post} related={data.related} html={html} />
-    ) : data.kind === 'landing' ? (
-      <LandingPage page={data.page} related={data.related} html={html} />
-    ) : (
-      <Index posts={data.posts} />
-    )}
-  </SiteShell>
-);
+const BlogApp = ({ data, html }: { data: BlogData; html: string }) => {
+  const words = WORDS[data.lang ?? 'he'];
+  return (
+    <Words.Provider value={words}>
+      {/* A landing page is not part of the blog: the navbar marks no page as current. */}
+      <SiteShell home={words.home} current={data.kind === 'landing' ? undefined : 'blog'}>
+        {data.kind === 'article' ? (
+          <Article post={data.post} related={data.related} html={html} />
+        ) : data.kind === 'landing' ? (
+          <LandingPage page={data.page} related={data.related} html={html} />
+        ) : (
+          <Index posts={data.posts} />
+        )}
+      </SiteShell>
+    </Words.Provider>
+  );
+};
 
 export default BlogApp;
