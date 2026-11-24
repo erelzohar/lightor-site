@@ -29,11 +29,12 @@ export const SITES: Record<Lang, readonly ShowcaseSite[]> = {
     { sub: 'neshima-yoga', name: 'נשימה', kind: 'booking' },
     { sub: 'dyo-tattoo', name: 'דיו', kind: 'booking' },
   ],
+  // LT-717: four of the eight US demo businesses (lightor-edge EXAMPLE_SITES.en).
   en: [
-    { sub: 'harbor-pilates', name: 'Harbor Pilates', kind: 'booking' },
-    { sub: 'olive-and-rye', name: 'Olive & Rye', kind: 'leads' },
-    { sub: 'mila-fit', name: 'Mila Fit', kind: 'booking' },
-    { sub: 'bright-smile-dental', name: 'Bright Smile Dental', kind: 'booking' },
+    { sub: 'tin-lantern-barber', name: 'Tin Lantern Barbershop', kind: 'booking' },
+    { sub: 'confetti-comet', name: 'Confetti Comet Parties', kind: 'leads' },
+    { sub: 'coral-lacquer', name: 'Coral Lacquer', kind: 'booking' },
+    { sub: 'larkspur-yoga-loft', name: 'Larkspur Yoga Loft', kind: 'booking' },
   ],
   ar: [
     { sub: 'layan-beauty-salon', name: 'صالون ليان للتجميل', kind: 'booking' },
