@@ -83,7 +83,7 @@ Lightor builds a site from a conversation with Lighty, our AI assistant: you tel
 
 - Your site at **yourname.lightor.app**, a name you can change in Settings.
 - Online booking for up to **15 bookings a month** with **3 services**, or an inquiry form with up to **15 inquiries a month**, and up to **5 products**.
-- A confirmation to each customer who books. For a customer with a US phone number, it goes on WhatsApp: Lightor's US text-message sender is not live yet, so only the 6-digit booking code comes by text.
+- A confirmation to each customer who books. For a customer with a US phone number, the booking form sends it on WhatsApp by itself and only the 6-digit booking code comes by text, so until Lightor's US text-message sender is live, the customer needs WhatsApp to receive it.
 - Structured data and a sitemap for search engines, and a link from Lightor's page of [sites built with Lightor](/en/sites).
 - An accessibility menu on the site.
 - The "Built with Lightor" badge, and **no own domain**.

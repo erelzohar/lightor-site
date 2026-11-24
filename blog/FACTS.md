@@ -104,7 +104,9 @@ it out. When a feature ships or changes, update this file in the same mission.
   תור ל<עסק>"), the morning and hour-before reminders, a move and a cancel
   by the owner (lightor-back `notificationService.ts`, checked 2026-11-18).
 - Confirmation by SMS or WhatsApp - **the customer chooses** with a switch on
-  the form (SMS preselected). A failed WhatsApp is resent by SMS. Texts in
+  the form (SMS preselected) for an Israeli number; a US number has no switch
+  and gets WhatsApp (LT-716, see "The United States"). A failed WhatsApp is
+  resent by SMS to an Israeli number. Texts in
   Hebrew and English only, written by Lightor (the owner does not edit them).
 - **The customer texts' language is the owner's** (LT-715, checked 2026-11-24
   on lightor-back `notificationService.ts`: `user.defaultLanguage`, Hebrew when
@@ -400,6 +402,12 @@ a US business may rely on this section, and on the rest of this file where it
 is not about Israel only (shekel prices, the 07:00 Israel time, Israeli
 numbers).
 
+**LT-716, 2026-11-24:** the customer-messages and consent-line items below
+describe the booking form and the server after LT-716 (back `phoneHelper.ts`
+`canSmsTo` / `channelFor`, front `Schedule.tsx` and `services/phoneCountries.ts`,
+from the LT-716 branches; LT-717 wrote them). **Do not push this file, or a
+post that relies on these two items, before LT-716 is live.**
+
 - **Open countries**: a phone number from outside Israel is accepted only for
   a country the server names (`FIREBASE_PHONE_CODE_REGIONS`, back
   `phoneHelper.ts` `isOpenAbroadPhone`). Live: the United States only
@@ -424,27 +432,34 @@ numbers).
   The plans hold the same as in Israel (Plans, above): 200 bookings a period
   on Lightor+, 500 on Pro. The 60 free days of Lightor+ are for every new
   account. Sales tax at checkout was not checked in the code: do not state it.
-- **Customer messages for a US customer today** (LT-694, back
-  `notificationService.ts` `sendMessage`): the confirmation, the morning
-  reminder, the hour-before reminder (Pro), a move and a cancel go **on
-  WhatsApp only**. Lightor has **no SMS sender for the United States yet**: a
-  customer who leaves the booking form's switch on SMS (preselected, front
-  `Schedule.tsx`) gets the 6-digit code by text and **no confirmation or
-  reminder**; a WhatsApp that Meta refuses is not resent by SMS abroad. With
-  WhatsApp chosen, the switch reads "Code by SMS, updates via WhatsApp"
-  (front `schedule.channel.whatsappAbroad`). A booking the owner makes by hand
-  for a US number is stored as WhatsApp (back `appointmentController.ts`).
-  **Never promise a US customer text-message confirmations or reminders**
-  until this section says otherwise.
+- **Customer messages for a US customer** (LT-694; LT-716, 2026-11-24): the
+  6-digit code comes **by text** (Firebase, above); the confirmation, the
+  morning reminder, the hour-before reminder (Pro), a move and a cancel go
+  **on WhatsApp**, automatically. Lightor has **no SMS sender for the United
+  States yet** (back `SMS_REGIONS` empty). The booking form sets the channel
+  by itself: for a US number it hides the SMS / WhatsApp switch, shows "Code
+  by SMS, updates via WhatsApp" in its place (front
+  `schedule.channel.whatsappAbroad`) and books on WhatsApp; the server sends
+  WhatsApp to a number no text reaches even when a booking says SMS (back
+  `channelFor`, so older bookings stored as SMS reach their customer too). A
+  booking the owner makes by hand for a US number is stored as WhatsApp (back
+  `appointmentController.ts`). A WhatsApp that Meta refuses is not resent by
+  SMS abroad, so **a US customer needs WhatsApp to receive the updates**
+  until Lightor's US text sender is live. **Never promise a US customer
+  text-message confirmations or reminders** until this section says
+  otherwise.
 - **The texts' language and formats**: the owner's language, Hebrew or English
   (see Bookings); a US business's customer messages write the date and time
   the American way, "Dec 2" and "3:00 PM" (back `notificationService.ts`
   `momentFor`).
-- **Consent line** (LT-687, front `TextConsent.tsx`): under the booking form's
-  button, for a US number, a short line that the customer agrees to get
-  appointment texts from Lightor, with "Msg & data rates may apply", "Reply
-  STOP" and links to the text-message sections of Lightor's terms and
-  privacy (`#en-sms`). Replies such as STOP are not handled yet (no US sender).
+- **Consent line** (LT-687, front `TextConsent.tsx`; LT-716, 2026-11-24):
+  under the booking form's button, for a US number, WhatsApp's line: the
+  customer agrees to get a code by text and appointment messages on WhatsApp
+  from Lightor, with "Msg & data rates may apply" and links to the
+  text-message sections of Lightor's terms and privacy (`#en-sms`). The SMS
+  line ("Reply STOP to opt out") no longer shows for a US number. Replies,
+  STOP included, are not handled (no US sender): an article must not say
+  Lightor acts on a reply.
 - **Reminders by the business's own clock** (LT-692, back
   `reminderDelivery.ts`): the morning reminder leaves at **07:00 on the
   business's clock**, the hour-before one only between 07:00 and 21:59 there.

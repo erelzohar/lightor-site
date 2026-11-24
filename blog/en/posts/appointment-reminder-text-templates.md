@@ -45,7 +45,7 @@ For most businesses, **a confirmation plus one reminder** is enough. Add a short
 Yes, get it when they book. According to the [FCC's guide to unwanted robocalls and texts](https://www.fcc.gov/consumers/guides/stop-unwanted-robocalls-and-texts), automated texts to a cell phone need the person's consent, and people can opt out at any time and in any reasonable way. In practice:
 
 - Say on the booking form that the customer will get texts about the appointment.
-- Honor "STOP" and any other clear request to stop, right away.
+- For the texts you send yourself, stop right away when a customer replies "STOP" or asks in any other clear way.
 - Keep reminders about the appointment. A promotion is a different kind of message with stricter rules.
 
 This is general information, not legal advice. If you send marketing texts as well, read the rules that apply to them or ask a lawyer.
@@ -135,8 +135,8 @@ Let the customer choose if you can. A text reaches every phone without an app or
 
 When customers book on a site built with Lightor, the messages go out without you lifting a finger, but here is exactly what a US customer gets today:
 
-- **The 6-digit booking code arrives by text.** Under the booking button, a US customer sees a short consent line with links to the text-message sections of Lightor's terms and privacy policy.
-- **The confirmation and the reminders go on WhatsApp only, for now.** Lightor's US text-message sender is not live yet, so a customer who keeps the text-message option gets the code but no confirmation or reminder. Ask your customers to choose WhatsApp on the form.
+- **The 6-digit booking code arrives by text.** Under the booking button, a US customer sees a short consent line, to get the code by text and the appointment messages on WhatsApp from Lightor, with links to the text-message sections of Lightor's terms and privacy policy.
+- **The confirmation and the reminders go on WhatsApp.** The booking form sets this by itself for a US number, so there is no text-message option to pick. Until Lightor's US text-message sender is live, a customer needs WhatsApp to receive them.
 - **The confirmation** carries the manage link and says until when it can be used. You set that deadline, from 30 minutes to a week before the appointment.
 - **A reminder at 7:00 a.m. on your business's own clock** on the day of the appointment, on Lightor+ and in the 60 free days every new account gets. **A second reminder about an hour before** on Lightor Pro. The free plan sends the confirmation only.
 - **Your changes are sent too:** if you move or cancel a booking, the customer gets a message about it on WhatsApp.

@@ -92,7 +92,7 @@ In Lightor the booking system is part of your own website. You describe your bus
 - **Customer cards** with visits, private notes and blocking, and a **Google Calendar sync** on every plan.
 - **A business in the United States** reads the 12-hour clock and month-before-day dates, and its time zone follows the state in its business address.
 
-**What a US customer receives today:** the 6-digit code arrives by text. The confirmation and the reminders go **on WhatsApp only** for now, because Lightor's US text-message sender is not live yet. A customer who keeps the text-message option gets the code but no confirmation or reminder, so ask your customers to choose WhatsApp on the form. On the free plan the customer gets the confirmation only; Lightor+ adds a reminder at 7:00 a.m. on your business's clock on the day of the appointment, and Lightor Pro adds one about an hour before.
+**What a US customer receives:** the 6-digit code arrives by text, and the confirmation, the reminders and any change you make go **on WhatsApp**. The booking form sets this by itself for a US number, so there is nothing for you or the customer to choose. Until Lightor's US text-message sender is live, a customer needs WhatsApp to receive these updates. On the free plan the customer gets the confirmation only; Lightor+ adds a reminder at 7:00 a.m. on your business's clock on the day of the appointment, and Lightor Pro adds one about an hour before.
 
 **What it costs:** the free plan takes 15 bookings a month with 3 services. Lightor+ is $29 a month for up to 200 bookings a period, and Lightor Pro is $49 a month with 500 included. Every new account gets 60 days of Lightor+ free, without a credit card. Full details are on the [pricing page](/pricing.html#english).
 
